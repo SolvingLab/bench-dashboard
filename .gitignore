@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.live_history.jsonl
+*.local.toml
+bench-dashboard.toml
+dashboard.toml
+snapshot*.html
+.env
+.DS_Store

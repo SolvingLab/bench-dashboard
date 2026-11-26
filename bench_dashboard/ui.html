@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bench-dashboard</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-sidebar: #f7f8fa;
+    --bg-subtle: #f9fafb;
+    --bg-card: #ffffff;
+    --bg-hover: #f2f4f7;
+    --bg-active: #eaecf2;
+    --border: #e4e7ec;
+    --border-soft: #eef0f4;
+    --text: #111318;
+    --text-2: #4b5563;
+    --text-3: #858d9b;
+    --accent: #5e6ad2;
+    --accent-soft: rgba(94, 106, 210, 0.10);
+    --green: #16a34a;
+    --green-soft: rgba(22, 163, 74, 0.10);
+    --amber: #d97706;
+    --amber-soft: rgba(217, 119, 6, 0.10);
+    --red: #dc2626;
+    --red-soft: rgba(220, 38, 38, 0.10);
+    --blue: #2563eb;
+    --blue-soft: rgba(37, 99, 235, 0.10);
+    --purple: #7c3aed;
+    --cyan: #0891b2;
+    --gray: #9ca3af;
+    --bar-bg: #ebedf2;
+    --warn-bg: #fefce8;
+    --warn-border: #fde68a;
+    --warn-text: #854d0e;
+    --danger-bg: #fef2f2;
+    --danger-border: #fecaca;
+    --danger-text: #991b1b;
+    --tip-bg: #111318;
+    --tip-text: #f3f4f6;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans CJK SC", sans-serif;
+  }
+  [data-theme="dark"] {
+    --bg: #101216;
+    --bg-sidebar: #0b0d10;
+    --bg-subtle: #16181f;
+    --bg-card: #14161c;
+    --bg-hover: #1c1f27;
+    --bg-active: #232733;
+    --border: #252934;
+    --border-soft: #1b1e27;
+    --text: #eef0f4;
+    --text-2: #9ca3af;
+    --text-3: #6b7280;
+    --accent: #7884e8;
+    --accent-soft: rgba(120, 132, 232, 0.16);
+    --green: #22c55e;
+    --green-soft: rgba(34, 197, 94, 0.14);
+    --amber: #f59e0b;
+    --amber-soft: rgba(245, 158, 11, 0.14);
+    --red: #ef4444;
+    --red-soft: rgba(239, 68, 68, 0.14);
+    --blue: #60a5fa;
+    --blue-soft: rgba(96, 165, 250, 0.14);
+    --purple: #a78bfa;
+    --cyan: #22d3ee;
+    --gray: #525866;
+    --bar-bg: #222631;
+    --warn-bg: rgba(245, 158, 11, 0.08);
+    --warn-border: rgba(245, 158, 11, 0.28);
+    --warn-text: #fbbf24;
+    --danger-bg: rgba(239, 68, 68, 0.09);
+    --danger-border: rgba(239, 68, 68, 0.30);
+    --danger-text: #f87171;
+    --tip-bg: #eef0f4;
+    --tip-text: #111318;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: var(--bg); color: var(--text);
+    font-family: var(--sans); font-size: 13px; line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+  .hidden { display: none !important; }
+
+  .app { display: grid; grid-template-columns: 236px minmax(0, 1fr); min-height: 100vh; }
+  @media (max-width: 920px) {
+    .app { grid-template-columns: 1fr; }
+    aside { position: static !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--border); }
+  }
+
+  aside {
+    position: sticky; top: 0; height: 100vh;
+    background: var(--bg-sidebar); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 12px 10px; user-select: none; overflow-y: auto;
+  }
+  .ws-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 6px;
+    padding: 4px 8px 12px; margin-bottom: 4px; border-bottom: 1px solid var(--border-soft);
+  }
+  .ws-brand { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13.5px; letter-spacing: -0.015em; min-width: 0; }
+  .ws-brand-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ws-logo {
+    width: 20px; height: 20px; border-radius: 5px; background: var(--text); color: var(--bg);
+    display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; font-family: var(--mono); flex-shrink: 0;
+  }
+  .live-pulse {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0;
+    box-shadow: 0 0 0 0 rgba(22,163,74,0.55); animation: pulse 2.2s infinite; display: inline-block;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(22,163,74,0.55); }
+    70% { box-shadow: 0 0 0 6px rgba(22,163,74,0); }
+    100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+  }
+  .mini-btns { display: flex; gap: 2px; flex-shrink: 0; }
+  .theme-btn {
+    background: transparent; border: 1px solid transparent; color: var(--text-3);
+    border-radius: 5px; padding: 3px 6px; font-size: 11px; cursor: pointer;
+  }
+  .theme-btn:hover { color: var(--text); background: var(--bg-hover); }
+
+  .nav-group { margin-top: 6px; }
+  .nav-label { font-size: 10.5px; font-weight: 600; color: var(--text-3); padding: 4px 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .nav-item {
+    width: 100%; background: transparent; border: none; color: var(--text-2);
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 6.5px 8px; border-radius: 6px; font-size: 13px; font-weight: 500;
+    cursor: pointer; text-align: left; transition: background 0.1s, color 0.1s;
+  }
+  .nav-item:hover { background: var(--bg-hover); color: var(--text); }
+  .nav-item.active { background: var(--bg-active); color: var(--text); font-weight: 600; }
+  .nav-left { display: flex; align-items: center; gap: 8px; }
+  .nav-icon { width: 14px; height: 14px; color: var(--text-3); flex-shrink: 0; }
+  .nav-item.active .nav-icon { color: var(--accent); }
+  .nav-cnt { font-family: var(--mono); font-size: 11px; color: var(--text-3); }
+  .nav-item.active .nav-cnt { color: var(--text-2); font-weight: 600; }
+
+  .side-sys {
+    border-top: 1px solid var(--border); padding-top: 10px; margin-top: 10px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .sys-row { display: flex; align-items: center; justify-content: space-between; padding: 2px 8px; font-size: 11.5px; color: var(--text-2); }
+  .sys-row .k { color: var(--text-3); }
+  .sys-row .v { font-family: var(--mono); font-weight: 500; }
+  .sys-row .v.bad { color: var(--red); font-weight: 600; }
+  .sys-row .v.warn { color: var(--amber); font-weight: 600; }
+  .sys-row .v.ok { color: var(--green); }
+  .sys-row .v.accent { color: var(--accent); font-weight: 600; }
+  .side-sep { height: 1px; background: var(--border-soft); margin: 4px 8px; }
+  .kbd-hint { padding: 6px 8px 0; font-size: 10.5px; color: var(--text-3); display: flex; gap: 8px; flex-wrap: wrap; }
+  kbd { font-family: var(--mono); font-size: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--border); background: var(--bg); color: var(--text-2); }
+
+  .main-col { display: flex; flex-direction: column; min-width: 0; }
+  .topbar {
+    position: sticky; top: 0; z-index: 20; height: 46px;
+    background: var(--bg); border-bottom: 1px solid var(--border);
+    padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .topbar-title { display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 600; }
+  .topbar-meta { font-size: 11.5px; color: var(--text-3); font-family: var(--mono); font-weight: 400; }
+  .topbar-actions { display: flex; align-items: center; gap: 6px; }
+  .btn {
+    background: var(--bg); color: var(--text-2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: background 0.1s, color 0.1s;
+  }
+  .btn:hover { background: var(--bg-hover); color: var(--text); }
+  .btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .btn.primary:hover { opacity: 0.88; }
+  .btn:disabled { opacity: 0.45; cursor: wait; }
+
+  .content { padding: 0; flex: 1; }
+  .pane { display: none; }
+  .pane.active { display: block; }
+
+  .notice-stack { border-bottom: 1px solid var(--border); }
+  .notice-stack:empty { display: none; border-bottom: none; }
+  .notice {
+    padding: 7px 24px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--warn-bg); color: var(--warn-text); border-bottom: 1px solid var(--warn-border);
+  }
+  .notice:last-child { border-bottom: none; }
+  .notice.danger { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
+
+  .metric-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--border); background: var(--bg); }
+  @media (max-width: 1180px) { .metric-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .metric-cell { padding: 14px 20px; border-right: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+  .metric-cell:last-child { border-right: none; }
+  .m-label { font-size: 11.5px; font-weight: 500; color: var(--text-3); display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+  .m-val { font-size: 21px; font-weight: 600; font-family: var(--mono); letter-spacing: -0.02em; margin: 4px 0 5px; color: var(--text); }
+  .m-sub { font-size: 11.5px; color: var(--text-2); line-height: 1.45; }
+
+  .section { padding: 16px 24px; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .sec-title { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+  .sec-meta { font-size: 11.5px; color: var(--text-3); font-family: var(--mono); }
+
+  .split-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1px solid var(--border); }
+  .split-2 > .section { border-bottom: none; border-right: 1px solid var(--border); }
+  .split-2 > .section:last-child { border-right: none; }
+  @media (max-width: 1080px) {
+    .split-2 { grid-template-columns: 1fr; }
+    .split-2 > .section { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  .pipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+  .pipe-card { padding: 10px 13px; border: 1px solid var(--border); border-radius: 7px; background: var(--bg-card); display: flex; flex-direction: column; gap: 4px; border-left: 3px solid var(--accent); }
+  .pipe-card.harbor { border-left-color: var(--cyan); }
+  .pipe-card.build { border-left-color: var(--purple); }
+  .pipe-card.audit, .pipe-card.eval { border-left-color: var(--green); }
+  .pipe-card.maintenance { border-left-color: var(--amber); }
+  .pipe-hd { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .pipe-title { font-size: 12.5px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+  .pipe-meta { font-size: 11px; font-family: var(--mono); color: var(--text-3); white-space: nowrap; }
+  .pipe-detail { font-size: 11.5px; color: var(--text-2); font-family: var(--mono); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .spark-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 1180px) { .spark-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .spark-card { padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); cursor: pointer; transition: border-color 0.15s; }
+  .spark-card:hover { border-color: var(--accent); }
+  .spark-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
+  .spark-k { font-size: 11.5px; font-weight: 600; color: var(--text-2); }
+  .spark-v { font-size: 15px; font-weight: 700; font-family: var(--mono); color: var(--text); }
+  .spark-sub { font-size: 11px; color: var(--text-3); margin: 2px 0 8px; font-family: var(--mono); }
+
+  .infra-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px; }
+  .infra-box { padding: 10px 12px; border: 1px solid var(--border); border-radius: 7px; background: var(--bg-subtle); }
+  .infra-k { font-size: 11.5px; color: var(--text-3); display: flex; justify-content: space-between; }
+  .infra-v { font-size: 15.5px; font-weight: 700; font-family: var(--mono); margin: 3px 0; }
+  .infra-s { font-size: 11px; color: var(--text-3); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .gpu-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 1200px) { .gpu-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 680px) { .gpu-grid { grid-template-columns: 1fr; } }
+  .gpu-card { padding: 11px 13px; border: 1px solid var(--border); border-radius: 7px; background: var(--bg-subtle); }
+  .gpu-card.free { border-color: rgba(22, 163, 74, 0.35); background: var(--green-soft); }
+  .gpu-card.active { border-color: rgba(94, 106, 210, 0.45); }
+  .gpu-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+  .gpu-id { font-family: var(--mono); font-weight: 700; font-size: 12.5px; }
+  .gpu-bar-lbl { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-2); font-family: var(--mono); margin-top: 4px; }
+  .gpu-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 7px; padding-top: 6px; border-top: 1px solid var(--border-soft); font-size: 11px; color: var(--text-3); font-family: var(--mono); }
+  .gpu-procs { font-size: 10.5px; color: var(--text-2); font-family: var(--mono); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .segbar { width: 100%; height: 10px; background: var(--bar-bg); border-radius: 99px; overflow: hidden; display: flex; margin: 6px 0; }
+  .segbar > div { height: 100%; transition: width 0.25s ease; }
+
+  .k8gpu-nodes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 14px; }
+  @media (max-width: 960px) { .k8gpu-nodes { grid-template-columns: 1fr; } }
+  .k8gpu-box { padding: 13px 15px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-subtle); }
+  .slot-strip { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px; margin: 8px 0; }
+  .gpu-slot { height: 22px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; color: var(--text-3); }
+  .gpu-slot.mine { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .gpu-slot.other { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 600; opacity: 0.78; }
+  .gpu-slot.half { background: linear-gradient(90deg, var(--accent) 50%, var(--bg) 50%); color: var(--text); font-weight: 600; }
+
+  .prog { width: 100%; height: 5px; background: var(--bar-bg); border-radius: 99px; overflow: hidden; margin: 5px 0; }
+  .prog-fill { height: 100%; border-radius: 99px; background: var(--accent); transition: width 0.25s ease; }
+
+  .bars { display: flex; flex-direction: column; gap: 7px; }
+  .bar-row { display: grid; grid-template-columns: 150px 1fr 90px; align-items: center; gap: 10px; font-size: 12px; }
+  .bar-lbl { color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-num { text-align: right; font-family: var(--mono); font-size: 11.5px; color: var(--text); }
+
+  .st { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; white-space: nowrap; color: var(--text-2); }
+  .st-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .st-ring { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid var(--gray); display: inline-block; flex-shrink: 0; }
+  .tag { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; font-weight: 500; font-family: var(--mono); border: 1px solid var(--border); background: var(--bg-subtle); color: var(--text-2); white-space: nowrap; }
+  .tag.accent { color: var(--accent); border-color: rgba(94,106,210,0.32); background: var(--accent-soft); }
+  .tag.ok { color: var(--green); border-color: rgba(22,163,74,0.3); background: var(--green-soft); }
+  .tag.warn { color: var(--amber); border-color: rgba(217,119,6,0.32); background: var(--amber-soft); }
+  .tag.bad { color: var(--red); border-color: rgba(220,38,38,0.3); background: var(--red-soft); }
+  .tag.blue { color: var(--blue); border-color: rgba(37,99,235,0.3); background: var(--blue-soft); }
+
+  .toolbar { padding: 10px 24px; border-bottom: 1px solid var(--border); background: var(--bg-subtle); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .toolbar input[type="search"], .toolbar select { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 5px 9px; font-size: 12.5px; outline: none; }
+  .toolbar input[type="search"] { width: 240px; }
+  .toolbar input:focus, .toolbar select:focus { border-color: var(--accent); }
+  .seg { display: inline-flex; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 2px; gap: 2px; flex-wrap: wrap; }
+  .seg button { background: transparent; border: none; color: var(--text-2); padding: 3px 8px; border-radius: 4px; font-size: 11.5px; font-weight: 500; cursor: pointer; }
+  .seg button:hover { color: var(--text); }
+  .seg button.active { background: var(--bg-active); color: var(--text); font-weight: 600; }
+
+  .tbl-wrap { overflow-x: auto; max-height: 540px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead th { position: sticky; top: 0; z-index: 4; background: var(--bg-subtle); color: var(--text-3); font-weight: 500; font-size: 11.5px; text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; }
+  thead th:first-child, tbody td:first-child { padding-left: 24px; }
+  thead th:last-child, tbody td:last-child { padding-right: 24px; }
+  thead th:hover { color: var(--text); }
+  tbody td { padding: 7.5px 10px; border-bottom: 1px solid var(--border-soft); vertical-align: middle; }
+  tbody tr:hover { background: var(--bg-hover); }
+  .section table thead th:first-child, .section table tbody td:first-child { padding-left: 8px; }
+  .section table thead th:last-child, .section table tbody td:last-child { padding-right: 8px; }
+  .ell { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ell-note { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-3); font-size: 11.5px; }
+  .empty { text-align: center; color: var(--text-3); padding: 24px !important; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 11.5px; color: var(--text-3); margin-top: 8px; }
+  .legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .sw { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
+  #svgTip {
+    position: fixed; z-index: 9999; pointer-events: none; display: none;
+    background: var(--tip-bg); color: var(--tip-text);
+    padding: 7px 10px; border-radius: 6px; font-size: 11.5px; line-height: 1.5;
+    font-family: var(--mono); box-shadow: 0 6px 20px rgba(0,0,0,0.22); max-width: 280px;
+  }
+</style>
+</head>
+<body>
+<div id="svgTip"></div>
+<div class="app">
+  <aside>
+    <div>
+      <div class="ws-head">
+        <div class="ws-brand">
+          <span class="ws-logo" id="brandBadge">BD</span>
+          <span class="ws-brand-name" id="brandName">bench-dashboard</span>
+          <span class="live-pulse" id="liveDot"></span>
+        </div>
+        <div class="mini-btns">
+          <button class="theme-btn" id="langBtn" onclick="toggleLang()">中文</button>
+          <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Dark</button>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-label" data-i18n="views">Views</div>
+        <button class="nav-item active" data-tab="overview">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+            <span data-i18n="tab_overview">Overview</span>
+          </span>
+          <span class="nav-cnt" id="navOverview">-</span>
+        </button>
+        <button class="nav-item" data-tab="compute">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="10" height="10" rx="1.5"/><path d="M6 1v2M10 1v2M6 13v2M10 13v2M1 6h2M1 10h2M13 6h2M13 10h2"/></svg>
+            <span data-i18n="tab_compute">Compute</span>
+          </span>
+          <span class="nav-cnt" id="navCompute">-</span>
+        </button>
+        <button class="nav-item" data-tab="tasks" id="navBtnTasks">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11"/></svg>
+            <span data-i18n="tab_tasks">Tasks</span>
+          </span>
+          <span class="nav-cnt" id="navTasks">-</span>
+        </button>
+        <button class="nav-item" data-tab="evals" id="navBtnEvals">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8.5l3 3 7-7"/></svg>
+            <span data-i18n="tab_evals">Evaluations</span>
+          </span>
+          <span class="nav-cnt" id="navEvals">-</span>
+        </button>
+        <button class="nav-item" data-tab="pipelines" id="navBtnPipelines">
+          <span class="nav-left">
+            <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 9h2.5l1.5-4.5 2.5 7 1.5-4 1 1.5H14"/></svg>
+            <span data-i18n="tab_pipelines">Pipelines</span>
+          </span>
+          <span class="nav-cnt" id="navPipelines">-</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="side-sys">
+      <div class="nav-label" data-i18n="live_telemetry">Live Telemetry</div>
+      <div class="sys-row"><span class="k">Host CPU / RAM</span><span class="v" id="sideHostCpu">-</span></div>
+      <div class="sys-row"><span class="k">Host Swap / shm</span><span class="v" id="sideHostSwap">-</span></div>
+      <div class="sys-row"><span class="k">Host GPUs</span><span class="v" id="sideHostGpu">-</span></div>
+      <div class="sys-row" id="sideRowK8sCpu"><span class="k">K8s CPU (real)</span><span class="v" id="sideK8sCpu">-</span></div>
+      <div class="sys-row" id="sideRowK8sGpu"><span class="k">K8s GPUs</span><span class="v" id="sideK8sGpu">-</span></div>
+      <div class="sys-row"><span class="k">Workspace Disk</span><span class="v" id="sideDisk">-</span></div>
+      <div class="side-sep"></div>
+      <div class="sys-row" id="sideRowTrials"><span class="k">Trials / hr</span><span class="v accent" id="sideRate">-</span></div>
+      <div class="kbd-hint">
+        <span><kbd>1</kbd>-<kbd>5</kbd></span>
+        <span><kbd>/</kbd> <span data-i18n="search_kbd">search</span></span>
+        <span><kbd>R</kbd> <span data-i18n="refresh_kbd">refresh</span></span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <div class="topbar">
+      <div class="topbar-title">
+        <span id="viewTitle">Overview</span>
+        <span class="topbar-meta" id="snapMeta">Loading...</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn" id="autoBtn" onclick="toggleAuto()">Auto 20s</button>
+        <button class="btn primary" id="refreshBtn" onclick="triggerRefresh()" data-i18n="refresh_now">Refresh</button>
+      </div>
+    </div>
+
+    <div class="notice-stack" id="noticeBox"></div>
+
+    <div class="content">
+      <!-- 1. OVERVIEW -->
+      <section class="pane active" id="pane-overview">
+        <div class="metric-strip" id="ovMetrics"></div>
+
+        <div class="section hidden" id="ovPipeSection">
+          <div class="sec-head">
+            <span class="sec-title" data-i18n="active_pipelines">Active Background Pipelines & Runners</span>
+            <span class="sec-meta" id="ovPipeMeta"></span>
+          </div>
+          <div class="pipe-grid" id="ovPipeGrid"></div>
+        </div>
+
+        <div class="section">
+          <div class="sec-head">
+            <span class="sec-title" data-i18n="compute_pulse">Compute Pulse (1h Rolling Live Telemetry)</span>
+            <span class="sec-meta"><a href="javascript:void(0)" onclick="switchTab('compute')" style="color:var(--accent);text-decoration:none" data-i18n="open_compute">Open full CPU / GPU monitor →</a></span>
+          </div>
+          <div class="spark-grid" id="ovSparkGrid"></div>
+        </div>
+
+        <div class="split-2 hidden" id="ovHarborCharts">
+          <div class="section">
+            <div class="sec-head">
+              <span class="sec-title" data-i18n="hourly_trials">Last 24h Trial Throughput</span>
+              <span class="sec-meta" id="h24Meta"></span>
+            </div>
+            <div id="h24Chart"></div>
+            <div class="legend">
+              <span><i class="sw" style="background:#5e6ad2"></i>model</span>
+              <span><i class="sw" style="background:#16a34a"></i>oracle</span>
+              <span><i class="sw" style="background:#0891b2"></i>nop</span>
+              <span><i class="sw" style="background:#dc2626"></i>error</span>
+            </div>
+          </div>
+          <div class="section">
+            <div class="sec-head">
+              <span class="sec-title" data-i18n="cat_tier_matrix">Task Matrix (Category × Tier)</span>
+              <span class="sec-meta" id="matrixMeta"></span>
+            </div>
+            <div id="matrixBox"></div>
+          </div>
+        </div>
+
+        <div id="ovCustomPanels"></div>
+      </section>
+
+      <!-- 2. COMPUTE -->
+      <section class="pane" id="pane-compute">
+        <div class="metric-strip" id="compMetrics"></div>
+
+        <div class="section">
+          <div class="sec-head">
+            <span class="sec-title" data-i18n="live_trends">Live Telemetry Curves (Rolling 1h)</span>
+            <span class="sec-meta" id="histMeta"></span>
+          </div>
+          <div class="spark-grid" id="compHistoryGrid"></div>
+        </div>
+
+        <div class="section">
+          <div class="sec-head">
+            <span class="sec-title" id="localHostTitle">Local Host — CPU / RAM / Swap / Disks / Docker</span>
+            <span class="sec-meta" id="localHostMeta"></span>
+          </div>
+          <div class="infra-grid" id="localInfraGrid"></div>
+        </div>
+
+        <div class="section" id="localGpuSection">
+          <div class="sec-head">
+            <span class="sec-title" data-i18n="local_gpus">Local GPUs — Per-Card Live Telemetry</span>
+            <span class="sec-meta" id="localGpuMeta"></span>
+          </div>
+          <div class="gpu-grid" id="localGpuGrid"></div>
+        </div>
+
+        <div class="section hidden" id="k8sSection">
+          <div class="sec-head">
+            <span class="sec-title" id="k8sTitle">Kubernetes Cluster</span>
+            <span class="sec-meta" id="k8sClusterMeta"></span>
+          </div>
+          <div class="infra-grid" id="k8sQuotaGrid" style="margin-bottom:14px"></div>
+          <div class="k8gpu-nodes" id="k8sGpuNodesBox"></div>
+          <div class="sec-head" style="margin:14px 0 8px">
+            <span class="sec-title" data-i18n="k8s_nodes">Cluster Nodes (CPU / RAM / GPU)</span>
+            <span class="sec-meta" id="k8sNodesMeta">metrics.k8s.io</span>
+          </div>
+          <div class="tbl-wrap" style="max-height:360px;border:1px solid var(--border);border-radius:7px">
+            <table>
+              <thead><tr>
+                <th>Node</th><th>Role</th><th>Status</th>
+                <th class="num">Alloc CPU</th><th class="num">NS Real CPU</th><th class="num">Mine CPU</th>
+                <th class="num">NS Real RAM</th><th class="num">GPUs (Mine/NS/Alloc)</th><th class="num">Pods (Mine/NS)</th>
+              </tr></thead>
+              <tbody id="k8sNodesTbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="split-2">
+          <div class="section" id="k8sPodSection">
+            <div class="sec-head">
+              <span class="sec-title" data-i18n="k8s_active_pods">Active K8s Workload Pods</span>
+              <span class="sec-meta" id="k8sPodMeta"></span>
+            </div>
+            <div class="tbl-wrap" style="max-height:380px">
+              <table>
+                <thead><tr><th>Job / Pod</th><th>Tier</th><th>Node</th><th class="num">CPU</th><th class="num">RAM</th><th class="num">GPU</th><th class="num">Age(m)</th></tr></thead>
+                <tbody id="k8sPodTbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="section" id="harborLiveSection">
+            <div class="sec-head">
+              <span class="sec-title" data-i18n="live_trials">Live Running Trials</span>
+              <span class="sec-meta" id="harborLiveMeta"></span>
+            </div>
+            <div class="tbl-wrap" style="max-height:380px">
+              <table>
+                <thead><tr><th>Kind</th><th>Task</th><th>Group</th><th>Model</th><th class="num">Elapsed</th></tr></thead>
+                <tbody id="harborLiveTbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. TASKS -->
+      <section class="pane" id="pane-tasks">
+        <div class="metric-strip" id="taskMetrics"></div>
+        <div class="toolbar">
+          <input type="search" id="taskSearch" placeholder="Search task slug / category / metric..." oninput="renderTaskTable()">
+          <div class="seg" id="taskSeg">
+            <button class="active" data-chip="all" onclick="setTaskChip('all',this)">All</button>
+            <button data-chip="reg" onclick="setTaskChip('reg',this)">Registered</button>
+            <button data-chip="need_sc" onclick="setTaskChip('need_sc',this)">Needs Selfcheck</button>
+            <button data-chip="model_ok" onclick="setTaskChip('model_ok',this)">Model Scored</button>
+            <button data-chip="gpu" onclick="setTaskChip('gpu',this)">GPU</button>
+          </div>
+          <select id="taskCat" onchange="renderTaskTable()"><option value="">All Categories</option></select>
+          <select id="taskBucket" onchange="renderTaskTable()"><option value="">All Pools</option></select>
+          <span class="sec-meta" id="taskMeta" style="margin-left:auto"></span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr>
+              <th onclick="sortTasks('slug')">Task</th>
+              <th onclick="sortTasks('bucket')">Pool</th>
+              <th onclick="sortTasks('category')">Category</th>
+              <th onclick="sortTasks('tier')">Tier</th>
+              <th onclick="sortTasks('nop')">nop</th>
+              <th onclick="sortTasks('oracle')">oracle</th>
+              <th onclick="sortTasks('model')">model</th>
+              <th class="num" onclick="sortTasks('model_score')">Score</th>
+              <th onclick="sortTasks('mtime')">Updated</th>
+            </tr></thead>
+            <tbody id="taskTbody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. EVALUATIONS -->
+      <section class="pane" id="pane-evals">
+        <div class="metric-strip" id="evalMetrics"></div>
+
+        <div class="section">
+          <div class="sec-head">
+            <span class="sec-title" data-i18n="model_leaderboard">Model Leaderboard</span>
+            <span class="sec-meta" id="lbMeta"></span>
+          </div>
+          <div class="tbl-wrap" style="max-height:300px;border:1px solid var(--border);border-radius:7px">
+            <table>
+              <thead><tr>
+                <th>Model</th><th class="num">Scored</th><th class="num">Pass (r≥1)</th><th class="num">Pass Rate</th>
+                <th class="num">Mean Score</th><th class="num">Median Score</th><th class="num">Timeouts</th><th class="num">Errors</th><th class="num">Median Min</th>
+              </tr></thead>
+              <tbody id="lbTbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="split-2">
+          <div class="section">
+            <div class="sec-head"><span class="sec-title" data-i18n="status_matrix">Evaluation Status Matrix</span></div>
+            <div id="harborMatrix"></div>
+          </div>
+          <div class="section">
+            <div class="sec-head">
+              <span class="sec-title" data-i18n="score_dist">Primary Model Score Distribution</span>
+              <span class="sec-meta" id="scoreDistMeta"></span>
+            </div>
+            <div class="bars" id="scoreDistBars"></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sec-head">
+            <span class="sec-title" data-i18n="scored_tasks">Scored Tasks Breakdown</span>
+            <span class="sec-meta" id="evalTableMeta"></span>
+          </div>
+          <div class="tbl-wrap" style="max-height:380px">
+            <table>
+              <thead><tr>
+                <th>Task</th><th>Category</th><th>Tier</th><th>Model</th><th>Metric</th>
+                <th class="num">Primary</th><th class="num">Score</th><th class="num">Min</th><th>Finished</th>
+              </tr></thead>
+              <tbody id="evalScoreTbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="sec-head"><span class="sec-title" data-i18n="recent_trials">Recent 40 Trials</span></div>
+          <div class="tbl-wrap" style="max-height:320px">
+            <table>
+              <thead><tr><th>Finished</th><th>Kind</th><th>Model</th><th>Task</th><th class="num">Reward</th><th class="num">Score</th><th class="num">Min</th><th>Status</th></tr></thead>
+              <tbody id="recentTrialsTbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. PIPELINES & CUSTOM -->
+      <section class="pane" id="pane-pipelines">
+        <div id="pipePaneBody"></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+window.__BOOTSTRAP_SNAPSHOT__ = null;
+
+const I18N = {
+  en: {
+    views: 'Views', tab_overview: 'Overview', tab_compute: 'Compute', tab_tasks: 'Tasks',
+    tab_evals: 'Evaluations', tab_pipelines: 'Pipelines', live_telemetry: 'Live Telemetry',
+    search_kbd: 'search', refresh_kbd: 'refresh', refresh_now: 'Refresh',
+    active_pipelines: 'Active Background Pipelines & Runners',
+    compute_pulse: 'Compute Pulse (1h Rolling Live Telemetry)',
+    open_compute: 'Open full CPU / GPU monitor →',
+    hourly_trials: 'Last 24h Trial Throughput',
+    cat_tier_matrix: 'Task Matrix (Category × Tier)',
+    live_trends: 'Live Telemetry Curves (Rolling 1h)',
+    local_gpus: 'Local GPUs — Per-Card Live Telemetry',
+    k8s_nodes: 'Cluster Nodes (CPU / RAM / GPU)',
+    k8s_active_pods: 'Active K8s Workload Pods',
+    live_trials: 'Live Running Trials',
+    model_leaderboard: 'Model Leaderboard',
+    status_matrix: 'Evaluation Status Matrix',
+    score_dist: 'Primary Model Score Distribution',
+    scored_tasks: 'Scored Tasks Breakdown',
+    recent_trials: 'Recent 40 Trials',
+  },
+  zh: {
+    views: '监控视图', tab_overview: '总览', tab_compute: '算力监控', tab_tasks: '任务库',
+    tab_evals: '评测榜单', tab_pipelines: '产线与扩展', live_telemetry: '实时指标',
+    search_kbd: '搜索', refresh_kbd: '刷新', refresh_now: '立即刷新',
+    active_pipelines: '后台运行中的产线与进程',
+    compute_pulse: '本地 & K8s 算力脉搏（近 1 小时采样）',
+    open_compute: '进入完整 CPU / GPU 监控 →',
+    hourly_trials: '近 24 小时 Trial 逐小时吞吐',
+    cat_tier_matrix: '任务分布矩阵（类别 × 算力档位）',
+    live_trends: '实时趋势曲线（滚动 1 小时）',
+    local_gpus: '本地 GPU 逐卡实时状态',
+    k8s_nodes: 'K8s 集群节点 CPU / 内存 / GPU 明细',
+    k8s_active_pods: 'K8s 活跃工作负载 Pods',
+    live_trials: '本地运行中的 Trials',
+    model_leaderboard: '多模型评测排行榜',
+    status_matrix: 'Harbor 评测状态矩阵',
+    score_dist: '主模型分数分布',
+    scored_tasks: '主模型已出分任务明细',
+    recent_trials: '最近 40 条 Trial 记录',
+  },
+};
+
+let LANG = localStorage.getItem('bench_dash_lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
+let DATA = null;
+let AUTO = true;
+let REFRESH_INTERVAL = 20;
+let COUNTDOWN = 20;
+let TASK_CHIP = 'all';
+let TASK_SORT = { col: 'mtime', dir: -1 };
+const TAB_ORDER = ['overview', 'compute', 'tasks', 'evals', 'pipelines'];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => (n == null || Number.isNaN(n)) ? '-' : Number(n).toLocaleString('en-US');
+const tr = k => (I18N[LANG] && I18N[LANG][k]) || I18N.en[k] || k;
+
+function applyLang() {
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = tr(el.dataset.i18n); });
+  $('langBtn').textContent = LANG === 'zh' ? 'EN' : '中文';
+  const curTab = document.querySelector('.nav-item.active')?.dataset.tab || 'overview';
+  $('viewTitle').textContent = tr('tab_' + curTab);
+}
+function toggleLang() {
+  LANG = LANG === 'zh' ? 'en' : 'zh';
+  localStorage.setItem('bench_dash_lang', LANG);
+  applyLang();
+  if (DATA) renderAll(DATA);
+}
+
+// Floating tooltip
+const TIP = $('svgTip');
+document.addEventListener('mousemove', e => {
+  const el = e.target.closest('[data-tip]');
+  if (el) {
+    TIP.innerHTML = el.getAttribute('data-tip');
+    TIP.style.display = 'block';
+    const x = Math.min(window.innerWidth - TIP.offsetWidth - 14, e.clientX + 14);
+    const y = Math.min(window.innerHeight - TIP.offsetHeight - 14, e.clientY + 14);
+    TIP.style.left = Math.max(8, x) + 'px';
+    TIP.style.top = Math.max(8, y) + 'px';
+  } else if (TIP.style.display !== 'none') {
+    TIP.style.display = 'none';
+  }
+});
+
+// Theme
+(function initTheme() {
+  const saved = localStorage.getItem('bench_dash_theme') || 'light';
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    $('themeBtn').textContent = 'Light';
+  }
+  applyLang();
+})();
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('bench_dash_theme', 'light');
+    $('themeBtn').textContent = 'Dark';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('bench_dash_theme', 'dark');
+    $('themeBtn').textContent = 'Light';
+  }
+}
+
+function switchTab(tab) {
+  const btn = document.querySelector(`.nav-item[data-tab="${tab}"]`);
+  if (!btn || btn.classList.contains('hidden')) return;
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.pane').forEach(p => p.classList.toggle('active', p.id === 'pane-' + tab));
+  $('viewTitle').textContent = tr('tab_' + tab);
+}
+document.querySelectorAll('.nav-item').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.metaKey || e.ctrlKey) return;
+  if (e.key >= '1' && e.key <= '5') switchTab(TAB_ORDER[Number(e.key) - 1]);
+  else if (e.key === '/') {
+    e.preventDefault();
+    const active = document.querySelector('.pane.active input[type="search"]');
+    if (active) active.focus();
+  } else if (e.key === 'r' || e.key === 'R') triggerRefresh();
+});
+
+function stDot(label, color, ring=false) {
+  const icon = ring ? '<i class="st-ring"></i>' : `<i class="st-dot" style="background:${color}"></i>`;
+  return `<span class="st">${icon}${esc(label)}</span>`;
+}
+function harborCell(s) {
+  if (s === 'ok' || s === 'ok-doc') return stDot(s, 'var(--green)');
+  if (s === 'running') return stDot('running', 'var(--accent)');
+  if (s === 'queued') return stDot('queued', 'var(--blue)');
+  if (s === 'stale') return stDot('stale', 'var(--amber)');
+  if (s === 'wrong' || s === 'failed') return stDot(s, 'var(--red)');
+  return stDot('-', 'var(--gray)', true);
+}
+function tierTag(t) {
+  if (t === 'gpu') return '<span class="tag accent">gpu</span>';
+  if (t === 'beyond' || t === 'hard') return `<span class="tag warn">${esc(t)}</span>`;
+  return `<span class="tag">${esc(t || '-')}</span>`;
+}
+
+function renderBarsHtml(rows, maxVal) {
+  const mx = maxVal || Math.max(1, ...rows.map(r => Number(r.val || 0)));
+  return rows.map(r => {
+    const pct = Math.min(100, Number(r.val || 0) / mx * 100).toFixed(1);
+    return `<div class="bar-row">
+      <div class="bar-lbl" title="${esc(r.label)}">${esc(r.label)}</div>
+      <div class="prog" style="margin:0;height:6px"><div class="prog-fill" style="width:${pct}%;background:${r.color||'var(--accent)'}"></div></div>
+      <div class="bar-num">${esc(r.text ?? fmt(r.val))}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderStackedChartSvg(labels, series, keysMeta) {
+  const W = Math.max(520, labels.length * 22);
+  const H = 172, padL = 32, padR = 12, padT = 12, padB = 24;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const totals = series.map(s => keysMeta.reduce((a, [k]) => a + (s[k] || 0), 0));
+  const maxY = Math.max(4, ...totals);
+  const step = plotW / Math.max(1, labels.length);
+  const bw = Math.max(6, Math.min(20, step * 0.62));
+  const yOf = v => padT + plotH - (v / maxY) * plotH;
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block">`;
+  for (let i = 0; i <= 3; i++) {
+    const v = Math.round(maxY * i / 3), y = yOf(v);
+    svg += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--border-soft)" stroke-width="1"/>`;
+    svg += `<text x="${padL-6}" y="${y+3.5}" text-anchor="end" fill="var(--text-3)" font-size="9.5" font-family="monospace">${v}</text>`;
+  }
+  labels.forEach((lbl, idx) => {
+    const x = padL + idx * step + (step - bw) / 2;
+    const s = series[idx] || {};
+    let acc = 0, tot = 0;
+    const tipParts = [`<strong>${esc(lbl)}</strong>`];
+    keysMeta.forEach(([k, col, name]) => {
+      const v = s[k] || 0;
+      tot += v;
+      if (v > 0) {
+        const y1 = yOf(acc + v), y0 = yOf(acc);
+        svg += `<rect x="${x.toFixed(1)}" y="${y1.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1, y0-y1).toFixed(1)}" fill="${col}" rx="1.2"/>`;
+        acc += v;
+        tipParts.push(`${name}: ${v}`);
+      }
+    });
+    if (tot > 0) tipParts.splice(1, 0, `Total: ${tot}`);
+    svg += `<rect x="${(padL + idx * step).toFixed(1)}" y="${padT}" width="${step.toFixed(1)}" height="${plotH}" fill="transparent" data-tip="${esc(tipParts.join('<br>'))}"/>`;
+    if (labels.length <= 12 || idx % 4 === 0 || idx === labels.length - 1) {
+      const short = lbl.length > 10 ? lbl.slice(6, 11) : lbl;
+      svg += `<text x="${(x+bw/2).toFixed(1)}" y="${H-6}" text-anchor="middle" fill="var(--text-3)" font-size="9.5" font-family="monospace">${esc(short)}</text>`;
+    }
+  });
+  svg += '</svg>';
+  return svg;
+}
+
+function renderSparklineSvg(points, seriesDefs, maxFixed=null, height=68) {
+  const W = 280, H = height, padL = 4, padR = 4, padT = 6, padB = 6;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  if (!points || !points.length) {
+    return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px"><text x="140" y="${H/2+4}" text-anchor="middle" fill="var(--text-3)" font-size="11">Collecting...</text></svg>`;
+  }
+  const allVals = seriesDefs.flatMap(sd => points.map(p => Number(p[sd.key] || 0)));
+  const maxY = maxFixed != null ? maxFixed : Math.max(1, ...allVals) * 1.12;
+  const n = points.length;
+  const xOf = i => n <= 1 ? padL + plotW / 2 : padL + (i / (n - 1)) * plotW;
+  const yOf = v => padT + plotH - Math.min(1, Math.max(0, v / maxY)) * plotH;
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block">`;
+  svg += `<line x1="${padL}" y1="${padT + plotH/2}" x2="${W-padR}" y2="${padT + plotH/2}" stroke="var(--border-soft)" stroke-dasharray="2 2" stroke-width="1"/>`;
+  seriesDefs.forEach((sd, sIdx) => {
+    const coords = points.map((p, i) => [xOf(i), yOf(Number(p[sd.key] || 0))]);
+    const poly = coords.map(([x,y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+    if (sIdx === 0 && coords.length >= 2) {
+      const area = `${coords[0][0].toFixed(1)},${(padT+plotH).toFixed(1)} ${poly} ${coords[coords.length-1][0].toFixed(1)},${(padT+plotH).toFixed(1)}`;
+      svg += `<polygon points="${area}" fill="${sd.color}" opacity="0.11"/>`;
+    }
+    if (coords.length >= 2) {
+      svg += `<polyline fill="none" stroke="${sd.color}" stroke-width="${sIdx===0?1.8:1.4}" ${sd.dash?'stroke-dasharray="3 2"':''} points="${poly}"/>`;
+    }
+    const last = coords[coords.length - 1];
+    svg += `<circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.6" fill="${sd.color}"/>`;
+  });
+  const sliceW = plotW / Math.max(1, n);
+  points.forEach((p, i) => {
+    const tip = [`<strong>${esc(p.lbl || '')}</strong>`].concat(
+      seriesDefs.map(sd => `${sd.label}: ${Number(p[sd.key] || 0)}${sd.unit || ''}`)
+    ).join('<br>');
+    svg += `<rect x="${(xOf(i) - sliceW/2).toFixed(1)}" y="0" width="${Math.max(4, sliceW).toFixed(1)}" height="${H}" fill="transparent" data-tip="${esc(tip)}"/>`;
+  });
+  svg += '</svg>';
+  return svg;
+}
+
+function renderCustomPanel(p) {
+  let body = '';
+  if (p.type === 'bars') {
+    body = `<div class="bars">${renderBarsHtml(p.rows || [])}</div>`;
+  } else if (p.type === 'table') {
+    const cols = p.columns || [];
+    const rows = p.rows || [];
+    body = `<div class="tbl-wrap" style="max-height:360px"><table><thead><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(v=>`<td>${esc(v)}</td>`).join('')}</tr>`).join('') || `<tr><td colspan="${Math.max(1,cols.length)}" class="empty">Empty</td></tr>`}</tbody></table></div>`;
+  } else if (p.type === 'kv') {
+    body = `<div class="infra-grid">${(p.rows || []).map(r => `<div class="infra-box"><div class="infra-k"><span>${esc(r.k)}</span></div><div class="infra-v">${esc(r.v)}</div>${r.sub?`<div class="infra-s">${esc(r.sub)}</div>`:''}</div>`).join('')}</div>`;
+  }
+  return `<div class="section"><div class="sec-head"><span class="sec-title">${esc(p.title || 'Custom')}</span><span class="sec-meta">${esc(p.meta || '')}</span></div>${body}</div>`;
+}
+
+function renderAll(d) {
+  DATA = d;
+  const proj = d.project || {};
+  const h = d.host || {};
+  const k8 = d.k8s || {};
+  const hb = d.harbor || {};
+  const pl = d.pipelines || {};
+  const cust = d.custom || { kpis: [], panels: [] };
+  const hist = d.live_history || [];
+
+  if (proj.locale && proj.locale !== 'auto' && !localStorage.getItem('bench_dash_lang')) {
+    LANG = proj.locale;
+    applyLang();
+  }
+  if (proj.refresh_sec) REFRESH_INTERVAL = proj.refresh_sec;
+
+  document.title = `${proj.name || 'bench-dashboard'} · Dashboard`;
+  $('brandName').textContent = proj.name || 'bench-dashboard';
+  $('brandBadge').textContent = proj.badge || 'BD';
+  $('snapMeta').textContent = `${(d.generated_at||'').slice(5,19)} · ${d.collect_sec}s`;
+
+  const hbOn = Boolean(hb.enabled && hb.ok);
+  const k8On = Boolean(k8.enabled);
+  const plOn = Boolean(pl.has_content || (cust.panels && cust.panels.length));
+
+  $('navBtnTasks').classList.toggle('hidden', !hbOn);
+  $('navBtnEvals').classList.toggle('hidden', !hbOn);
+  $('navBtnPipelines').classList.toggle('hidden', !plOn);
+  $('sideRowK8sCpu').classList.toggle('hidden', !k8On);
+  $('sideRowK8sGpu').classList.toggle('hidden', !k8On);
+  $('sideRowTrials').classList.toggle('hidden', !hbOn);
+
+  const hcpu = h.cpu || { busy_pct: 0, user_pct: 0, sys_pct: 0, iowait_pct: 0, load: [0,0,0], ncpu: 1 };
+  const hgpu = h.gpus || { ok: false, count: 0, free_cards: 0, cards: [] };
+
+  // Nav counters
+  $('navOverview').textContent = hbOn ? `${hb.selfcheck_both_ok}/${hb.registered_total}` : `${hcpu.busy_pct}%`;
+  $('navCompute').textContent = hgpu.ok ? `${hgpu.free_cards}/${hgpu.count}G` : `${hcpu.busy_pct}%`;
+  if (hbOn) {
+    $('navTasks').textContent = fmt(hb.grand_total_tasks);
+    $('navEvals').textContent = `${hb.primary_eval?.n_scored || 0}`;
+  }
+  if (plOn) {
+    $('navPipelines').textContent = `${(pl.processes||[]).length + (pl.streams||[]).length}`;
+  }
+
+  // Sidebar live telemetry
+  $('sideHostCpu').textContent = `${hcpu.busy_pct}% · ${h.mem_used_pct ?? 0}%`;
+  $('sideHostCpu').className = 'v ' + (hcpu.busy_pct > 85 ? 'bad' : (hcpu.busy_pct > 65 ? 'warn' : 'ok'));
+  const shm = h.shm || { used_gb: 0, use_pct: 0 };
+  const swPct = h.swap_used_pct ?? 0;
+  $('sideHostSwap').textContent = `${swPct}% (${h.swap_free_gb ?? 0}G) · ${shm.used_gb}G`;
+  $('sideHostSwap').className = 'v ' + ((swPct >= 80 || shm.use_pct >= 50) ? 'bad' : ((swPct >= 50 || shm.use_pct >= 25) ? 'warn' : 'ok'));
+  $('sideHostGpu').textContent = hgpu.ok ? `${hgpu.free_cards}/${hgpu.count} free · ${hgpu.mem_used_pct}%` : 'N/A';
+  $('sideHostGpu').className = 'v ' + (hgpu.ok && hgpu.free_cards > 0 ? 'ok' : '');
+  const d0 = (h.disks || []).find(x => x.ok);
+  $('sideDisk').textContent = d0 ? `${d0.free_gb} GB` : '-';
+  $('sideDisk').className = 'v ' + (d0 && d0.free_gb < 25 ? 'bad' : (d0 && d0.free_gb < 45 ? 'warn' : 'ok'));
+
+  if (k8On) {
+    $('sideK8sCpu').textContent = k8.ok && k8.quota ? `${k8.quota.real_cpu_mine}c / ${k8.quota.real_cpu_ns}c` : 'offline';
+    $('sideK8sGpu').textContent = k8.ok ? `${k8.gpu_cards_mine}/${k8.gpu_cards_used}/${k8.gpu_cards_total}` : '-';
+    $('sideK8sGpu').className = 'v ' + (k8.ok ? 'accent' : 'bad');
+  }
+  if (hbOn) {
+    $('sideRate').textContent = `${hb.velocity.rate_ph}/h`;
+  }
+
+  // Alerts
+  $('noticeBox').innerHTML = (d.alerts || []).map(a =>
+    `<div class="notice ${a.level === 'danger' ? 'danger' : ''}"><span><strong>${esc(a.stage)}:</strong> ${esc(a.msg)}</span><span class="tag ${a.level === 'danger' ? 'bad' : 'warn'}">${a.level === 'danger' ? 'CRIT' : 'WARN'}</span></div>`
+  ).join('');
+
+  // ==================== TAB 1: OVERVIEW ====================
+  const ovCards = [];
+  if (hbOn) {
+    const pe = hb.primary_eval || {};
+    ovCards.push({
+      label: 'Registered Tasks',
+      tag: `${hb.grand_total_tasks} total`,
+      val: fmt(hb.registered_total),
+      pct: 100,
+      sub: Object.entries(hb.buckets_summary || {}).map(([k,v]) => `${k}: ${v}`).join(' · ') || 'auto-discovered',
+    });
+    ovCards.push({
+      label: 'Self-Check (nop + oracle)',
+      tag: `${hb.running.selfcheck_count} running`,
+      val: `${hb.selfcheck_both_ok} / ${hb.registered_total}`,
+      pct: hb.selfcheck_both_ok / Math.max(1, hb.registered_total) * 100,
+      sub: `nop ${(hb.counts.nop.ok||0)+(hb.counts.nop['ok-doc']||0)} · oracle ${(hb.counts.oracle.ok||0)+(hb.counts.oracle['ok-doc']||0)} · pending ${hb.velocity.pending_selfcheck}`,
+    });
+    ovCards.push({
+      label: pe.model ? `Eval (${pe.model})` : 'Model Evaluations',
+      tag: `${hb.running.model_count} running`,
+      val: `${pe.n_scored || 0} / ${hb.registered_total}`,
+      pct: (pe.n_scored || 0) / Math.max(1, hb.registered_total) * 100,
+      sub: pe.n_scored ? `median ${pe.median_score} · mean ${pe.mean_score} · ${pe.median_min ?? '-'}m` : `${hb.all_trials_total} historical trials`,
+    });
+    ovCards.push({
+      label: 'Trial Throughput',
+      tag: `${hb.velocity.count_1h} in 1h`,
+      val: `${hb.velocity.rate_ph}/h`,
+      pct: Math.min(100, hb.velocity.rate_ph * 4),
+      sub: `6h: ${hb.velocity.count_6h} · 24h: ${hb.velocity.count_24h} (~${Math.round(hb.velocity.rate_pd)}/day)`,
+    });
+  } else {
+    ovCards.push({
+      label: `Host CPU (${h.label || 'local'})`,
+      tag: `${hcpu.ncpu}c`,
+      val: `${hcpu.busy_pct}%`,
+      pct: hcpu.busy_pct,
+      sub: `Load ${hcpu.load.join('/')} · RAM ${h.mem_used_gb}/${h.mem_total_gb}G`,
+    });
+    ovCards.push({
+      label: 'Local GPUs',
+      tag: hgpu.ok ? `${hgpu.free_cards} free` : 'N/A',
+      val: hgpu.ok ? `${hgpu.busy_cards}/${hgpu.count}` : '-',
+      pct: hgpu.mem_used_pct || 0,
+      sub: hgpu.ok ? `VRAM ${hgpu.mem_used_gb}/${hgpu.mem_total_gb}G · ${hgpu.util_avg_pct}% util` : 'nvidia-smi unavailable',
+    });
+    if (k8On && k8.ok) {
+      ovCards.push({
+        label: `K8s CPU (${k8.namespace})`,
+        tag: `${k8.cluster.nodes_ready}/${k8.cluster.nodes_total} nodes`,
+        val: `${k8.quota.real_cpu_mine}c`,
+        pct: k8.quota.hard_cpu ? (k8.quota.used_cpu / k8.quota.hard_cpu * 100) : 0,
+        sub: `NS real ${k8.quota.real_cpu_ns}c · active jobs ${k8.active_jobs}`,
+      });
+      ovCards.push({
+        label: 'K8s GPUs',
+        tag: `${k8.gpu_cards_free} free`,
+        val: `${k8.gpu_cards_mine} / ${k8.gpu_cards_total}`,
+        pct: k8.gpu_cards_total ? (k8.gpu_cards_used / k8.gpu_cards_total * 100) : 0,
+        sub: `NS used ${k8.gpu_cards_used} (${k8.gpu_resource})`,
+      });
+    }
+  }
+  (cust.kpis || []).forEach(ck => ovCards.push({
+    label: ck.label, tag: ck.tag || '', val: ck.value, pct: ck.pct ?? 0, sub: ck.sub || '',
+  }));
+
+  $('ovMetrics').innerHTML = ovCards.map(c => `<div class="metric-cell">
+    <div class="m-label"><span>${esc(c.label)}</span><span class="mono">${esc(c.tag)}</span></div>
+    <div class="m-val">${esc(c.val)}</div>
+    <div class="prog"><div class="prog-fill" style="width:${Math.min(100, Math.max(0, Number(c.pct||0))).toFixed(1)}%"></div></div>
+    <div class="m-sub">${esc(c.sub)}</div>
+  </div>`).join('');
+
+  // Active Pipelines strip
+  const procs = pl.processes || [];
+  const pipeCards = procs.map(p => `<div class="pipe-card ${esc(p.kind)}">
+    <div class="pipe-hd">
+      <span class="pipe-title"><i class="st-dot" style="background:var(--green)"></i>${esc(p.title)}</span>
+      <span class="pipe-meta">${esc(p.etime)} · ${p.cpu_pct}% CPU</span>
+    </div>
+    <div class="pipe-detail" title="${esc(p.detail)}">${esc(p.detail)}</div>
+  </div>`);
+  if (hbOn && hb.running.count > 0 && !procs.some(p => p.kind === 'harbor')) {
+    pipeCards.push(`<div class="pipe-card harbor">
+      <div class="pipe-hd">
+        <span class="pipe-title"><i class="st-dot" style="background:var(--cyan)"></i>Harbor Active Trials</span>
+        <span class="pipe-meta">${hb.running.count} running</span>
+      </div>
+      <div class="pipe-detail">nop: ${hb.running.by_kind.nop} · oracle: ${hb.running.by_kind.oracle} · model: ${hb.running.by_kind.model}</div>
+    </div>`);
+  }
+  $('ovPipeSection').classList.toggle('hidden', pipeCards.length === 0);
+  $('ovPipeMeta').textContent = `${pipeCards.length} active`;
+  $('ovPipeGrid').innerHTML = pipeCards.join('');
+
+  // Compute Pulse sparklines
+  const pulseCards = [
+    {
+      k: `${h.label || 'Host'} CPU / RAM / Swap`,
+      v: `${hcpu.busy_pct}% · Sw ${swPct}%`,
+      sub: `Load ${hcpu.load[0]}/${hcpu.ncpu}c · RAM ${h.mem_used_pct}% (${h.mem_avail_gb}G free)`,
+      svg: renderSparklineSvg(hist, [
+        { key: 'host_cpu_pct', label: 'CPU', color: '#5e6ad2', unit: '%' },
+        { key: 'host_mem_pct', label: 'RAM', color: '#9ca3af', unit: '%', dash: true },
+        { key: 'host_swap_pct', label: 'Swap', color: '#dc2626', unit: '%' },
+      ], 100),
+    },
+    {
+      k: `${h.label || 'Host'} GPUs`,
+      v: hgpu.ok ? `${hgpu.free_cards}/${hgpu.count} free` : 'N/A',
+      sub: hgpu.ok ? `Util ${hgpu.util_avg_pct}% · VRAM ${hgpu.mem_used_gb}/${hgpu.mem_total_gb}G · ${hgpu.power_draw_w}W` : 'No NVIDIA GPUs detected',
+      svg: renderSparklineSvg(hist, [
+        { key: 'host_gpu_vram_pct', label: 'VRAM', color: '#16a34a', unit: '%' },
+        { key: 'host_gpu_util', label: 'Util', color: '#d97706', unit: '%' },
+      ], 100),
+    },
+  ];
+  if (k8On) {
+    pulseCards.push({
+      k: `K8s CPU (${k8.namespace || 'ns'})`,
+      v: k8.ok ? `${k8.quota.real_cpu_mine}c` : 'offline',
+      sub: k8.ok ? `NS real ${k8.quota.real_cpu_ns}c · Lim ${k8.quota.used_cpu}/${k8.quota.hard_cpu || '-'}c` : (k8.error || ''),
+      svg: renderSparklineSvg(hist, [
+        { key: 'k8s_my_cpu', label: 'Mine', color: '#5e6ad2', unit: 'c' },
+        { key: 'k8s_ns_cpu', label: 'NS', color: '#2563eb', unit: 'c', dash: true },
+      ]),
+    });
+    pulseCards.push({
+      k: 'K8s GPUs',
+      v: k8.ok ? `${k8.gpu_cards_mine} / ${k8.gpu_cards_total}` : 'offline',
+      sub: k8.ok ? `NS used ${k8.gpu_cards_used} · Free ${k8.gpu_cards_free} · Jobs ${k8.active_jobs}` : '',
+      svg: renderSparklineSvg(hist, [
+        { key: 'k8s_gpu_mine', label: 'Mine', color: '#7c3aed', unit: '' },
+        { key: 'k8s_gpu_used', label: 'NS', color: '#2563eb', unit: '', dash: true },
+      ], k8.gpu_cards_total || null),
+    });
+  } else if (hbOn) {
+    pulseCards.push({
+      k: 'Active Harbor Trials',
+      v: `${hb.running.count} running`,
+      sub: `Selfcheck ${hb.running.selfcheck_count} · Model ${hb.running.model_count}`,
+      svg: renderSparklineSvg(hist, [{ key: 'harbor_run', label: 'Running', color: '#0891b2' }]),
+    });
+    pulseCards.push({
+      k: '1h Trial Completions',
+      v: `${hb.velocity.count_1h} / h`,
+      sub: `6h: ${hb.velocity.count_6h} · 24h: ${hb.velocity.count_24h}`,
+      svg: renderSparklineSvg(hist, [{ key: 'harbor_ph_1h', label: '1h', color: '#16a34a' }]),
+    });
+  }
+  $('ovSparkGrid').innerHTML = pulseCards.map(c => `<div class="spark-card" onclick="switchTab('compute')">
+    <div class="spark-head"><span class="spark-k">${esc(c.k)}</span><span class="spark-v">${esc(c.v)}</span></div>
+    <div class="spark-sub">${esc(c.sub)}</div>
+    ${c.svg}
+  </div>`).join('');
+
+  // Overview Harbor Charts & Matrix
+  $('ovHarborCharts').classList.toggle('hidden', !hbOn);
+  if (hbOn) {
+    const h24 = hb.hourly_24h || { labels: [], series: [] };
+    $('h24Meta').textContent = `24h total: ${hb.velocity.count_24h} trials`;
+    $('h24Chart').innerHTML = renderStackedChartSvg(h24.labels, h24.series, [
+      ['model', '#5e6ad2', 'model'],
+      ['oracle', '#16a34a', 'oracle'],
+      ['nop', '#0891b2', 'nop'],
+      ['err', '#dc2626', 'error'],
+    ]);
+    const tiers = hb.tiers || [];
+    const cats = hb.categories || [];
+    const mat = hb.category_tier_matrix || {};
+    $('matrixMeta').textContent = `dual-offline: ${hb.dual_offline_count}/${hb.registered_total}`;
+    const ths = tiers.map(t => `<th class="num">${esc(t)}</th>`).join('');
+    const rowsHtml = cats.map(c => {
+      const r = mat[c] || {};
+      return `<tr><td>${esc(c)}</td>${tiers.map(t => `<td class="num">${r[t] || 0}</td>`).join('')}<td class="num" style="font-weight:600">${r.total || 0}</td></tr>`;
+    }).join('');
+    $('matrixBox').innerHTML = cats.length
+      ? `<table><thead><tr><th>Category</th>${ths}<th class="num">Total</th></tr></thead><tbody>${rowsHtml}</tbody></table>`
+      : '<div class="empty">No registered tasks</div>';
+  }
+
+  $('ovCustomPanels').innerHTML = (cust.panels || []).map(renderCustomPanel).join('');
+
+  // ==================== TAB 2: COMPUTE ====================
+  const kq = k8.quota || {};
+  const kcl = k8.cluster || {};
+  const compCards = [
+    {
+      label: `${h.label || 'Host'} CPU`,
+      tag: `${hcpu.ncpu}c`,
+      val: `${hcpu.busy_pct}%`,
+      pct: hcpu.busy_pct,
+      sub: `usr ${hcpu.user_pct}% · sys ${hcpu.sys_pct}% · iow ${hcpu.iowait_pct}% · Load ${hcpu.load.join('/')}`,
+    },
+    {
+      label: `${h.label || 'Host'} GPUs`,
+      tag: hgpu.ok ? `${hgpu.free_cards} free` : 'N/A',
+      val: hgpu.ok ? `${hgpu.mem_used_gb}/${hgpu.mem_total_gb}G` : '-',
+      pct: hgpu.mem_used_pct || 0,
+      sub: hgpu.ok ? `avg util ${hgpu.util_avg_pct}% · max ${hgpu.temp_max_c}°C · ${hgpu.power_draw_w}W` : 'No NVIDIA GPU',
+    },
+  ];
+  if (k8On) {
+    compCards.push({
+      label: `K8s Real CPU (${k8.namespace})`,
+      tag: k8.metrics_ok ? 'metrics' : 'quota',
+      val: k8.ok ? `${kq.real_cpu_mine}c / ${kq.real_cpu_ns}c` : 'offline',
+      pct: k8.ok && kq.hard_cpu ? (kq.used_cpu / kq.hard_cpu * 100) : 0,
+      sub: k8.ok ? `Lim ${kq.used_cpu}/${kq.hard_cpu || '-'}c · Cluster ${kcl.cpu_alloc}c` : (k8.error || ''),
+    });
+    compCards.push({
+      label: 'K8s GPUs',
+      tag: k8.ok ? `${k8.gpu_cards_free} free` : '-',
+      val: k8.ok ? `${k8.gpu_cards_mine} / ${k8.gpu_cards_total}` : 'offline',
+      pct: k8.ok && k8.gpu_cards_total ? (k8.gpu_cards_used / k8.gpu_cards_total * 100) : 0,
+      sub: k8.ok ? `Mine ${k8.gpu_cards_mine} · Other ${k8.gpu_cards_other} · ${k8.gpu_resource}` : '',
+    });
+  }
+  $('compMetrics').innerHTML = compCards.map(c => `<div class="metric-cell">
+    <div class="m-label"><span>${esc(c.label)}</span><span class="mono">${esc(c.tag)}</span></div>
+    <div class="m-val">${esc(c.val)}</div>
+    <div class="prog"><div class="prog-fill" style="width:${Math.min(100, c.pct).toFixed(1)}%"></div></div>
+    <div class="m-sub">${esc(c.sub)}</div>
+  </div>`).join('');
+
+  $('histMeta').textContent = `${hist.length} samples (${hist.length ? hist[0].lbl + ' ~ ' + hist[hist.length-1].lbl : 'starting'})`;
+  $('compHistoryGrid').innerHTML = pulseCards.map(c => `<div class="spark-card" style="cursor:default">
+    <div class="spark-head"><span class="spark-k">${esc(c.k)}</span><span class="spark-v" style="font-size:14px">${esc(c.v)}</span></div>
+    <div class="spark-sub">${esc(c.sub)}</div>
+    ${c.svg}
+  </div>`).join('');
+
+  // Local Host Infra Grid
+  $('localHostTitle').textContent = `Local Host (${h.label || 'localhost'}) — CPU / RAM / Swap / Disks / Docker`;
+  $('localHostMeta').textContent = `Load ${hcpu.load.join(' / ')} (${hcpu.ncpu}c) · Docker ${h.docker?.ok ? h.docker.total + ' containers (' + h.docker.bench + ' bench)' : 'N/A'}`;
+  const infraBoxes = [
+    { k: 'CPU Busy', v: `${hcpu.busy_pct}%`, pct: hcpu.busy_pct, s: `usr ${hcpu.user_pct}% · sys ${hcpu.sys_pct}% · iow ${hcpu.iowait_pct}%`, col: hcpu.busy_pct > 85 ? 'var(--red)' : 'var(--accent)' },
+    { k: 'Memory RAM', v: `${h.mem_avail_gb}G free`, pct: h.mem_used_pct, s: `${h.mem_used_gb} / ${h.mem_total_gb} GiB`, col: h.mem_used_pct > 85 ? 'var(--amber)' : 'var(--accent)' },
+    { k: 'Swap', v: `${h.swap_free_gb ?? 0}G free`, pct: swPct, s: `${h.swap_used_gb ?? 0} / ${h.swap_total_gb ?? 0} GiB` + ((h.top_swap && h.top_swap.length) ? ` · Top ${h.top_swap[0].user}:${h.top_swap[0].cmd}(${h.top_swap[0].swap_gb}G)` : ''), col: swPct >= 80 ? 'var(--red)' : (swPct >= 50 ? 'var(--amber)' : 'var(--green)') },
+    { k: '/dev/shm', v: `${shm.free_gb ?? 0}G free`, pct: shm.use_pct ?? 0, s: `${shm.used_gb ?? 0} / ${shm.total_gb ?? 0} GiB`, col: (shm.use_pct ?? 0) >= 50 ? 'var(--red)' : 'var(--green)' },
+  ];
+  (h.disks || []).forEach(dk => {
+    if (!dk.ok) return;
+    infraBoxes.push({
+      k: dk.label, v: `${dk.free_gb}G free`, pct: dk.use_pct,
+      s: `${dk.used_gb} / ${dk.total_gb} GiB · ${dk.path}`,
+      col: (dk.critical && dk.free_gb < 25) ? 'var(--red)' : 'var(--green)',
+    });
+  });
+  if (h.docker?.ok) {
+    infraBoxes.push({
+      k: 'Docker', v: `${h.docker.total} running`, pct: hbOn && hb.running.slots_total ? (hb.running.slots_used / hb.running.slots_total * 100) : Math.min(100, h.docker.total * 2),
+      s: `bench: ${h.docker.bench}` + (hbOn && hb.running.slots_total ? ` · slots free ${hb.running.slots_free}/${hb.running.slots_total}` : ''),
+      col: 'var(--cyan)',
+    });
+  }
+  $('localInfraGrid').innerHTML = infraBoxes.map(g => `<div class="infra-box">
+    <div class="infra-k"><span>${esc(g.k)}</span><span class="mono">${Number(g.pct||0).toFixed(0)}%</span></div>
+    <div class="infra-v">${esc(g.v)}</div>
+    <div class="prog"><div class="prog-fill" style="width:${Math.min(100, Number(g.pct||0)).toFixed(1)}%;background:${g.col}"></div></div>
+    <div class="infra-s" title="${esc(g.s)}">${esc(g.s)}</div>
+  </div>`).join('');
+
+  // Local GPUs
+  $('localGpuSection').classList.toggle('hidden', !hgpu.ok && !(hgpu.cards || []).length);
+  $('localGpuMeta').textContent = hgpu.ok
+    ? `${hgpu.free_cards}/${hgpu.count} free · VRAM ${hgpu.mem_used_gb}/${hgpu.mem_total_gb} GiB (${hgpu.mem_used_pct}%) · ${hgpu.power_draw_w}W`
+    : 'N/A';
+  $('localGpuGrid').innerHTML = (hgpu.cards || []).map(c => {
+    const stTag = c.status === 'free' ? '<span class="tag ok">Free</span>'
+      : (c.status === 'vllm' ? '<span class="tag blue">vLLM</span>'
+      : (c.status === 'active' ? '<span class="tag accent">Active</span>' : '<span class="tag warn">Occupied</span>'));
+    const procStr = (c.procs || []).length ? c.procs.map(p => `${p.name}(${p.mem_gb}G)`).join(', ') : 'Idle';
+    return `<div class="gpu-card ${c.status}">
+      <div class="gpu-hd"><span class="gpu-id">GPU ${c.index} · ${esc(c.short_name)}</span>${stTag}</div>
+      <div class="gpu-bar-lbl"><span>Util</span><span>${c.util_gpu}%</span></div>
+      <div class="prog" style="margin:2px 0 4px"><div class="prog-fill" style="width:${c.util_gpu}%;background:${c.util_gpu>70?'var(--amber)':'var(--accent)'}"></div></div>
+      <div class="gpu-bar-lbl"><span>VRAM</span><span>${c.mem_used_gb}/${c.mem_total_gb}G (${c.mem_pct}%)</span></div>
+      <div class="prog" style="margin:2px 0 4px"><div class="prog-fill" style="width:${c.mem_pct}%;background:${c.mem_pct>80?'var(--red)':(c.mem_pct>40?'var(--blue)':'var(--green)')}"></div></div>
+      <div class="gpu-procs" title="${esc(procStr)}">${esc(procStr)}</div>
+      <div class="gpu-foot"><span>${c.temp_c}°C</span><span>${c.power_w}W / ${c.power_limit_w}W</span></div>
+    </div>`;
+  }).join('');
+
+  // K8s Section
+  $('k8sSection').classList.toggle('hidden', !k8On);
+  $('k8sPodSection').classList.toggle('hidden', !k8On);
+  if (k8On) {
+    $('k8sTitle').textContent = `Kubernetes Cluster (ns: ${k8.namespace || '-'} · ${k8.gpu_resource || 'gpu'})`;
+    $('k8sClusterMeta').textContent = k8.ok
+      ? `${kcl.nodes_ready}/${kcl.nodes_total} Ready · ${kcl.cpu_alloc}c / ${kcl.mem_alloc_gb} GiB / ${kcl.gpu_total} GPUs`
+      : `Unavailable: ${k8.error || ''}`;
+    if (k8.ok) {
+      const cpuMyPct = kq.hard_cpu ? kq.my_cpu_lim / kq.hard_cpu * 100 : 0;
+      const cpuOthPct = kq.hard_cpu ? Math.max(0, kq.used_cpu - kq.my_cpu_lim) / kq.hard_cpu * 100 : 0;
+      const memPct = kq.hard_mem_gb ? kq.used_mem_gb / kq.hard_mem_gb * 100 : 0;
+      const gpuMyPct = k8.gpu_cards_total ? k8.gpu_cards_mine / k8.gpu_cards_total * 100 : 0;
+      const gpuOthPct = k8.gpu_cards_total ? k8.gpu_cards_other / k8.gpu_cards_total * 100 : 0;
+
+      let kqHtml = `
+        <div class="infra-box">
+          <div class="infra-k"><span>CPU (Mine / NS)</span><span class="mono">${kq.hard_cpu ? (cpuMyPct+cpuOthPct).toFixed(0)+'%' : '-'}</span></div>
+          <div class="infra-v">${kq.real_cpu_mine}c <span style="font-size:11.5px;font-weight:400;color:var(--text-3)">/ NS ${kq.real_cpu_ns}c</span></div>
+          <div class="segbar"><div style="width:${cpuMyPct.toFixed(1)}%;background:var(--accent)"></div><div style="width:${cpuOthPct.toFixed(1)}%;background:var(--blue);opacity:0.65"></div></div>
+          <div class="infra-s">Lim ${kq.used_cpu}/${kq.hard_cpu || '-'}c · Req ${kq.req_cpu}c</div>
+        </div>
+        <div class="infra-box">
+          <div class="infra-k"><span>RAM (Mine / NS)</span><span class="mono">${kq.hard_mem_gb ? memPct.toFixed(0)+'%' : '-'}</span></div>
+          <div class="infra-v">${kq.real_mem_mine_gb}G <span style="font-size:11.5px;font-weight:400;color:var(--text-3)">/ NS ${kq.real_mem_ns_gb}G</span></div>
+          <div class="prog"><div class="prog-fill" style="width:${Math.min(100, memPct).toFixed(1)}%;background:var(--blue)"></div></div>
+          <div class="infra-s">Lim ${kq.used_mem_gb}/${kq.hard_mem_gb || '-'}G · Pods ${kq.pods_used}/${kq.pods_hard || '-'}</div>
+        </div>
+        <div class="infra-box">
+          <div class="infra-k"><span>Cluster GPUs</span><span class="mono">${k8.gpu_cards_total ? (gpuMyPct+gpuOthPct).toFixed(0)+'%' : '-'}</span></div>
+          <div class="infra-v">${k8.gpu_cards_mine} + ${k8.gpu_cards_other} <span style="font-size:11.5px;font-weight:400;color:var(--green)">(${k8.gpu_cards_free} free)</span></div>
+          <div class="segbar"><div style="width:${gpuMyPct.toFixed(1)}%;background:var(--purple)"></div><div style="width:${gpuOthPct.toFixed(1)}%;background:var(--blue);opacity:0.65"></div></div>
+          <div class="infra-s">${k8.is_vcuda ? `vCUDA VRAM ${k8.gpu_vram_mine_gb}G / ${k8.gpu_vram_used_gb}G / ${k8.gpu_vram_total_gb}G` : `${k8.gpu_resource} · total ${k8.gpu_cards_total}`}</div>
+        </div>`;
+      (k8.shared_storage || []).forEach(ss => {
+        if (!ss.ok) return;
+        kqHtml += `<div class="infra-box">
+          <div class="infra-k"><span>${esc(ss.label)}</span><span class="mono">${ss.use_pct}%</span></div>
+          <div class="infra-v">${fmt(ss.free_gb)}G free</div>
+          <div class="prog"><div class="prog-fill" style="width:${ss.use_pct}%;background:var(--cyan)"></div></div>
+          <div class="infra-s">${fmt(ss.used_gb)} / ${fmt(ss.total_gb)} GiB</div>
+        </div>`;
+      });
+      $('k8sQuotaGrid').innerHTML = kqHtml;
+
+      const gpuNodes = (k8.nodes || []).filter(n => n.gpu_alloc > 0);
+      $('k8sGpuNodesBox').innerHTML = gpuNodes.map(n => {
+        const nSlots = Math.max(1, Math.round(n.gpu_alloc));
+        const mineFull = Math.floor(n.gpu_mine);
+        const mineHalf = (n.gpu_mine - mineFull) >= 0.25 ? 1 : 0;
+        const othFull = Math.round(n.gpu_other);
+        let slotsHtml = '';
+        for (let i = 0; i < nSlots; i++) {
+          if (i < mineFull) slotsHtml += '<div class="gpu-slot mine" title="Mine">M</div>';
+          else if (i < mineFull + mineHalf) slotsHtml += '<div class="gpu-slot half" title="Mine (fractional)">½</div>';
+          else if (i < mineFull + mineHalf + othFull) slotsHtml += '<div class="gpu-slot other" title="Other">O</div>';
+          else slotsHtml += '<div class="gpu-slot" title="Free">-</div>';
+        }
+        return `<div class="k8gpu-box">
+          <div class="sec-head" style="margin-bottom:4px">
+            <span class="sec-title mono">${esc(n.name)} · ${nSlots}× GPU</span>
+            <span class="sec-meta">Mine ${n.gpu_mine} · Other ${n.gpu_other} · Free ${n.gpu_free}</span>
+          </div>
+          <div class="slot-strip" style="grid-template-columns:repeat(${Math.min(8, nSlots)},1fr)">${slotsHtml}</div>
+          <div class="infra-s">CPU real ${n.ns_cpu_real}/${n.cpu_alloc}c · Pods ${n.my_pods}/${n.ns_pods}${n.vram_alloc_gb ? ` · VRAM ${n.vram_mine_gb}/${n.vram_ns_gb}/${n.vram_alloc_gb}G` : ''}</div>
+        </div>`;
+      }).join('');
+
+      $('k8sNodesTbody').innerHTML = (k8.nodes || []).map(n => `<tr>
+        <td class="mono" style="font-weight:600">${esc(n.name)}</td>
+        <td>${n.role==='gpu'?'<span class="tag accent">gpu</span>':(n.role==='cpu'?'<span class="tag">cpu</span>':'<span class="tag">ctrl</span>')}</td>
+        <td>${stDot(n.ready?'Ready':'NotReady', n.ready?'var(--green)':'var(--red)')}</td>
+        <td class="num">${n.cpu_alloc}c</td>
+        <td class="num" style="font-weight:600">${n.ns_cpu_real}c <span style="color:var(--text-3);font-weight:400">(${n.cpu_real_pct}%)</span></td>
+        <td class="num" style="color:var(--accent)">${n.my_cpu_real}c</td>
+        <td class="num">${n.ns_mem_real_gb}G <span style="color:var(--text-3)">/${n.mem_alloc_gb}G</span></td>
+        <td class="num">${n.gpu_alloc ? `${n.gpu_mine} / ${n.gpu_ns} / ${n.gpu_alloc}` : '-'}</td>
+        <td class="num">${n.my_pods} / ${n.ns_pods}</td>
+      </tr>`).join('');
+    } else {
+      $('k8sQuotaGrid').innerHTML = `<div class="empty">K8s API unreachable: ${esc(k8.error)}</div>`;
+      $('k8sGpuNodesBox').innerHTML = '';
+      $('k8sNodesTbody').innerHTML = '';
+    }
+
+    $('k8sPodMeta').textContent = k8.ok ? `Active jobs ${k8.active_jobs} · Done ${k8.done_jobs} · Idle suspect ${k8.idle_suspect_pods}` : 'offline';
+    $('k8sPodTbody').innerHTML = (k8.pods || []).map(p => `<tr>
+      <td class="mono ell" title="${esc(p.name)}">${esc(p.job)}${p.idle_suspect ? ' <span class="tag warn">idle?</span>' : ''}</td>
+      <td>${tierTag(p.tier)}</td>
+      <td class="mono" style="font-size:11.5px">${esc(p.node)}</td>
+      <td class="num">${p.cpu_real != null ? p.cpu_real+'c' : '-'} <span style="color:var(--text-3);font-size:10.5px">/${p.cpu_lim}</span></td>
+      <td class="num">${p.mem_real_gb != null ? p.mem_real_gb+'G' : '-'}</td>
+      <td class="num">${p.gpu_cards || '-'}</td>
+      <td class="num">${p.age_min ?? '-'}</td>
+    </tr>`).join('') || '<tr><td colspan="7" class="empty">No active pods</td></tr>';
+  }
+
+  $('harborLiveSection').classList.toggle('hidden', !hbOn);
+  if (hbOn) {
+    $('harborLiveMeta').textContent = `Running ${hb.running.count} (selfcheck ${hb.running.selfcheck_count} · model ${hb.running.model_count})`;
+    $('harborLiveTbody').innerHTML = (hb.running.live_trials || []).map(t => `<tr>
+      <td><span class="tag ${t.kind==='model'?'accent':''}">${esc(t.kind)}</span></td>
+      <td class="ell" title="${esc(t.task_path)}">${esc(t.slug)}</td>
+      <td class="mono" style="font-size:11px;color:var(--text-3)">${esc(t.group)}</td>
+      <td class="mono" style="font-size:11px">${esc(t.model)}</td>
+      <td class="num">${esc(t.etime)}</td>
+    </tr>`).join('') || '<tr><td colspan="5" class="empty">No active trials</td></tr>';
+  }
+
+  // ==================== TAB 3: TASKS ====================
+  if (hbOn) {
+    $('taskMetrics').innerHTML = [
+      { label: 'Registered Tasks', val: fmt(hb.registered_total), sub: `Total across pools: ${hb.grand_total_tasks}` },
+      { label: 'Self-Check OK', val: `${hb.selfcheck_both_ok} / ${hb.registered_total}`, sub: `nop + oracle verified` },
+      { label: 'Fully Evaluated', val: fmt(hb.fully_done), sub: `selfcheck + primary model ok` },
+      { label: 'Dual-Offline Tasks', val: fmt(hb.dual_offline_count), sub: `separate verifier + no-network` },
+    ].map(c => `<div class="metric-cell"><div class="m-label">${esc(c.label)}</div><div class="m-val">${esc(c.val)}</div><div class="m-sub">${esc(c.sub)}</div></div>`).join('');
+
+    // Populate dynamic filter dropdowns (preserve selection)
+    const curCat = $('taskCat').value;
+    const allCats = [...new Set((hb.tasks || []).map(t => t.category))].sort();
+    $('taskCat').innerHTML = '<option value="">All Categories</option>' + allCats.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    $('taskCat').value = allCats.includes(curCat) ? curCat : '';
+
+    const curBkt = $('taskBucket').value;
+    const allBkts = [...new Set((hb.tasks || []).map(t => t.bucket))].sort();
+    $('taskBucket').innerHTML = '<option value="">All Pools</option>' + allBkts.map(b => `<option value="${esc(b)}">${esc(b)}</option>`).join('');
+    $('taskBucket').value = allBkts.includes(curBkt) ? curBkt : '';
+
+    renderTaskTable();
+
+    // ==================== TAB 4: EVALS ====================
+    const pe = hb.primary_eval || {};
+    $('evalMetrics').innerHTML = [
+      { label: 'Self-Check Pass', val: `${hb.selfcheck_both_ok} / ${hb.registered_total}`, pct: hb.selfcheck_both_ok / Math.max(1, hb.registered_total) * 100, sub: `${hb.velocity.rate_ph} trials/h` },
+      { label: `Primary Model (${pe.model || '-'})`, val: fmt(pe.n_scored || 0), pct: (pe.n_scored || 0) / Math.max(1, hb.registered_total) * 100, sub: `scored on registered tasks` },
+      { label: 'Median / Mean Score', val: pe.median_score ?? '-', pct: hb.score_scale === 'unit' ? (pe.median_score || 0) * 100 : Math.min(100, pe.median_score || 0), sub: `mean: ${pe.mean_score ?? '-'}` },
+      { label: 'Median Runtime', val: pe.median_min != null ? `${pe.median_min}m` : '-', pct: Math.min(100, (pe.median_min || 0) / 120 * 100), sub: `${hb.all_trials_total} total trials in jobs/` },
+    ].map(c => `<div class="metric-cell"><div class="m-label">${esc(c.label)}</div><div class="m-val">${esc(c.val)}</div><div class="prog"><div class="prog-fill" style="width:${Math.min(100, c.pct).toFixed(1)}%"></div></div><div class="m-sub">${esc(c.sub)}</div></div>`).join('');
+
+    $('lbMeta').textContent = `${(hb.leaderboard || []).length} models`;
+    $('lbTbody').innerHTML = (hb.leaderboard || []).map(m => `<tr>
+      <td class="mono" style="font-weight:600">${esc(m.model)}</td>
+      <td class="num">${m.scored}</td>
+      <td class="num">${m.pass_count}</td>
+      <td class="num" style="color:var(--green);font-weight:600">${m.pass_rate_pct}%</td>
+      <td class="num">${m.mean_score ?? '-'}</td>
+      <td class="num" style="font-weight:600;color:var(--accent)">${m.median_score ?? '-'}</td>
+      <td class="num">${m.timeouts}</td>
+      <td class="num" style="${m.errors?'color:var(--red)':''}">${m.errors}</td>
+      <td class="num">${m.median_min ?? '-'}</td>
+    </tr>`).join('') || '<tr><td colspan="9" class="empty">No model trials recorded yet</td></tr>';
+
+    const stCols = ['ok','ok-doc','running','queued','wrong','failed','stale','none'];
+    $('harborMatrix').innerHTML = `<table><thead><tr><th>Kind</th>${stCols.map(c=>`<th class="num">${c}</th>`).join('')}</tr></thead><tbody>` +
+      ['nop','oracle','model'].map(k => {
+        const m = hb.counts[k] || {};
+        return `<tr><td style="font-weight:600">${k}</td>${stCols.map(c => `<td class="num" style="${(c==='ok'||c==='ok-doc')&&m[c]?'color:var(--green);font-weight:600':((c==='wrong'||c==='failed')&&m[c]?'color:var(--red);font-weight:600':'')}">${m[c]||0}</td>`).join('')}</tr>`;
+      }).join('') + '</tbody></table>';
+
+    $('scoreDistMeta').textContent = `${pe.n_scored || 0} tasks`;
+    $('scoreDistBars').innerHTML = renderBarsHtml(Object.entries(pe.buckets || {}).map(([k, v]) => ({
+      label: `Score ${k}`, val: v, color: k === '0' ? 'var(--red)' : (k === '1.0' || k === '>100' ? 'var(--accent)' : 'var(--text-2)'),
+    })));
+
+    $('evalTableMeta').textContent = `${(pe.rows || []).length} tasks`;
+    $('evalScoreTbody').innerHTML = (pe.rows || []).map(r => `<tr>
+      <td class="ell" title="${esc(r.task_path)}">${esc(r.slug)}</td>
+      <td>${esc(r.category)}</td>
+      <td>${tierTag(r.tier)}</td>
+      <td class="mono" style="font-size:11.5px;color:var(--text-2)">${esc(r.model_name)}</td>
+      <td class="mono" style="font-size:11.5px">${esc(r.primary || r.score_key)}</td>
+      <td class="num">${r.primary_metric ?? '-'}</td>
+      <td class="num" style="font-weight:600;color:var(--accent)">${r.score}</td>
+      <td class="num">${r.agent_min ?? '-'}${r.timeout ? ' (T)' : ''}</td>
+      <td class="mono" style="font-size:11px;color:var(--text-3)">${esc((r.finished_str||'').slice(5,16))}</td>
+    </tr>`).join('') || '<tr><td colspan="9" class="empty">No scored tasks for primary model</td></tr>';
+
+    $('recentTrialsTbody').innerHTML = (hb.recent_trials || []).map(t => `<tr>
+      <td class="mono" style="font-size:11px;color:var(--text-3);white-space:nowrap">${esc((t.finished_str||'').slice(5,16))}</td>
+      <td><span class="tag">${esc(t.kind)}</span></td>
+      <td class="mono" style="font-size:11.5px">${esc(t.model_name)}</td>
+      <td class="ell" title="${esc(t.path)}">${esc(t.slug)}</td>
+      <td class="num">${t.reward ?? '-'}</td>
+      <td class="num">${t.score != null ? Number(t.score).toFixed(3) : '-'}</td>
+      <td class="num">${t.agent_sec != null ? (t.agent_sec/60).toFixed(1) : '-'}</td>
+      <td class="ell-note" style="color:${t.error?'var(--red)':'var(--text-3)'}">${esc(t.error || (t.timeout ? 'Timeout' : 'OK'))}</td>
+    </tr>`).join('') || '<tr><td colspan="8" class="empty">No trials found in jobs/</td></tr>';
+  }
+
+  // ==================== TAB 5: PIPELINES ====================
+  if (plOn) {
+    let html = '';
+    const bl = pl.backlog || {};
+    if (bl.enabled) {
+      html += `<div class="metric-strip">
+        <div class="metric-cell"><div class="m-label">${esc(bl.label)} Progress</div><div class="m-val">${bl.done_total} / ${bl.pool_total}</div><div class="prog"><div class="prog-fill" style="width:${bl.done_pct}%"></div></div><div class="m-sub">${bl.done_pct}% done</div></div>
+        <div class="metric-cell"><div class="m-label">Remaining</div><div class="m-val">${fmt(bl.remaining_total)}</div><div class="m-sub">ETA: ${bl.eta_days != null ? bl.eta_days + ' days' : '-'}</div></div>
+        <div class="metric-cell"><div class="m-label">Top Category</div><div class="m-val">${esc(Object.keys(bl.by_category||{})[0] || '-')}</div><div class="m-sub">${Object.entries(bl.by_category||{}).slice(0,3).map(([k,v])=>`${k}:${v}`).join(' · ')}</div></div>
+        <div class="metric-cell"><div class="m-label">Top Tier</div><div class="m-val">${esc(Object.keys(bl.by_tier||{})[0] || '-')}</div><div class="m-sub">${Object.entries(bl.by_tier||{}).slice(0,3).map(([k,v])=>`${k}:${v}`).join(' · ')}</div></div>
+      </div>`;
+    }
+    (pl.streams || []).forEach(st => {
+      const h24Series = (st.hourly_24h?.counts || []).map(v => ({ cnt: v }));
+      html += `<div class="split-2">
+        <div class="section">
+          <div class="sec-head"><span class="sec-title">Stream: ${esc(st.name)}</span><span class="sec-meta">1h:${st.count_1h} · 6h:${st.count_6h} · 24h:${st.count_24h} (${st.rate_ph}/h)</span></div>
+          ${renderStackedChartSvg(st.hourly_24h?.labels || [], h24Series, [['cnt', '#5e6ad2', 'events']])}
+          <div style="margin-top:12px" class="bars">${renderBarsHtml(Object.entries(st.status_counts || {}).map(([k,v]) => ({ label: k, val: v })))}</div>
+        </div>
+        <div class="section">
+          <div class="sec-head"><span class="sec-title">Recent Events (${st.name})</span><span class="sec-meta">total ${st.total}</span></div>
+          <div class="tbl-wrap" style="max-height:360px"><table><thead><tr><th>Time</th><th>ID</th><th>Status</th><th class="num">Min</th><th>Note</th></tr></thead><tbody>${(st.recent || []).map(r => `<tr>
+            <td class="mono" style="font-size:11px;color:var(--text-3)">${esc((r.ts_str||'').slice(5,16))}</td>
+            <td class="mono">${esc(r.id)}</td>
+            <td><span class="tag">${esc(r.status)}</span></td>
+            <td class="num">${r.elapsed_min ?? '-'}</td>
+            <td class="ell-note" title="${esc(r.note)}">${esc(r.note)}</td>
+          </tr>`).join('') || '<tr><td colspan="5" class="empty">No events</td></tr>'}</tbody></table></div>
+        </div>
+      </div>`;
+    });
+    html += (cust.panels || []).map(renderCustomPanel).join('');
+    $('pipePaneBody').innerHTML = html || '<div class="section"><div class="empty">No custom pipelines configured</div></div>';
+  }
+}
+
+function setTaskChip(val, el) {
+  TASK_CHIP = val;
+  document.querySelectorAll('#taskSeg button').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  renderTaskTable();
+}
+function sortTasks(col) {
+  if (TASK_SORT.col === col) TASK_SORT.dir *= -1;
+  else { TASK_SORT.col = col; TASK_SORT.dir = (col === 'mtime' || col === 'model_score') ? -1 : 1; }
+  renderTaskTable();
+}
+function renderTaskTable() {
+  if (!DATA || !DATA.harbor || !DATA.harbor.tasks) return;
+  const q = ($('taskSearch').value || '').trim().toLowerCase();
+  const cat = $('taskCat').value;
+  const bkt = $('taskBucket').value;
+  let rows = DATA.harbor.tasks.filter(t => {
+    if (TASK_CHIP === 'reg' && !t.registered) return false;
+    if (TASK_CHIP === 'need_sc' && !(t.registered && !((t.nop==='ok'||t.nop==='ok-doc') && (t.oracle==='ok'||t.oracle==='ok-doc')))) return false;
+    if (TASK_CHIP === 'model_ok' && !(t.model==='ok'||t.model==='ok-doc')) return false;
+    if (TASK_CHIP === 'gpu' && t.tier !== 'gpu' && !(t.gpus > 0)) return false;
+    if (cat && t.category !== cat) return false;
+    if (bkt && t.bucket !== bkt) return false;
+    if (q && !(t.slug + ' ' + t.category + ' ' + t.metric + ' ' + t.task_path).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const { col, dir } = TASK_SORT;
+  rows.sort((a, b) => {
+    const va = a[col], vb = b[col];
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    if (typeof va === 'number' && typeof vb === 'number') return (va - vb) * dir;
+    return String(va).localeCompare(String(vb)) * dir;
+  });
+  $('taskMeta').textContent = `${fmt(rows.length)} / ${fmt(DATA.harbor.tasks.length)} tasks`;
+  $('taskTbody').innerHTML = rows.slice(0, 500).map(t => `<tr title="${esc(t.task_path)}">
+    <td class="ell">${esc(t.slug)}</td>
+    <td><span class="tag ${t.registered?'ok':''}">${esc(t.bucket)}</span></td>
+    <td style="color:var(--text-2)">${esc(t.category)}</td>
+    <td>${tierTag(t.tier)}</td>
+    <td>${t.registered ? harborCell(t.nop) : '<span style="color:var(--text-3)">-</span>'}</td>
+    <td>${t.registered ? harborCell(t.oracle) : '<span style="color:var(--text-3)">-</span>'}</td>
+    <td>${t.registered ? harborCell(t.model) : '<span style="color:var(--text-3)">-</span>'}</td>
+    <td class="num" style="font-weight:600;color:var(--accent)">${t.model_score ?? '-'}</td>
+    <td class="mono" style="font-size:11px;color:var(--text-3);white-space:nowrap">${esc((t.mtime_str||'').slice(5,16))}</td>
+  </tr>`).join('') || '<tr><td colspan="9" class="empty">No matching tasks</td></tr>';
+}
+
+async function loadSnapshot(force=false) {
+  if (window.__BOOTSTRAP_SNAPSHOT__ && !force) {
+    renderAll(window.__BOOTSTRAP_SNAPSHOT__);
+    AUTO = false;
+    $('autoBtn').textContent = 'Offline Snapshot';
+    $('refreshBtn').style.display = 'none';
+    $('liveDot').style.background = 'var(--gray)';
+    $('liveDot').style.animation = 'none';
+    return;
+  }
+  $('refreshBtn').disabled = true;
+  try {
+    const resp = await fetch(force ? '/api/refresh' : '/api/snapshot', { method: force ? 'POST' : 'GET' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    renderAll(await resp.json());
+    COUNTDOWN = REFRESH_INTERVAL;
+  } catch (e) {
+    $('snapMeta').textContent = 'Refresh error: ' + e.message;
+  } finally {
+    $('refreshBtn').disabled = false;
+  }
+}
+
+function triggerRefresh() { loadSnapshot(true); }
+function toggleAuto() {
+  AUTO = !AUTO;
+  $('autoBtn').textContent = AUTO ? `Auto ${COUNTDOWN}s` : 'Paused';
+}
+setInterval(() => {
+  if (!AUTO || window.__BOOTSTRAP_SNAPSHOT__) return;
+  COUNTDOWN--;
+  if (COUNTDOWN <= 0) { COUNTDOWN = REFRESH_INTERVAL; loadSnapshot(false); }
+  $('autoBtn').textContent = `Auto ${COUNTDOWN}s`;
+}, 1000);
+
+loadSnapshot(false);
+</script>
+</body>
+</html>

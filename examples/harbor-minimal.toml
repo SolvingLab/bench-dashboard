@@ -1,0 +1,28 @@
+# Minimal configuration for a local Harbor / Terminal-Bench repository (no Kubernetes).
+
+[project]
+name = "My-Harbor-Bench"
+badge = "HB"
+target_repo = "."
+locale = "en"
+refresh_sec = 20
+
+[host]
+enabled = true
+
+[k8s]
+enabled = false
+
+[harbor]
+enabled = true
+dataset_toml = "tasks/dataset.toml"
+jobs_dir = "jobs"
+score_scale = "auto"
+
+[pipelines]
+enabled = true
+
+[[pipelines.processes]]
+name = "Harbor Batch"
+match = "harbor run"
+kind = "harbor"

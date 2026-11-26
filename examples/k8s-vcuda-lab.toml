@@ -1,0 +1,93 @@
+# Example configuration for a shared GPU host + Kubernetes cluster with TKE vCUDA GPUs & NFS storage.
+# Replace placeholder paths/prefixes with your own environment values.
+
+[project]
+name = "Lab-Bench-Suite"
+badge = "LB"
+target_repo = "."
+locale = "zh"
+refresh_sec = 20
+
+[host]
+enabled = true
+label = "gpu-host-01"
+docker_host = "unix:///var/run/docker.sock"
+
+[[host.disks]]
+label = "NVMe Workspace"
+path = "."
+critical = true
+
+[[host.disks]]
+label = "Cold Storage"
+path = "/mnt/cold-storage"
+critical = false
+
+[[host.disks]]
+label = "/tmp"
+path = "/tmp"
+critical = false
+
+[k8s]
+enabled = true
+namespace = "research"
+strip_proxy_env = true
+owner_prefixes = ["alice-"]
+workload_prefixes = ["alice-build-", "alice-eval-"]
+gpu_resource = "tencent.com/vcuda-core"
+watch_deployments_or_pods = ["harbor-registry-"]
+
+[[k8s.shared_storage_paths]]
+label = "Shared NFS"
+path = "/mnt/nfs/shared"
+
+[harbor]
+enabled = true
+dataset_toml = "tasks/dataset.toml"
+jobs_dir = "jobs"
+checksum_cache = "cache/bench-status/checksums.json"
+primary_model = ""
+score_metric_keys = ["position_score", "score", "accuracy"]
+slot_lock_dir = "/tmp/bench-subnet-locks-{uid}"
+slots_total = 60
+
+[[harbor.buckets]]
+name = "main"
+label = "Main"
+glob = "tasks/*/*"
+primary = true
+
+[[harbor.buckets]]
+name = "lite"
+label = "Lite"
+glob = "lite/*"
+primary = false
+
+[pipelines]
+enabled = true
+# custom_adapter = "dashboard_adapter.py"
+
+[[pipelines.processes]]
+name = "Harbor Dispatcher"
+match = "harbor_slots.py"
+kind = "harbor"
+group_regex = "--group\\s+(\\S+)"
+
+[[pipelines.jsonl_streams]]
+name = "Task Builds"
+path = "work/build-results.jsonl"
+ts_field = "timestamp"
+status_field = "status"
+id_field = "task_id"
+elapsed_field = "elapsed_s"
+note_field = "note"
+
+[pipelines.backlog]
+enabled = true
+pool_path = "work/candidate-pool.jsonl"
+done_paths = ["work/build-results.jsonl"]
+id_field = "task_id"
+category_field = "field"
+tier_field = "compute_tier"
+decision_field = "decision"
+label = "Candidate Pool"

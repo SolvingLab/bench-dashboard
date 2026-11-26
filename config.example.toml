@@ -1,0 +1,115 @@
+# bench-dashboard configuration template
+# Copy to `bench-dashboard.toml` in your benchmark repository (or pass `--config <path>`).
+# Every section is optional — omit any section to rely on zero-config auto-detection.
+
+[project]
+name = "My-Benchmark"
+badge = "MB"                     # 2-letter logo shown in the sidebar
+target_repo = "."                # Relative to this config file, or an absolute path
+locale = "auto"                  # "auto" | "en" | "zh"
+refresh_sec = 20
+history_file = ".live_history.jsonl"
+history_max_points = 180         # 180 * 20s = 1 hour rolling sparkline history
+
+[host]
+enabled = true
+label = ""                       # Defaults to machine hostname
+# docker_host = "unix:///var/run/docker.sock"
+docker_bench_keywords = ["harbor", "__env", "__verifier", "bench", "trial"]
+
+# Disks to monitor. Leave commented out for auto-detection (workspace + jobs disk + /tmp).
+# [[host.disks]]
+# label = "NVMe Workspace"
+# path = "."
+# critical = true                # Triggers alert banner when free space drops below threshold
+#
+# [[host.disks]]
+# label = "Cold Storage"
+# path = "/mnt/data"
+# critical = false
+
+[host.alerts]
+disk_free_warn_gb = 40.0
+disk_free_danger_gb = 20.0
+swap_warn_pct = 50.0
+swap_danger_pct = 80.0
+shm_warn_pct = 40.0
+shm_danger_pct = 60.0
+
+[k8s]
+enabled = "auto"                 # true | false | "auto" (enables if kubeconfig exists)
+# kubeconfig = "~/.kube/config"
+namespace = "default"            # Or set env K8S_NAMESPACE
+strip_proxy_env = "auto"         # true | false | "auto" (auto-bypass HTTP_PROXY for private LAN API IPs)
+owner_prefixes = []              # e.g. ["alice-"] to distinguish your pods/GPUs from teammates
+# owner_labels = { owner = "alice" }
+workload_prefixes = []           # Show only matching Jobs/Pods in Active K8s Workloads (empty = all in namespace)
+workload_part_of = []            # Additional app.kubernetes.io/part-of label values to track
+gpu_resource = "auto"            # "auto" | "nvidia.com/gpu" | "tencent.com/vcuda-core"
+idle_cpu_threshold = 0.05        # Flag Running pods using < 0.05 cores for >= idle_age_min as potentially idle
+idle_age_min = 15.0
+
+# Optional shared storage paths mounted on this host (e.g. NFS / CephFS)
+# [[k8s.shared_storage_paths]]
+# label = "Shared NFS"
+# path = "/mnt/shared"
+
+# Optional pod name prefixes that must stay Ready (e.g. private registry)
+# watch_deployments_or_pods = ["harbor-registry-"]
+
+[harbor]
+enabled = "auto"                 # true | false | "auto" (enables if tasks/ or jobs/ exists)
+dataset_toml = "tasks/dataset.toml"
+jobs_dir = "jobs"
+checksum_cache = "cache/bench-status/checksums.json"
+primary_model = ""               # Empty = automatically pick model with most scored trials
+doc_only_prefixes = ["authoring/", "README.md"]
+scored_exceptions = ["AgentTimeoutError"]
+score_metric_keys = ["position_score", "score", "accuracy", "pass_rate"]
+primary_metric_keys = ["primary_metric", "metric_value"]
+rank_metric_keys = ["rank_percentile"]
+score_scale = "auto"             # "auto" | "unit" (0..1) | "percent" (0..100)
+# slot_lock_dir = "/tmp/harbor-subnet-locks-{uid}"
+# slots_total = 60
+
+# Optional explicit task pools (leave commented for auto-discovery of tasks/, lite/, candidates/)
+# [[harbor.buckets]]
+# name = "main"
+# label = "Main"
+# glob = "tasks/*/*"
+# primary = true
+
+[pipelines]
+enabled = true
+
+# Optional: monitor local background workers/dispatchers by command substring or regex
+# [[pipelines.processes]]
+# name = "Batch Dispatcher"
+# match = "harbor_slots.py"
+# kind = "harbor"                # harbor | build | audit | eval | maintenance | custom
+# group_regex = "--group\\s+(\\S+)"
+
+# Optional: track throughput (1h/6h/24h) and outcome breakdown from any JSONL log file
+# [[pipelines.jsonl_streams]]
+# name = "Task Builds"
+# path = "work/build-results.jsonl"
+# ts_field = "timestamp"
+# status_field = "status"
+# id_field = "task_id"
+# elapsed_field = "elapsed_s"
+# note_field = "note"
+
+# Optional: track remaining items in a candidate pool vs completed ledger
+[pipelines.backlog]
+enabled = false
+pool_path = ""
+done_paths = []
+id_field = "id"
+category_field = "category"
+tier_field = "tier"
+decision_field = "decision"
+label = "Backlog"
+
+# Optional: project-specific read-only Python adapter (relative to config file or absolute)
+# See bench_dashboard/adapters/custom_template.py for the contract.
+# custom_adapter = "dashboard_adapter.py"
