@@ -77,7 +77,8 @@ class SnapshotStore:
         self.refresh_sec = int(cfg["project"].get("refresh_sec", 20))
         self.max_history = int(cfg["project"].get("history_max_points", 180))
         hist_raw = str(cfg["project"].get("history_file") or ".live_history.jsonl")
-        self.history_path = resolve_path(PKG_DIR.parent, hist_raw)
+        hist_base = Path(cfg.get("_config_dir") or cfg["project"]["target_repo"])
+        self.history_path = resolve_path(hist_base, hist_raw)
         self._lock = threading.Lock()
         self._snapshot: dict[str, Any] | None = None
         self._json_bytes: bytes = b"{}"
@@ -283,7 +284,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.cli or args.json or args.export:
         snap = collect_snapshot(cfg)
-        hist_path = resolve_path(PKG_DIR.parent, str(cfg["project"].get("history_file") or ".live_history.jsonl"))
+        hist_base = Path(cfg.get("_config_dir") or cfg["project"]["target_repo"])
+        hist_path = resolve_path(hist_base, str(cfg["project"].get("history_file") or ".live_history.jsonl"))
         max_pts = int(cfg["project"].get("history_max_points", 180))
         hist = _load_history(hist_path, max_pts)
         hist.append(_extract_history_point(snap))
