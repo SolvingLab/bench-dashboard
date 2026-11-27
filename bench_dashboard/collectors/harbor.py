@@ -563,12 +563,55 @@ def collect_harbor(cfg: dict[str, Any]) -> dict[str, Any]:
             if t["model"] in OK_STATES:
                 fully_done += 1
 
-    # Multi-model leaderboard across all discovered models
+    # Multi-model leaderboard + per-model breakdown across all discovered models
     all_models = sorted({t["model_name"] for t in trials_list if t["kind"] == "model" and t["model_name"]})
+    task_by_path = {t["task_path"]: t for t in tasks}
+
+    def _build_buckets(vals_list: list[float], sc: str) -> dict[str, int]:
+        if sc == "unit":
+            b = collections.OrderedDict([("0", 0), ("(0, 0.5)", 0), ("[0.5, 0.8)", 0), ("[0.8, 1.0)", 0), ("1.0", 0)])
+            for v in vals_list:
+                if v <= 0:
+                    b["0"] += 1
+                elif v < 0.5:
+                    b["(0, 0.5)"] += 1
+                elif v < 0.8:
+                    b["[0.5, 0.8)"] += 1
+                elif v < 1.0:
+                    b["[0.8, 1.0)"] += 1
+                else:
+                    b["1.0"] += 1
+            return dict(b)
+        b = collections.OrderedDict([("0", 0), ("1-25", 0), ("25-50", 0), ("50-75", 0), ("75-100", 0), (">100", 0)])
+        for v in vals_list:
+            if v <= 0:
+                b["0"] += 1
+            elif v < 25:
+                b["1-25"] += 1
+            elif v < 50:
+                b["25-50"] += 1
+            elif v < 75:
+                b["50-75"] += 1
+            elif v <= 100:
+                b["75-100"] += 1
+            else:
+                b[">100"] += 1
+        return dict(b)
+
+    vals = [r["score"] for r in scored_rows]
+    scale = str(hcfg.get("score_scale") or "auto")
+    if scale == "auto":
+        all_v = vals or [
+            t["score"] for t in trials_list if t["kind"] == "model" and not t["error"] and t["score"] is not None
+        ]
+        scale = "unit" if (all_v and max(all_v) <= 1.0001 and min(all_v) >= 0.0) else "percent"
+
     leaderboard: list[dict[str, Any]] = []
+    evals_by_model: dict[str, dict[str, Any]] = {}
     for mname in all_models:
         m_scores: list[float] = []
         m_mins: list[float] = []
+        m_rows: list[dict[str, Any]] = []
         m_pass = m_err = m_to = 0
         paths_for_model = sorted({p for (p, k, m) in by_pkm.keys() if m == mname and (not reg_paths or p in reg_paths)})
         for p in paths_for_model:
@@ -580,11 +623,31 @@ def collect_harbor(cfg: dict[str, Any]) -> dict[str, Any]:
                 m_to += 1
             if rec["score"] is not None:
                 m_scores.append(rec["score"])
+                tk = task_by_path.get(p) or {}
+                m_rows.append({
+                    "task_path": p,
+                    "slug": tk.get("slug") or rec["slug"],
+                    "category": tk.get("category") or "general",
+                    "tier": tk.get("tier") or "standard",
+                    "model_name": mname,
+                    "score": round(rec["score"], 3),
+                    "score_key": rec["score_key"],
+                    "reward": rec["reward"],
+                    "primary": rec["primary"] or tk.get("metric") or "",
+                    "primary_metric": round(rec["primary_metric"], 4) if rec["primary_metric"] is not None else None,
+                    "rank_percentile": round(rec["rank_percentile"], 1) if rec["rank_percentile"] is not None else None,
+                    "agent_min": round(rec["agent_sec"] / 60.0, 1) if rec["agent_sec"] else None,
+                    "timeout": rec["timeout"],
+                    "finished_str": rec["finished_str"],
+                })
             if isinstance(rec["reward"], (int, float)) and rec["reward"] >= 1:
                 m_pass += 1
             if rec["agent_sec"] is not None:
                 m_mins.append(rec["agent_sec"] / 60.0)
         n_ok = len(m_scores)
+        mean_sc = round(statistics.mean(m_scores), 3) if m_scores else None
+        med_sc = round(statistics.median(m_scores), 3) if m_scores else None
+        med_mn = round(statistics.median(m_mins), 1) if m_mins else None
         leaderboard.append({
             "model": mname,
             "scored": n_ok,
@@ -592,45 +655,22 @@ def collect_harbor(cfg: dict[str, Any]) -> dict[str, Any]:
             "timeouts": m_to,
             "pass_count": m_pass,
             "pass_rate_pct": round(m_pass / n_ok * 100.0, 1) if n_ok else 0.0,
-            "mean_score": round(statistics.mean(m_scores), 3) if m_scores else None,
-            "median_score": round(statistics.median(m_scores), 3) if m_scores else None,
-            "median_min": round(statistics.median(m_mins), 1) if m_mins else None,
+            "mean_score": mean_sc,
+            "median_score": med_sc,
+            "median_min": med_mn,
         })
+        evals_by_model[mname] = {
+            "model": mname,
+            "n_scored": n_ok,
+            "median_score": med_sc,
+            "mean_score": mean_sc,
+            "median_min": med_mn,
+            "buckets": _build_buckets(m_scores, scale),
+            "rows": sorted(m_rows, key=lambda x: x["score"], reverse=True),
+        }
     leaderboard.sort(key=lambda x: (x["scored"], x["mean_score"] or -1.0), reverse=True)
 
-    # Score distribution buckets (auto-detect 0..1 unit scale vs 0..100 scale)
-    vals = [r["score"] for r in scored_rows]
-    scale = str(hcfg.get("score_scale") or "auto")
-    if scale == "auto":
-        scale = "unit" if (vals and max(vals) <= 1.0001 and min(vals) >= 0.0) else "percent"
-    if scale == "unit":
-        buckets = collections.OrderedDict([("0", 0), ("(0, 0.5)", 0), ("[0.5, 0.8)", 0), ("[0.8, 1.0)", 0), ("1.0", 0)])
-        for v in vals:
-            if v <= 0:
-                buckets["0"] += 1
-            elif v < 0.5:
-                buckets["(0, 0.5)"] += 1
-            elif v < 0.8:
-                buckets["[0.5, 0.8)"] += 1
-            elif v < 1.0:
-                buckets["[0.8, 1.0)"] += 1
-            else:
-                buckets["1.0"] += 1
-    else:
-        buckets = collections.OrderedDict([("0", 0), ("1-25", 0), ("25-50", 0), ("50-75", 0), ("75-100", 0), (">100", 0)])
-        for v in vals:
-            if v <= 0:
-                buckets["0"] += 1
-            elif v < 25:
-                buckets["1-25"] += 1
-            elif v < 50:
-                buckets["25-50"] += 1
-            elif v < 75:
-                buckets["50-75"] += 1
-            elif v <= 100:
-                buckets["75-100"] += 1
-            else:
-                buckets[">100"] += 1
+    buckets = _build_buckets(vals, scale)
 
     # Throughput velocity (1h / 6h / 24h) + 24h hourly series
     now_ts = time.time()
@@ -717,6 +757,7 @@ def collect_harbor(cfg: dict[str, Any]) -> dict[str, Any]:
             "series": [h24_map[k] for k in h24_keys],
         },
         "leaderboard": leaderboard,
+        "evals_by_model": evals_by_model,
         "primary_eval": {
             "model": pref_model,
             "n_scored": len(scored_rows),

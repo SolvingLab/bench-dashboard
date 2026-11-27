@@ -6,7 +6,7 @@ Built for teams running long-horizon agent benchmarks (Harbor, Terminal-Bench, S
 
 ## Highlights
 
-- **Zero external dependencies**: Python 3.11+ standard library backend + single-file vanilla HTML/CSS/JS frontend with inline SVG charts (`EN / 中文` toggle, Light / Dark theme, keyboard shortcuts `1-5`, `/`, `R`).
+- **Zero external dependencies**: Python 3.11+ standard library backend + single-file Linear-inspired vanilla HTML/CSS/JS frontend with smooth gradient SVG curves, hover crosshairs, **`⌘K` Command Palette**, **slide-over Inspector drawer** (click any Task / Trial / K8s Pod / Node), `EN / 中文` toggle, and Light / Dark theme (follows OS preference).
 - **Strictly read-only**: Never modifies tasks, ledgers, `jobs/`, Docker containers, or Kubernetes resources.
 - **Host Compute & Safety Telemetry**: Real-time CPU (`/proc/stat`), RAM, **Swap + Top Swap offender alerts**, `/dev/shm`, multi-mount disk usage, per-card NVIDIA GPU monitoring (`nvidia-smi` util/VRAM/temp/power/processes incl. vLLM), and Docker container count.
 - **Kubernetes Telemetry (Zero PyYAML)**: Parses kubeconfig via `kubectl config view --minify --raw -o json` (or env vars), supports both standard **`nvidia.com/gpu`** and fractional **`tencent.com/vcuda-core`**, `metrics.k8s.io` real-time pod CPU/RAM, namespace ResourceQuotas, per-node GPU slot visualization, `DiskPressure` & low-CPU idle pod warnings.

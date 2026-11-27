@@ -190,6 +190,9 @@ class TestBenchDashboard(unittest.TestCase):
             self.assertEqual(hb["primary_eval"]["model"], "model-a")
             self.assertEqual(hb["primary_eval"]["median_score"], 82.5)
             self.assertEqual(len(hb["leaderboard"]), 2)
+            self.assertIn("model-a", hb["evals_by_model"])
+            self.assertIn("model-b", hb["evals_by_model"])
+            self.assertEqual(hb["evals_by_model"]["model-b"]["median_score"], 41.0)
 
             pl = snap["pipelines"]
             self.assertTrue(pl["has_content"])

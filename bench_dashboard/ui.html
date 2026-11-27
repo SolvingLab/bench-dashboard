@@ -7,18 +7,24 @@
 <style>
   :root {
     --bg: #ffffff;
-    --bg-sidebar: #f7f8fa;
-    --bg-subtle: #f9fafb;
-    --bg-card: #ffffff;
-    --bg-hover: #f2f4f7;
-    --bg-active: #eaecf2;
-    --border: #e4e7ec;
-    --border-soft: #eef0f4;
+    --bg-sidebar: #fbfbfc;
+    --bg-elevated: #ffffff;
+    --bg-subtle: #f6f7f9;
+    --bg-hover: rgba(17, 19, 24, 0.035);
+    --bg-active: rgba(17, 19, 24, 0.065);
+    --bg-glass: rgba(255, 255, 255, 0.82);
+    --border: #e9ecf1;
+    --border-strong: #d7dce4;
+    --border-soft: #f1f3f7;
+    --inner-hi: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.04);
+    --shadow-lg: 0 20px 60px rgba(15, 23, 42, 0.16), 0 0 0 1px var(--border);
     --text: #111318;
-    --text-2: #4b5563;
-    --text-3: #858d9b;
+    --text-2: #525866;
+    --text-3: #8a919e;
     --accent: #5e6ad2;
     --accent-soft: rgba(94, 106, 210, 0.10);
+    --accent-border: rgba(94, 106, 210, 0.30);
     --green: #16a34a;
     --green-soft: rgba(22, 163, 74, 0.10);
     --amber: #d97706;
@@ -26,8 +32,6 @@
     --red: #dc2626;
     --red-soft: rgba(220, 38, 38, 0.10);
     --blue: #2563eb;
-    --blue-soft: rgba(37, 99, 235, 0.10);
-    --purple: #7c3aed;
     --cyan: #0891b2;
     --gray: #9ca3af;
     --bar-bg: #ebedf2;
@@ -37,45 +41,51 @@
     --danger-bg: #fef2f2;
     --danger-border: #fecaca;
     --danger-text: #991b1b;
-    --tip-bg: #111318;
+    --tip-bg: #141519;
     --tip-text: #f3f4f6;
+    --scrim: rgba(15, 17, 22, 0.28);
     --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
     --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Noto Sans CJK SC", sans-serif;
   }
   [data-theme="dark"] {
-    --bg: #101216;
-    --bg-sidebar: #0b0d10;
-    --bg-subtle: #16181f;
-    --bg-card: #14161c;
-    --bg-hover: #1c1f27;
-    --bg-active: #232733;
-    --border: #252934;
-    --border-soft: #1b1e27;
-    --text: #eef0f4;
-    --text-2: #9ca3af;
-    --text-3: #6b7280;
-    --accent: #7884e8;
-    --accent-soft: rgba(120, 132, 232, 0.16);
+    --bg: #08090a;
+    --bg-sidebar: #0d0e11;
+    --bg-elevated: #111216;
+    --bg-subtle: #14151a;
+    --bg-hover: rgba(255, 255, 255, 0.04);
+    --bg-active: rgba(255, 255, 255, 0.075);
+    --bg-glass: rgba(8, 9, 10, 0.78);
+    --border: rgba(255, 255, 255, 0.075);
+    --border-strong: rgba(255, 255, 255, 0.14);
+    --border-soft: rgba(255, 255, 255, 0.045);
+    --inner-hi: inset 0 1px 0 rgba(255, 255, 255, 0.045);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.10);
+    --text: #f2f3f5;
+    --text-2: #9ba1a6;
+    --text-3: #636871;
+    --accent: #717ce6;
+    --accent-soft: rgba(113, 124, 230, 0.14);
+    --accent-border: rgba(113, 124, 230, 0.36);
     --green: #22c55e;
-    --green-soft: rgba(34, 197, 94, 0.14);
+    --green-soft: rgba(34, 197, 94, 0.12);
     --amber: #f59e0b;
-    --amber-soft: rgba(245, 158, 11, 0.14);
-    --red: #ef4444;
-    --red-soft: rgba(239, 68, 68, 0.14);
+    --amber-soft: rgba(245, 158, 11, 0.12);
+    --red: #f87171;
+    --red-soft: rgba(248, 113, 113, 0.12);
     --blue: #60a5fa;
-    --blue-soft: rgba(96, 165, 250, 0.14);
-    --purple: #a78bfa;
     --cyan: #22d3ee;
     --gray: #525866;
-    --bar-bg: #222631;
+    --bar-bg: rgba(255, 255, 255, 0.07);
     --warn-bg: rgba(245, 158, 11, 0.08);
-    --warn-border: rgba(245, 158, 11, 0.28);
+    --warn-border: rgba(245, 158, 11, 0.22);
     --warn-text: #fbbf24;
-    --danger-bg: rgba(239, 68, 68, 0.09);
-    --danger-border: rgba(239, 68, 68, 0.30);
-    --danger-text: #f87171;
-    --tip-bg: #eef0f4;
-    --tip-text: #111318;
+    --danger-bg: rgba(248, 113, 113, 0.09);
+    --danger-border: rgba(248, 113, 113, 0.26);
+    --danger-text: #fca5a5;
+    --tip-bg: #1b1d23;
+    --tip-text: #f3f4f6;
+    --scrim: rgba(0, 0, 0, 0.56);
   }
 
   * { box-sizing: border-box; }
@@ -83,126 +93,178 @@
     margin: 0; padding: 0; height: 100%;
     background: var(--bg); color: var(--text);
     font-family: var(--sans); font-size: 13px; line-height: 1.45;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
   .num { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
   .hidden { display: none !important; }
+  ::-webkit-scrollbar { width: 7px; height: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; }
 
-  .app { display: grid; grid-template-columns: 236px minmax(0, 1fr); min-height: 100vh; }
+  /* App Shell */
+  .app { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
   @media (max-width: 920px) {
     .app { grid-template-columns: 1fr; }
     aside { position: static !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--border); }
   }
 
+  /* Sidebar */
   aside {
     position: sticky; top: 0; height: 100vh;
     background: var(--bg-sidebar); border-right: 1px solid var(--border);
     display: flex; flex-direction: column; justify-content: space-between;
-    padding: 12px 10px; user-select: none; overflow-y: auto;
+    padding: 10px 8px 12px; user-select: none; overflow-y: auto;
   }
   .ws-head {
     display: flex; align-items: center; justify-content: space-between; gap: 6px;
-    padding: 4px 8px 12px; margin-bottom: 4px; border-bottom: 1px solid var(--border-soft);
+    padding: 4px 8px 10px; margin-bottom: 4px; border-bottom: 1px solid var(--border-soft);
   }
-  .ws-brand { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13.5px; letter-spacing: -0.015em; min-width: 0; }
+  .ws-brand { display: flex; align-items: center; gap: 8px; font-weight: 560; font-size: 13px; letter-spacing: -0.015em; min-width: 0; }
   .ws-brand-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .ws-logo {
-    width: 20px; height: 20px; border-radius: 5px; background: var(--text); color: var(--bg);
-    display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; font-family: var(--mono); flex-shrink: 0;
+    width: 20px; height: 20px; border-radius: 5px;
+    background: linear-gradient(180deg, var(--accent), color-mix(in srgb, var(--accent) 78%, #000));
+    color: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.22);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 9.5px; font-weight: 700; font-family: var(--mono); flex-shrink: 0;
   }
   .live-pulse {
-    width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0;
-    box-shadow: 0 0 0 0 rgba(22,163,74,0.55); animation: pulse 2.2s infinite; display: inline-block;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0;
+    box-shadow: 0 0 0 0 rgba(34,197,94,0.5); animation: pulse 2.4s infinite; display: inline-block;
   }
   @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(22,163,74,0.55); }
-    70% { box-shadow: 0 0 0 6px rgba(22,163,74,0); }
-    100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.45); }
+    70% { box-shadow: 0 0 0 5px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
   }
   .mini-btns { display: flex; gap: 2px; flex-shrink: 0; }
-  .theme-btn {
+  .icon-btn {
     background: transparent; border: 1px solid transparent; color: var(--text-3);
-    border-radius: 5px; padding: 3px 6px; font-size: 11px; cursor: pointer;
+    border-radius: 5px; padding: 3px 6px; font-size: 11px; font-weight: 500; cursor: pointer;
+    transition: background 0.12s, color 0.12s;
   }
-  .theme-btn:hover { color: var(--text); background: var(--bg-hover); }
+  .icon-btn:hover { color: var(--text); background: var(--bg-hover); }
 
-  .nav-group { margin-top: 6px; }
-  .nav-label { font-size: 10.5px; font-weight: 600; color: var(--text-3); padding: 4px 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .side-cmd {
+    width: 100%; margin: 6px 0 8px; padding: 5px 8px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg-elevated); border: 1px solid var(--border); box-shadow: var(--inner-hi);
+    border-radius: 6px; color: var(--text-3); font-size: 12px; cursor: pointer;
+    transition: border-color 0.12s, color 0.12s;
+  }
+  .side-cmd:hover { border-color: var(--border-strong); color: var(--text-2); }
+  .side-cmd-l { display: flex; align-items: center; gap: 7px; }
+
+  .nav-group { margin-top: 2px; }
+  .nav-label { font-size: 10.5px; font-weight: 500; color: var(--text-3); padding: 6px 8px 4px; letter-spacing: 0.03em; }
   .nav-item {
-    width: 100%; background: transparent; border: none; color: var(--text-2);
+    width: 100%; background: transparent; border: 1px solid transparent; color: var(--text-2);
     display: flex; align-items: center; justify-content: space-between; gap: 8px;
-    padding: 6.5px 8px; border-radius: 6px; font-size: 13px; font-weight: 500;
+    padding: 5.5px 8px; border-radius: 6px; font-size: 12.5px; font-weight: 480;
     cursor: pointer; text-align: left; transition: background 0.1s, color 0.1s;
+    margin-bottom: 1px;
   }
   .nav-item:hover { background: var(--bg-hover); color: var(--text); }
-  .nav-item.active { background: var(--bg-active); color: var(--text); font-weight: 600; }
+  .nav-item.active {
+    background: var(--bg-active); color: var(--text); font-weight: 550;
+    border-color: var(--border-soft); box-shadow: var(--inner-hi);
+  }
   .nav-left { display: flex; align-items: center; gap: 8px; }
   .nav-icon { width: 14px; height: 14px; color: var(--text-3); flex-shrink: 0; }
   .nav-item.active .nav-icon { color: var(--accent); }
   .nav-cnt { font-family: var(--mono); font-size: 11px; color: var(--text-3); }
-  .nav-item.active .nav-cnt { color: var(--text-2); font-weight: 600; }
+  .nav-item.active .nav-cnt { color: var(--text-2); }
 
   .side-sys {
-    border-top: 1px solid var(--border); padding-top: 10px; margin-top: 10px;
-    display: flex; flex-direction: column; gap: 4px;
+    border-top: 1px solid var(--border-soft); padding-top: 8px; margin-top: 10px;
+    display: flex; flex-direction: column; gap: 3px;
   }
   .sys-row { display: flex; align-items: center; justify-content: space-between; padding: 2px 8px; font-size: 11.5px; color: var(--text-2); }
   .sys-row .k { color: var(--text-3); }
-  .sys-row .v { font-family: var(--mono); font-weight: 500; }
-  .sys-row .v.bad { color: var(--red); font-weight: 600; }
-  .sys-row .v.warn { color: var(--amber); font-weight: 600; }
+  .sys-row .v { font-family: var(--mono); font-weight: 500; font-size: 11px; }
+  .sys-row .v.bad { color: var(--red); }
+  .sys-row .v.warn { color: var(--amber); }
   .sys-row .v.ok { color: var(--green); }
-  .sys-row .v.accent { color: var(--accent); font-weight: 600; }
+  .sys-row .v.accent { color: var(--accent); }
   .side-sep { height: 1px; background: var(--border-soft); margin: 4px 8px; }
   .kbd-hint { padding: 6px 8px 0; font-size: 10.5px; color: var(--text-3); display: flex; gap: 8px; flex-wrap: wrap; }
-  kbd { font-family: var(--mono); font-size: 10px; padding: 0 4px; border-radius: 3px; border: 1px solid var(--border); background: var(--bg); color: var(--text-2); }
+  kbd {
+    font-family: var(--mono); font-size: 10px; padding: 1px 4.5px; border-radius: 4px;
+    border: 1px solid var(--border); background: var(--bg-subtle); color: var(--text-3);
+    box-shadow: 0 1px 0 var(--border);
+  }
 
+  /* Main Column & Translucent Topbar */
   .main-col { display: flex; flex-direction: column; min-width: 0; }
   .topbar {
-    position: sticky; top: 0; z-index: 20; height: 46px;
-    background: var(--bg); border-bottom: 1px solid var(--border);
-    padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    position: sticky; top: 0; z-index: 20; height: 44px;
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 22px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
   }
-  .topbar-title { display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 600; }
-  .topbar-meta { font-size: 11.5px; color: var(--text-3); font-family: var(--mono); font-weight: 400; }
-  .topbar-actions { display: flex; align-items: center; gap: 6px; }
+  .crumb { display: flex; align-items: center; gap: 7px; font-size: 12.5px; min-width: 0; }
+  .crumb-root { color: var(--text-3); font-weight: 450; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
+  .crumb-sep { color: var(--text-3); opacity: 0.45; }
+  .crumb-cur { color: var(--text); font-weight: 560; letter-spacing: -0.01em; }
+  .topbar-pill {
+    font-size: 11px; color: var(--text-3); font-family: var(--mono);
+    padding: 2px 7px; border-radius: 99px; border: 1px solid var(--border-soft);
+    background: var(--bg-subtle); margin-left: 6px; white-space: nowrap;
+  }
+  .topbar-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
   .btn {
-    background: var(--bg); color: var(--text-2); border: 1px solid var(--border);
+    background: var(--bg-elevated); color: var(--text-2); border: 1px solid var(--border);
+    box-shadow: var(--inner-hi), var(--shadow-sm);
     border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 500;
-    cursor: pointer; transition: background 0.1s, color 0.1s;
+    cursor: pointer; transition: background 0.1s, color 0.1s, border-color 0.1s;
+    display: inline-flex; align-items: center; gap: 5px;
   }
-  .btn:hover { background: var(--bg-hover); color: var(--text); }
-  .btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
-  .btn.primary:hover { opacity: 0.88; }
+  .btn:hover { background: var(--bg-hover); color: var(--text); border-color: var(--border-strong); }
+  .btn.primary {
+    background: var(--accent); color: #fff; border-color: transparent;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .btn.primary:hover { filter: brightness(1.08); color: #fff; }
   .btn:disabled { opacity: 0.45; cursor: wait; }
 
   .content { padding: 0; flex: 1; }
   .pane { display: none; }
-  .pane.active { display: block; }
+  .pane.active { display: block; animation: fadeIn 0.14s ease-out; }
+  @keyframes fadeIn { from { opacity: 0.4; } to { opacity: 1; } }
 
+  /* Alerts */
   .notice-stack { border-bottom: 1px solid var(--border); }
   .notice-stack:empty { display: none; border-bottom: none; }
   .notice {
-    padding: 7px 24px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 7px 22px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
     background: var(--warn-bg); color: var(--warn-text); border-bottom: 1px solid var(--warn-border);
   }
   .notice:last-child { border-bottom: none; }
   .notice.danger { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
 
-  .metric-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--border); background: var(--bg); }
+  /* Hairline Metric Strip */
+  .metric-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 1px solid var(--border); }
   @media (max-width: 1180px) { .metric-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .metric-cell { padding: 14px 20px; border-right: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft); }
+  .metric-cell {
+    padding: 15px 22px; border-right: 1px solid var(--border-soft); border-bottom: 1px solid var(--border-soft);
+    transition: background 0.12s;
+  }
   .metric-cell:last-child { border-right: none; }
+  .metric-cell:hover { background: var(--bg-hover); }
   .m-label { font-size: 11.5px; font-weight: 500; color: var(--text-3); display: flex; justify-content: space-between; align-items: center; gap: 6px; }
-  .m-val { font-size: 21px; font-weight: 600; font-family: var(--mono); letter-spacing: -0.02em; margin: 4px 0 5px; color: var(--text); }
+  .m-val { font-size: 22px; font-weight: 560; font-family: var(--mono); letter-spacing: -0.03em; margin: 5px 0 6px; color: var(--text); }
   .m-sub { font-size: 11.5px; color: var(--text-2); line-height: 1.45; }
 
-  .section { padding: 16px 24px; border-bottom: 1px solid var(--border); }
+  /* Sections */
+  .section { padding: 18px 22px; border-bottom: 1px solid var(--border); }
   .section:last-child { border-bottom: none; }
-  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-  .sec-title { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
-  .sec-meta { font-size: 11.5px; color: var(--text-3); font-family: var(--mono); }
+  .sec-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .sec-title { font-size: 12.5px; font-weight: 560; color: var(--text); letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+  .sec-meta { font-size: 11px; color: var(--text-3); font-family: var(--mono); }
 
   .split-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1px solid var(--border); }
   .split-2 > .section { border-bottom: none; border-right: 1px solid var(--border); }
@@ -212,111 +274,280 @@
     .split-2 > .section { border-right: none; border-bottom: 1px solid var(--border); }
   }
 
+  /* Surfaces (Linear micro-elevation) */
+  .surface {
+    border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg-elevated); box-shadow: var(--inner-hi);
+  }
+
   .pipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
-  .pipe-card { padding: 10px 13px; border: 1px solid var(--border); border-radius: 7px; background: var(--bg-card); display: flex; flex-direction: column; gap: 4px; border-left: 3px solid var(--accent); }
-  .pipe-card.harbor { border-left-color: var(--cyan); }
-  .pipe-card.build { border-left-color: var(--purple); }
-  .pipe-card.audit, .pipe-card.eval { border-left-color: var(--green); }
-  .pipe-card.maintenance { border-left-color: var(--amber); }
+  .pipe-card {
+    padding: 10px 13px; border: 1px solid var(--border); border-radius: 7px;
+    background: var(--bg-elevated); box-shadow: var(--inner-hi);
+    display: flex; flex-direction: column; gap: 4px;
+    transition: border-color 0.12s;
+  }
+  .pipe-card:hover { border-color: var(--border-strong); }
   .pipe-hd { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .pipe-title { font-size: 12.5px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+  .pipe-title { font-size: 12.5px; font-weight: 540; color: var(--text); display: flex; align-items: center; gap: 7px; }
   .pipe-meta { font-size: 11px; font-family: var(--mono); color: var(--text-3); white-space: nowrap; }
-  .pipe-detail { font-size: 11.5px; color: var(--text-2); font-family: var(--mono); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .pipe-detail { font-size: 11px; color: var(--text-3); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  .spark-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  /* Sparkline Cards */
+  .spark-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
   @media (max-width: 1180px) { .spark-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .spark-card { padding: 12px 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); cursor: pointer; transition: border-color 0.15s; }
-  .spark-card:hover { border-color: var(--accent); }
+  .spark-card {
+    padding: 12px 14px 10px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg-elevated); box-shadow: var(--inner-hi);
+    cursor: pointer; transition: border-color 0.14s, background 0.14s;
+  }
+  .spark-card:hover { border-color: var(--accent-border); background: var(--bg-subtle); }
   .spark-head { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
-  .spark-k { font-size: 11.5px; font-weight: 600; color: var(--text-2); }
-  .spark-v { font-size: 15px; font-weight: 700; font-family: var(--mono); color: var(--text); }
-  .spark-sub { font-size: 11px; color: var(--text-3); margin: 2px 0 8px; font-family: var(--mono); }
+  .spark-k { font-size: 11.5px; font-weight: 500; color: var(--text-2); }
+  .spark-v { font-size: 14.5px; font-weight: 600; font-family: var(--mono); letter-spacing: -0.02em; color: var(--text); }
+  .spark-sub { font-size: 11px; color: var(--text-3); margin: 2px 0 8px; font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .spark-hit .crosshair { opacity: 0; transition: opacity 0.08s; pointer-events: none; }
+  .spark-hit .hit-dot { opacity: 0; transition: opacity 0.08s; pointer-events: none; }
+  .spark-hit:hover .crosshair { opacity: 1; }
+  .spark-hit:hover .hit-dot { opacity: 1; }
 
-  .infra-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px; }
-  .infra-box { padding: 10px 12px; border: 1px solid var(--border); border-radius: 7px; background: var(--bg-subtle); }
-  .infra-k { font-size: 11.5px; color: var(--text-3); display: flex; justify-content: space-between; }
-  .infra-v { font-size: 15.5px; font-weight: 700; font-family: var(--mono); margin: 3px 0; }
+  .infra-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 10px; }
+  .infra-box {
+    padding: 11px 13px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg-elevated); box-shadow: var(--inner-hi);
+  }
+  .infra-k { font-size: 11px; color: var(--text-3); display: flex; justify-content: space-between; font-weight: 500; }
+  .infra-v { font-size: 15.5px; font-weight: 580; font-family: var(--mono); letter-spacing: -0.02em; margin: 4px 0; }
   .infra-s { font-size: 11px; color: var(--text-3); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  .gpu-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  /* GPU Cards (restrained Linear style) */
+  .gpu-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
   @media (max-width: 1200px) { .gpu-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 680px) { .gpu-grid { grid-template-columns: 1fr; } }
-  .gpu-card { padding: 11px 13px; border: 1px solid var(--border); border-radius: 7px; background: var(--bg-subtle); }
-  .gpu-card.free { border-color: rgba(22, 163, 74, 0.35); background: var(--green-soft); }
-  .gpu-card.active { border-color: rgba(94, 106, 210, 0.45); }
-  .gpu-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
-  .gpu-id { font-family: var(--mono); font-weight: 700; font-size: 12.5px; }
-  .gpu-bar-lbl { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-2); font-family: var(--mono); margin-top: 4px; }
-  .gpu-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 7px; padding-top: 6px; border-top: 1px solid var(--border-soft); font-size: 11px; color: var(--text-3); font-family: var(--mono); }
-  .gpu-procs { font-size: 10.5px; color: var(--text-2); font-family: var(--mono); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gpu-card {
+    padding: 11px 13px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg-elevated); box-shadow: var(--inner-hi);
+    transition: border-color 0.12s;
+  }
+  .gpu-card:hover { border-color: var(--border-strong); }
+  .gpu-card.active { border-color: var(--accent-border); }
+  .gpu-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .gpu-id { font-family: var(--mono); font-weight: 600; font-size: 12px; color: var(--text); }
+  .gpu-bar-lbl { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-3); font-family: var(--mono); margin-top: 5px; }
+  .gpu-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 7px; border-top: 1px solid var(--border-soft); font-size: 11px; color: var(--text-3); font-family: var(--mono); }
+  .gpu-procs { font-size: 10.5px; color: var(--text-2); font-family: var(--mono); margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  .segbar { width: 100%; height: 10px; background: var(--bar-bg); border-radius: 99px; overflow: hidden; display: flex; margin: 6px 0; }
+  /* K8s Slot Bars */
+  .segbar { width: 100%; height: 6px; background: var(--bar-bg); border-radius: 99px; overflow: hidden; display: flex; margin: 7px 0; }
   .segbar > div { height: 100%; transition: width 0.25s ease; }
 
-  .k8gpu-nodes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 14px; }
+  .k8gpu-nodes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
   @media (max-width: 960px) { .k8gpu-nodes { grid-template-columns: 1fr; } }
-  .k8gpu-box { padding: 13px 15px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-subtle); }
+  .k8gpu-box {
+    padding: 13px 15px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg-elevated); box-shadow: var(--inner-hi);
+  }
   .slot-strip { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px; margin: 8px 0; }
-  .gpu-slot { height: 22px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; color: var(--text-3); }
-  .gpu-slot.mine { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
-  .gpu-slot.other { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 600; opacity: 0.78; }
-  .gpu-slot.half { background: linear-gradient(90deg, var(--accent) 50%, var(--bg) 50%); color: var(--text); font-weight: 600; }
+  .gpu-slot {
+    height: 22px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg-subtle);
+    display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; color: var(--text-3);
+  }
+  .gpu-slot.mine { background: var(--accent); border-color: transparent; color: #fff; font-weight: 600; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25); }
+  .gpu-slot.other { background: var(--bg-active); border-color: var(--border-strong); color: var(--text-2); font-weight: 500; }
+  .gpu-slot.half { background: linear-gradient(90deg, var(--accent) 50%, var(--bg-subtle) 50%); color: var(--text); font-weight: 600; border-color: var(--accent-border); }
 
-  .prog { width: 100%; height: 5px; background: var(--bar-bg); border-radius: 99px; overflow: hidden; margin: 5px 0; }
+  /* Hairline progress */
+  .prog { width: 100%; height: 4px; background: var(--bar-bg); border-radius: 99px; overflow: hidden; margin: 5px 0; }
   .prog-fill { height: 100%; border-radius: 99px; background: var(--accent); transition: width 0.25s ease; }
 
   .bars { display: flex; flex-direction: column; gap: 7px; }
-  .bar-row { display: grid; grid-template-columns: 150px 1fr 90px; align-items: center; gap: 10px; font-size: 12px; }
+  .bar-row { display: grid; grid-template-columns: 148px 1fr 86px; align-items: center; gap: 10px; font-size: 12px; }
   .bar-lbl { color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .bar-num { text-align: right; font-family: var(--mono); font-size: 11.5px; color: var(--text); }
 
+  /* Minimal Badges & Status Dots */
   .st { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; white-space: nowrap; color: var(--text-2); }
-  .st-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
-  .st-ring { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid var(--gray); display: inline-block; flex-shrink: 0; }
-  .tag { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 11px; font-weight: 500; font-family: var(--mono); border: 1px solid var(--border); background: var(--bg-subtle); color: var(--text-2); white-space: nowrap; }
-  .tag.accent { color: var(--accent); border-color: rgba(94,106,210,0.32); background: var(--accent-soft); }
-  .tag.ok { color: var(--green); border-color: rgba(22,163,74,0.3); background: var(--green-soft); }
-  .tag.warn { color: var(--amber); border-color: rgba(217,119,6,0.32); background: var(--amber-soft); }
-  .tag.bad { color: var(--red); border-color: rgba(220,38,38,0.3); background: var(--red-soft); }
-  .tag.blue { color: var(--blue); border-color: rgba(37,99,235,0.3); background: var(--blue-soft); }
+  .st-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .st-ring { width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid var(--gray); display: inline-block; flex-shrink: 0; }
+  .tag {
+    display: inline-flex; align-items: center; gap: 4px; padding: 1px 6.5px; border-radius: 99px;
+    font-size: 11px; font-weight: 500; font-family: var(--mono);
+    border: 1px solid var(--border); background: var(--bg-subtle); color: var(--text-2); white-space: nowrap;
+  }
+  .tag.accent { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+  .tag.ok { color: var(--green); border-color: rgba(34,197,94,0.26); background: var(--green-soft); }
+  .tag.warn { color: var(--amber); border-color: rgba(245,158,11,0.28); background: var(--amber-soft); }
+  .tag.bad { color: var(--red); border-color: rgba(248,113,113,0.30); background: var(--red-soft); }
 
-  .toolbar { padding: 10px 24px; border-bottom: 1px solid var(--border); background: var(--bg-subtle); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-  .toolbar input[type="search"], .toolbar select { background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 5px 9px; font-size: 12.5px; outline: none; }
-  .toolbar input[type="search"] { width: 240px; }
+  /* Filter Toolbar */
+  .toolbar {
+    padding: 9px 22px; border-bottom: 1px solid var(--border); background: var(--bg-sidebar);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  }
+  .toolbar input[type="search"], .toolbar select {
+    background: var(--bg-elevated); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; padding: 4.5px 9px; font-size: 12px; outline: none;
+    transition: border-color 0.12s;
+  }
+  .toolbar input[type="search"] { width: 230px; }
   .toolbar input:focus, .toolbar select:focus { border-color: var(--accent); }
-  .seg { display: inline-flex; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 2px; gap: 2px; flex-wrap: wrap; }
-  .seg button { background: transparent; border: none; color: var(--text-2); padding: 3px 8px; border-radius: 4px; font-size: 11.5px; font-weight: 500; cursor: pointer; }
+  .seg { display: inline-flex; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 6px; padding: 2px; gap: 2px; flex-wrap: wrap; }
+  .seg button {
+    background: transparent; border: none; color: var(--text-3);
+    padding: 3px 9px; border-radius: 4.5px; font-size: 11.5px; font-weight: 500; cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+  }
   .seg button:hover { color: var(--text); }
-  .seg button.active { background: var(--bg-active); color: var(--text); font-weight: 600; }
+  .seg button.active { background: var(--bg-elevated); color: var(--text); box-shadow: var(--shadow-sm), inset 0 0 0 1px var(--border-soft); }
 
+  /* Model switcher pills */
+  .model-pills { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .model-pill {
+    padding: 3.5px 10px; border-radius: 99px; font-size: 11.5px; font-family: var(--mono);
+    border: 1px solid var(--border); background: var(--bg-elevated); color: var(--text-2);
+    cursor: pointer; transition: all 0.12s;
+  }
+  .model-pill:hover { border-color: var(--border-strong); color: var(--text); }
+  .model-pill.active { background: var(--accent-soft); border-color: var(--accent-border); color: var(--accent); font-weight: 600; }
+
+  /* Tables */
   .tbl-wrap { overflow-x: auto; max-height: 540px; }
   table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-  thead th { position: sticky; top: 0; z-index: 4; background: var(--bg-subtle); color: var(--text-3); font-weight: 500; font-size: 11.5px; text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; }
-  thead th:first-child, tbody td:first-child { padding-left: 24px; }
-  thead th:last-child, tbody td:last-child { padding-right: 24px; }
+  thead th {
+    position: sticky; top: 0; z-index: 4;
+    background: var(--bg-sidebar); color: var(--text-3); font-weight: 500; font-size: 11px;
+    letter-spacing: 0.01em; text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border);
+    white-space: nowrap; cursor: pointer; user-select: none;
+  }
+  thead th:first-child, tbody td:first-child { padding-left: 22px; }
+  thead th:last-child, tbody td:last-child { padding-right: 22px; }
   thead th:hover { color: var(--text); }
   tbody td { padding: 7.5px 10px; border-bottom: 1px solid var(--border-soft); vertical-align: middle; }
+  tbody tr { transition: background 0.08s; }
   tbody tr:hover { background: var(--bg-hover); }
-  .section table thead th:first-child, .section table tbody td:first-child { padding-left: 8px; }
-  .section table thead th:last-child, .section table tbody td:last-child { padding-right: 8px; }
+  tbody tr.clickable { cursor: pointer; }
+  tbody tr.row-selected { background: var(--accent-soft); }
+  tbody tr.row-selected td:first-child { box-shadow: inset 2.5px 0 0 var(--accent); }
+  .section table thead th:first-child, .section table tbody td:first-child { padding-left: 10px; }
+  .section table thead th:last-child, .section table tbody td:last-child { padding-right: 10px; }
   .ell { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .ell-note { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-3); font-size: 11.5px; }
-  .empty { text-align: center; color: var(--text-3); padding: 24px !important; }
+  .empty { text-align: center; color: var(--text-3); padding: 26px !important; }
 
-  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 11.5px; color: var(--text-3); margin-top: 8px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 11px; color: var(--text-3); margin-top: 8px; }
   .legend span { display: inline-flex; align-items: center; gap: 5px; }
-  .sw { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+  .sw { width: 7px; height: 7px; border-radius: 2px; display: inline-block; }
 
+  /* Floating SVG Tooltip */
   #svgTip {
     position: fixed; z-index: 9999; pointer-events: none; display: none;
-    background: var(--tip-bg); color: var(--tip-text);
-    padding: 7px 10px; border-radius: 6px; font-size: 11.5px; line-height: 1.5;
-    font-family: var(--mono); box-shadow: 0 6px 20px rgba(0,0,0,0.22); max-width: 280px;
+    background: var(--tip-bg); color: var(--tip-text); border: 1px solid rgba(255,255,255,0.10);
+    padding: 6px 10px; border-radius: 6px; font-size: 11px; line-height: 1.5;
+    font-family: var(--mono); box-shadow: 0 10px 30px rgba(0,0,0,0.35); max-width: 280px;
+  }
+
+  /* Command Palette (Cmd+K) */
+  .modal-scrim {
+    position: fixed; inset: 0; z-index: 900; background: var(--scrim);
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    display: none; align-items: flex-start; justify-content: center; padding-top: 13vh;
+  }
+  .modal-scrim.open { display: flex; }
+  .cmd-dialog {
+    width: min(560px, 92vw); border-radius: 11px; overflow: hidden;
+    background: var(--bg-elevated); box-shadow: var(--shadow-lg);
+    animation: popIn 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes popIn { from { opacity: 0; transform: translateY(-6px) scale(0.985); } to { opacity: 1; transform: none; } }
+  .cmd-input-wrap {
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cmd-input {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: var(--text); font-size: 14px; font-family: var(--sans);
+  }
+  .cmd-list { max-height: 360px; overflow-y: auto; padding: 6px; }
+  .cmd-group { font-size: 10.5px; color: var(--text-3); padding: 6px 10px 4px; font-weight: 500; }
+  .cmd-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 7px 10px; border-radius: 6px; cursor: pointer; font-size: 12.5px; color: var(--text-2);
+  }
+  .cmd-item:hover, .cmd-item.sel { background: var(--bg-active); color: var(--text); }
+  .cmd-item.sel { box-shadow: inset 2px 0 0 var(--accent); }
+  .cmd-item-sub { font-size: 11px; color: var(--text-3); font-family: var(--mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 240px; }
+  .cmd-foot {
+    display: flex; justify-content: space-between; padding: 7px 14px;
+    border-top: 1px solid var(--border-soft); background: var(--bg-sidebar);
+    font-size: 11px; color: var(--text-3);
+  }
+
+  /* Right Slide-Over Inspector Drawer */
+  .drawer-scrim {
+    position: fixed; inset: 0; z-index: 800; background: var(--scrim);
+    opacity: 0; pointer-events: none; transition: opacity 0.16s;
+  }
+  .drawer-scrim.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 810; width: min(410px, 92vw);
+    background: var(--bg-elevated); border-left: 1px solid var(--border);
+    box-shadow: -12px 0 48px rgba(0,0,0,0.28);
+    transform: translateX(100%); transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex; flex-direction: column;
+  }
+  .drawer.open { transform: translateX(0); }
+  .drawer-hd {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 13px 18px; border-bottom: 1px solid var(--border);
+  }
+  .drawer-title { font-size: 13.5px; font-weight: 580; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .drawer-body { flex: 1; overflow-y: auto; padding: 14px 18px; }
+  .prop-list { display: flex; flex-direction: column; gap: 2px; }
+  .prop-row {
+    display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 10px;
+    padding: 6.5px 4px; border-bottom: 1px solid var(--border-soft); align-items: baseline;
+  }
+  .prop-k { font-size: 11.5px; color: var(--text-3); }
+  .prop-v { font-size: 12px; color: var(--text); font-family: var(--mono); word-break: break-all; }
+  .drawer-actions {
+    padding: 12px 18px; border-top: 1px solid var(--border); background: var(--bg-sidebar);
+    display: flex; gap: 8px; flex-wrap: wrap;
   }
 </style>
 </head>
 <body>
 <div id="svgTip"></div>
+
+<!-- Command Palette (Cmd+K / Ctrl+K) -->
+<div class="modal-scrim" id="cmdModal" onclick="if(event.target===this)closeCmd()">
+  <div class="cmd-dialog" role="dialog" aria-label="Command Palette">
+    <div class="cmd-input-wrap">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" style="color:var(--text-3);flex-shrink:0"><circle cx="7" cy="7" r="4.8"/><path d="M10.7 10.7L14 14"/></svg>
+      <input class="cmd-input" id="cmdInput" placeholder="Jump to view, model, task, or action..." oninput="renderCmdList()" onkeydown="cmdKeydown(event)">
+      <kbd>ESC</kbd>
+    </div>
+    <div class="cmd-list" id="cmdList"></div>
+    <div class="cmd-foot">
+      <span><kbd>↑</kbd> <kbd>↓</kbd> navigate · <kbd>↵</kbd> run</span>
+      <span>bench-dashboard</span>
+    </div>
+  </div>
+</div>
+
+<!-- Right Inspector Drawer -->
+<div class="drawer-scrim" id="drawerScrim" onclick="closeDrawer()"></div>
+<div class="drawer" id="inspectorDrawer" role="complementary" aria-label="Inspector">
+  <div class="drawer-hd">
+    <div style="min-width:0">
+      <div style="font-size:10.5px;color:var(--text-3);font-family:var(--mono);text-transform:uppercase" id="drawerType">INSPECTOR</div>
+      <div class="drawer-title" id="drawerTitle">-</div>
+    </div>
+    <button class="icon-btn" onclick="closeDrawer()" title="Close (Esc)">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-actions" id="drawerActions"></div>
+</div>
+
 <div class="app">
   <aside>
     <div>
@@ -327,10 +558,18 @@
           <span class="live-pulse" id="liveDot"></span>
         </div>
         <div class="mini-btns">
-          <button class="theme-btn" id="langBtn" onclick="toggleLang()">中文</button>
-          <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">Dark</button>
+          <button class="icon-btn" id="langBtn" onclick="toggleLang()">中文</button>
+          <button class="icon-btn" id="themeBtn" onclick="toggleTheme()">☀</button>
         </div>
       </div>
+
+      <button class="side-cmd" onclick="openCmd()">
+        <span class="side-cmd-l">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7" cy="7" r="4.8"/><path d="M10.7 10.7L14 14"/></svg>
+          <span data-i18n="quick_jump">Quick jump...</span>
+        </span>
+        <kbd>⌘K</kbd>
+      </button>
 
       <div class="nav-group">
         <div class="nav-label" data-i18n="views">Views</div>
@@ -375,16 +614,16 @@
     <div class="side-sys">
       <div class="nav-label" data-i18n="live_telemetry">Live Telemetry</div>
       <div class="sys-row"><span class="k">Host CPU / RAM</span><span class="v" id="sideHostCpu">-</span></div>
-      <div class="sys-row"><span class="k">Host Swap / shm</span><span class="v" id="sideHostSwap">-</span></div>
+      <div class="sys-row"><span class="k">Swap / shm</span><span class="v" id="sideHostSwap">-</span></div>
       <div class="sys-row"><span class="k">Host GPUs</span><span class="v" id="sideHostGpu">-</span></div>
-      <div class="sys-row" id="sideRowK8sCpu"><span class="k">K8s CPU (real)</span><span class="v" id="sideK8sCpu">-</span></div>
+      <div class="sys-row" id="sideRowK8sCpu"><span class="k">K8s CPU</span><span class="v" id="sideK8sCpu">-</span></div>
       <div class="sys-row" id="sideRowK8sGpu"><span class="k">K8s GPUs</span><span class="v" id="sideK8sGpu">-</span></div>
-      <div class="sys-row"><span class="k">Workspace Disk</span><span class="v" id="sideDisk">-</span></div>
+      <div class="sys-row"><span class="k">Workspace</span><span class="v" id="sideDisk">-</span></div>
       <div class="side-sep"></div>
       <div class="sys-row" id="sideRowTrials"><span class="k">Trials / hr</span><span class="v accent" id="sideRate">-</span></div>
       <div class="kbd-hint">
         <span><kbd>1</kbd>-<kbd>5</kbd></span>
-        <span><kbd>/</kbd> <span data-i18n="search_kbd">search</span></span>
+        <span><kbd>⌘K</kbd></span>
         <span><kbd>R</kbd> <span data-i18n="refresh_kbd">refresh</span></span>
       </div>
     </div>
@@ -392,9 +631,11 @@
 
   <div class="main-col">
     <div class="topbar">
-      <div class="topbar-title">
-        <span id="viewTitle">Overview</span>
-        <span class="topbar-meta" id="snapMeta">Loading...</span>
+      <div class="crumb">
+        <span class="crumb-root" id="crumbRoot">bench-dashboard</span>
+        <span class="crumb-sep">›</span>
+        <span class="crumb-cur" id="viewTitle">Overview</span>
+        <span class="topbar-pill" id="snapMeta">Loading...</span>
       </div>
       <div class="topbar-actions">
         <button class="btn" id="autoBtn" onclick="toggleAuto()">Auto 20s</button>
@@ -420,7 +661,7 @@
         <div class="section">
           <div class="sec-head">
             <span class="sec-title" data-i18n="compute_pulse">Compute Pulse (1h Rolling Live Telemetry)</span>
-            <span class="sec-meta"><a href="javascript:void(0)" onclick="switchTab('compute')" style="color:var(--accent);text-decoration:none" data-i18n="open_compute">Open full CPU / GPU monitor →</a></span>
+            <span class="sec-meta"><a href="javascript:void(0)" onclick="switchTab('compute')" style="color:var(--accent);text-decoration:none" data-i18n="open_compute">Open Compute →</a></span>
           </div>
           <div class="spark-grid" id="ovSparkGrid"></div>
         </div>
@@ -433,10 +674,10 @@
             </div>
             <div id="h24Chart"></div>
             <div class="legend">
-              <span><i class="sw" style="background:#5e6ad2"></i>model</span>
-              <span><i class="sw" style="background:#16a34a"></i>oracle</span>
-              <span><i class="sw" style="background:#0891b2"></i>nop</span>
-              <span><i class="sw" style="background:#dc2626"></i>error</span>
+              <span><i class="sw" style="background:var(--accent)"></i>model</span>
+              <span><i class="sw" style="background:var(--green)"></i>oracle</span>
+              <span><i class="sw" style="background:var(--cyan)"></i>nop</span>
+              <span><i class="sw" style="background:var(--red)"></i>error</span>
             </div>
           </div>
           <div class="section">
@@ -473,7 +714,7 @@
 
         <div class="section" id="localGpuSection">
           <div class="sec-head">
-            <span class="sec-title" data-i18n="local_gpus">Local GPUs — Per-Card Live Telemetry</span>
+            <span class="sec-title" data-i18n="local_gpus">Local GPUs — Per-Card Telemetry</span>
             <span class="sec-meta" id="localGpuMeta"></span>
           </div>
           <div class="gpu-grid" id="localGpuGrid"></div>
@@ -487,15 +728,15 @@
           <div class="infra-grid" id="k8sQuotaGrid" style="margin-bottom:14px"></div>
           <div class="k8gpu-nodes" id="k8sGpuNodesBox"></div>
           <div class="sec-head" style="margin:14px 0 8px">
-            <span class="sec-title" data-i18n="k8s_nodes">Cluster Nodes (CPU / RAM / GPU)</span>
-            <span class="sec-meta" id="k8sNodesMeta">metrics.k8s.io</span>
+            <span class="sec-title" data-i18n="k8s_nodes">Cluster Nodes</span>
+            <span class="sec-meta" id="k8sNodesMeta">click row to inspect</span>
           </div>
-          <div class="tbl-wrap" style="max-height:360px;border:1px solid var(--border);border-radius:7px">
+          <div class="tbl-wrap surface" style="max-height:360px">
             <table>
               <thead><tr>
                 <th>Node</th><th>Role</th><th>Status</th>
-                <th class="num">Alloc CPU</th><th class="num">NS Real CPU</th><th class="num">Mine CPU</th>
-                <th class="num">NS Real RAM</th><th class="num">GPUs (Mine/NS/Alloc)</th><th class="num">Pods (Mine/NS)</th>
+                <th class="num">Alloc CPU</th><th class="num">NS Real</th><th class="num">Mine</th>
+                <th class="num">NS RAM</th><th class="num">GPUs (M/NS/T)</th><th class="num">Pods</th>
               </tr></thead>
               <tbody id="k8sNodesTbody"></tbody>
             </table>
@@ -534,7 +775,7 @@
       <section class="pane" id="pane-tasks">
         <div class="metric-strip" id="taskMetrics"></div>
         <div class="toolbar">
-          <input type="search" id="taskSearch" placeholder="Search task slug / category / metric..." oninput="renderTaskTable()">
+          <input type="search" id="taskSearch" placeholder="Filter slug / category / metric..." oninput="renderTaskTable()">
           <div class="seg" id="taskSeg">
             <button class="active" data-chip="all" onclick="setTaskChip('all',this)">All</button>
             <button data-chip="reg" onclick="setTaskChip('reg',this)">Registered</button>
@@ -571,16 +812,23 @@
         <div class="section">
           <div class="sec-head">
             <span class="sec-title" data-i18n="model_leaderboard">Model Leaderboard</span>
-            <span class="sec-meta" id="lbMeta"></span>
+            <span class="sec-meta" id="lbMeta">click any model to switch breakdown</span>
           </div>
-          <div class="tbl-wrap" style="max-height:300px;border:1px solid var(--border);border-radius:7px">
+          <div class="tbl-wrap surface" style="max-height:290px">
             <table>
               <thead><tr>
                 <th>Model</th><th class="num">Scored</th><th class="num">Pass (r≥1)</th><th class="num">Pass Rate</th>
-                <th class="num">Mean Score</th><th class="num">Median Score</th><th class="num">Timeouts</th><th class="num">Errors</th><th class="num">Median Min</th>
+                <th class="num">Mean</th><th class="num">Median</th><th class="num">Timeouts</th><th class="num">Errors</th><th class="num">Med Min</th>
               </tr></thead>
               <tbody id="lbTbody"></tbody>
             </table>
+          </div>
+        </div>
+
+        <div class="section" id="modelSwitchBar" style="padding:10px 22px;background:var(--bg-sidebar)">
+          <div class="sec-head" style="margin-bottom:0">
+            <span class="sec-meta" data-i18n="active_model_label">Inspecting model</span>
+            <div class="model-pills" id="modelPills"></div>
           </div>
         </div>
 
@@ -591,7 +839,7 @@
           </div>
           <div class="section">
             <div class="sec-head">
-              <span class="sec-title" data-i18n="score_dist">Primary Model Score Distribution</span>
+              <span class="sec-title" id="scoreDistTitle" data-i18n="score_dist">Score Distribution</span>
               <span class="sec-meta" id="scoreDistMeta"></span>
             </div>
             <div class="bars" id="scoreDistBars"></div>
@@ -600,7 +848,7 @@
 
         <div class="section">
           <div class="sec-head">
-            <span class="sec-title" data-i18n="scored_tasks">Scored Tasks Breakdown</span>
+            <span class="sec-title" id="evalTableTitle" data-i18n="scored_tasks">Scored Tasks Breakdown</span>
             <span class="sec-meta" id="evalTableMeta"></span>
           </div>
           <div class="tbl-wrap" style="max-height:380px">
@@ -625,7 +873,7 @@
         </div>
       </section>
 
-      <!-- 5. PIPELINES & CUSTOM -->
+      <!-- 5. PIPELINES -->
       <section class="pane" id="pane-pipelines">
         <div id="pipePaneBody"></div>
       </section>
@@ -638,44 +886,46 @@ window.__BOOTSTRAP_SNAPSHOT__ = null;
 
 const I18N = {
   en: {
-    views: 'Views', tab_overview: 'Overview', tab_compute: 'Compute', tab_tasks: 'Tasks',
+    views: 'Workspace', tab_overview: 'Overview', tab_compute: 'Compute', tab_tasks: 'Tasks',
     tab_evals: 'Evaluations', tab_pipelines: 'Pipelines', live_telemetry: 'Live Telemetry',
-    search_kbd: 'search', refresh_kbd: 'refresh', refresh_now: 'Refresh',
-    active_pipelines: 'Active Background Pipelines & Runners',
-    compute_pulse: 'Compute Pulse (1h Rolling Live Telemetry)',
-    open_compute: 'Open full CPU / GPU monitor →',
+    quick_jump: 'Quick jump...', refresh_kbd: 'refresh', refresh_now: 'Refresh',
+    active_pipelines: 'Active Pipelines & Runners',
+    compute_pulse: 'Compute Pulse (1h Rolling)',
+    open_compute: 'Open Compute →',
     hourly_trials: 'Last 24h Trial Throughput',
     cat_tier_matrix: 'Task Matrix (Category × Tier)',
-    live_trends: 'Live Telemetry Curves (Rolling 1h)',
-    local_gpus: 'Local GPUs — Per-Card Live Telemetry',
-    k8s_nodes: 'Cluster Nodes (CPU / RAM / GPU)',
+    live_trends: 'Live Telemetry Curves (1h)',
+    local_gpus: 'Local GPUs — Per-Card Telemetry',
+    k8s_nodes: 'Cluster Nodes',
     k8s_active_pods: 'Active K8s Workload Pods',
     live_trials: 'Live Running Trials',
     model_leaderboard: 'Model Leaderboard',
-    status_matrix: 'Evaluation Status Matrix',
-    score_dist: 'Primary Model Score Distribution',
+    active_model_label: 'Inspecting model',
+    status_matrix: 'Status Matrix',
+    score_dist: 'Score Distribution',
     scored_tasks: 'Scored Tasks Breakdown',
     recent_trials: 'Recent 40 Trials',
   },
   zh: {
-    views: '监控视图', tab_overview: '总览', tab_compute: '算力监控', tab_tasks: '任务库',
+    views: '工作区', tab_overview: '总览', tab_compute: '算力监控', tab_tasks: '任务库',
     tab_evals: '评测榜单', tab_pipelines: '产线与扩展', live_telemetry: '实时指标',
-    search_kbd: '搜索', refresh_kbd: '刷新', refresh_now: '立即刷新',
+    quick_jump: '快速跳转...', refresh_kbd: '刷新', refresh_now: '立即刷新',
     active_pipelines: '后台运行中的产线与进程',
-    compute_pulse: '本地 & K8s 算力脉搏（近 1 小时采样）',
-    open_compute: '进入完整 CPU / GPU 监控 →',
-    hourly_trials: '近 24 小时 Trial 逐小时吞吐',
-    cat_tier_matrix: '任务分布矩阵（类别 × 算力档位）',
+    compute_pulse: '算力脉搏（近 1 小时采样）',
+    open_compute: '进入算力监控 →',
+    hourly_trials: '近 24 小时 Trial 吞吐',
+    cat_tier_matrix: '任务矩阵（类别 × 档位）',
     live_trends: '实时趋势曲线（滚动 1 小时）',
-    local_gpus: '本地 GPU 逐卡实时状态',
-    k8s_nodes: 'K8s 集群节点 CPU / 内存 / GPU 明细',
-    k8s_active_pods: 'K8s 活跃工作负载 Pods',
-    live_trials: '本地运行中的 Trials',
-    model_leaderboard: '多模型评测排行榜',
-    status_matrix: 'Harbor 评测状态矩阵',
-    score_dist: '主模型分数分布',
-    scored_tasks: '主模型已出分任务明细',
-    recent_trials: '最近 40 条 Trial 记录',
+    local_gpus: '本地 GPU 逐卡状态',
+    k8s_nodes: 'K8s 集群节点',
+    k8s_active_pods: 'K8s 活跃 Pods',
+    live_trials: '本地在跑 Trials',
+    model_leaderboard: '多模型排行榜',
+    active_model_label: '当前查看模型',
+    status_matrix: 'Harbor 状态矩阵',
+    score_dist: '分数分布',
+    scored_tasks: '已出分任务明细',
+    recent_trials: '最近 40 条 Trial',
   },
 };
 
@@ -686,6 +936,11 @@ let REFRESH_INTERVAL = 20;
 let COUNTDOWN = 20;
 let TASK_CHIP = 'all';
 let TASK_SORT = { col: 'mtime', dir: -1 };
+let SELECTED_MODEL = '';
+let SVG_GID = 0;
+let CMD_ITEMS = [];
+let CMD_SEL = 0;
+let INSPECT_STORE = {};
 const TAB_ORDER = ['overview', 'compute', 'tasks', 'evals', 'pipelines'];
 
 const $ = id => document.getElementById(id);
@@ -706,6 +961,31 @@ function toggleLang() {
   if (DATA) renderAll(DATA);
 }
 
+// Theme (defaults to system preference, preferring Linear dark when dark OS)
+(function initTheme() {
+  const saved = localStorage.getItem('bench_dash_theme');
+  const preferDark = saved ? saved === 'dark' : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (preferDark) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    $('themeBtn').textContent = '☀';
+  } else {
+    $('themeBtn').textContent = '☾';
+  }
+  applyLang();
+})();
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  if (isDark) {
+    document.documentElement.removeAttribute('data-theme');
+    localStorage.setItem('bench_dash_theme', 'light');
+    $('themeBtn').textContent = '☾';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('bench_dash_theme', 'dark');
+    $('themeBtn').textContent = '☀';
+  }
+}
+
 // Floating tooltip
 const TIP = $('svgTip');
 document.addEventListener('mousemove', e => {
@@ -722,26 +1002,104 @@ document.addEventListener('mousemove', e => {
   }
 });
 
-// Theme
-(function initTheme() {
-  const saved = localStorage.getItem('bench_dash_theme') || 'light';
-  if (saved === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    $('themeBtn').textContent = 'Light';
+// Inspector Drawer
+function registerInspect(key, payload) {
+  INSPECT_STORE[key] = payload;
+  return key;
+}
+function openInspect(key) {
+  const item = INSPECT_STORE[key];
+  if (!item) return;
+  $('drawerType').textContent = item.type || 'INSPECTOR';
+  $('drawerTitle').textContent = item.title || '-';
+  $('drawerBody').innerHTML = `<div class="prop-list">${(item.props || []).map(([k, v]) =>
+    `<div class="prop-row"><div class="prop-k">${esc(k)}</div><div class="prop-v">${esc(v ?? '-')}</div></div>`
+  ).join('')}</div>`;
+  const acts = item.copy ? [{ label: `Copy ${item.copyLabel || 'Path'}`, val: item.copy }] : [];
+  if (item.extraCopy) acts.push({ label: `Copy ${item.extraCopyLabel || 'ID'}`, val: item.extraCopy });
+  $('drawerActions').innerHTML = acts.map((a, idx) =>
+    `<button class="btn" id="copyBtn${idx}" onclick="copyText(${esc(JSON.stringify(a.val))}, 'copyBtn${idx}')">${esc(a.label)}</button>`
+  ).join('') + `<button class="btn" style="margin-left:auto" onclick="closeDrawer()">Close</button>`;
+  $('drawerScrim').classList.add('open');
+  $('inspectorDrawer').classList.add('open');
+}
+function closeDrawer() {
+  $('drawerScrim').classList.remove('open');
+  $('inspectorDrawer').classList.remove('open');
+}
+function copyText(txt, btnId) {
+  navigator.clipboard?.writeText(String(txt)).then(() => {
+    const b = $(btnId);
+    if (b) { const old = b.textContent; b.textContent = 'Copied ✓'; setTimeout(() => b.textContent = old, 1200); }
+  }).catch(() => {});
+}
+
+// Command Palette (Cmd+K / Ctrl+K)
+function openCmd() {
+  $('cmdModal').classList.add('open');
+  $('cmdInput').value = '';
+  CMD_SEL = 0;
+  renderCmdList();
+  setTimeout(() => $('cmdInput').focus(), 20);
+}
+function closeCmd() { $('cmdModal').classList.remove('open'); }
+function buildCmdEntries() {
+  const out = [];
+  TAB_ORDER.forEach((t, i) => {
+    const btn = document.querySelector(`.nav-item[data-tab="${t}"]`);
+    if (btn && !btn.classList.contains('hidden')) {
+      out.push({ group: 'Views', label: `Go to ${tr('tab_' + t)}`, sub: `Shortcut ${i + 1}`, run: () => switchTab(t) });
+    }
+  });
+  out.push({ group: 'Actions', label: 'Refresh snapshot now', sub: 'R', run: () => triggerRefresh() });
+  out.push({ group: 'Actions', label: 'Toggle Light / Dark theme', sub: 'theme', run: () => toggleTheme() });
+  out.push({ group: 'Actions', label: 'Switch Language (EN / 中文)', sub: 'locale', run: () => toggleLang() });
+  out.push({ group: 'Actions', label: AUTO ? 'Pause auto-refresh' : 'Resume auto-refresh', sub: 'auto', run: () => toggleAuto() });
+
+  if (DATA && DATA.harbor && DATA.harbor.ok) {
+    (DATA.harbor.leaderboard || []).forEach(m => {
+      out.push({
+        group: 'Models',
+        label: `Inspect model: ${m.model}`,
+        sub: `scored ${m.scored} · med ${m.median_score ?? '-'}`,
+        run: () => { selectModel(m.model); switchTab('evals'); },
+      });
+    });
+    (DATA.harbor.tasks || []).slice(0, 200).forEach((t, idx) => {
+      const ik = `cmd-task-${idx}`;
+      registerInspect(ik, taskInspectPayload(t));
+      out.push({
+        group: 'Tasks',
+        label: t.slug,
+        sub: `${t.category} · ${t.tier} · ${t.model_score ?? t.model}`,
+        run: () => { switchTab('tasks'); openInspect(ik); },
+      });
+    });
   }
-  applyLang();
-})();
-function toggleTheme() {
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  if (isDark) {
-    document.documentElement.removeAttribute('data-theme');
-    localStorage.setItem('bench_dash_theme', 'light');
-    $('themeBtn').textContent = 'Dark';
-  } else {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('bench_dash_theme', 'dark');
-    $('themeBtn').textContent = 'Light';
-  }
+  return out;
+}
+function renderCmdList() {
+  const q = ($('cmdInput').value || '').trim().toLowerCase();
+  const all = buildCmdEntries();
+  CMD_ITEMS = q ? all.filter(x => (x.label + ' ' + x.sub + ' ' + x.group).toLowerCase().includes(q)).slice(0, 30) : all.slice(0, 18);
+  if (CMD_SEL >= CMD_ITEMS.length) CMD_SEL = 0;
+  let lastG = '', html = '';
+  CMD_ITEMS.forEach((it, idx) => {
+    if (it.group !== lastG) { lastG = it.group; html += `<div class="cmd-group">${esc(lastG)}</div>`; }
+    html += `<div class="cmd-item ${idx === CMD_SEL ? 'sel' : ''}" onclick="runCmd(${idx})" onmousemove="CMD_SEL=${idx}"><span>${esc(it.label)}</span><span class="cmd-item-sub">${esc(it.sub)}</span></div>`;
+  });
+  $('cmdList').innerHTML = html || '<div class="empty" style="padding:18px">No matching commands</div>';
+}
+function runCmd(idx) {
+  const it = CMD_ITEMS[idx];
+  closeCmd();
+  if (it && it.run) it.run();
+}
+function cmdKeydown(e) {
+  if (e.key === 'ArrowDown') { e.preventDefault(); CMD_SEL = Math.min(CMD_ITEMS.length - 1, CMD_SEL + 1); renderCmdList(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); CMD_SEL = Math.max(0, CMD_SEL - 1); renderCmdList(); }
+  else if (e.key === 'Enter') { e.preventDefault(); runCmd(CMD_SEL); }
+  else if (e.key === 'Escape') { e.preventDefault(); closeCmd(); }
 }
 
 function switchTab(tab) {
@@ -754,12 +1112,18 @@ function switchTab(tab) {
 document.querySelectorAll('.nav-item').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 
 document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    $('cmdModal').classList.contains('open') ? closeCmd() : openCmd();
+    return;
+  }
+  if (e.key === 'Escape') { closeCmd(); closeDrawer(); return; }
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.metaKey || e.ctrlKey) return;
   if (e.key >= '1' && e.key <= '5') switchTab(TAB_ORDER[Number(e.key) - 1]);
   else if (e.key === '/') {
     e.preventDefault();
     const active = document.querySelector('.pane.active input[type="search"]');
-    if (active) active.focus();
+    if (active) active.focus(); else openCmd();
   } else if (e.key === 'r' || e.key === 'R') triggerRefresh();
 });
 
@@ -781,13 +1145,37 @@ function tierTag(t) {
   return `<span class="tag">${esc(t || '-')}</span>`;
 }
 
+function taskInspectPayload(t) {
+  return {
+    type: `TASK · ${t.bucket || 'main'}`,
+    title: t.slug,
+    copy: t.task_path,
+    copyLabel: 'Task Path',
+    extraCopy: t.slug,
+    extraCopyLabel: 'Slug',
+    props: [
+      ['Task Path', t.task_path],
+      ['Pool / Reg', `${t.bucket} (${t.registered ? 'registered' : 'unregistered'})`],
+      ['Category', t.category],
+      ['Compute Tier', `${t.tier}${t.gpus ? ' (' + t.gpus + ' GPU)' : ''}`],
+      ['Metric', t.metric || '-'],
+      ['Dual-Offline', t.dual_offline ? 'Yes (separate + no-network)' : 'No'],
+      ['nop / oracle', `${t.nop} / ${t.oracle}`],
+      ['Model Status', `${t.model}${t.model_name ? ' · ' + t.model_name : ''}`],
+      ['Score / Reward', `${t.model_score ?? '-'} / ${t.model_reward ?? '-'}`],
+      ['Duration', t.model_sec != null ? `${(t.model_sec / 60).toFixed(1)} min${t.model_timeout ? ' (timeout)' : ''}` : '-'],
+      ['Last Updated', t.mtime_str || '-'],
+    ],
+  };
+}
+
 function renderBarsHtml(rows, maxVal) {
   const mx = maxVal || Math.max(1, ...rows.map(r => Number(r.val || 0)));
   return rows.map(r => {
     const pct = Math.min(100, Number(r.val || 0) / mx * 100).toFixed(1);
     return `<div class="bar-row">
       <div class="bar-lbl" title="${esc(r.label)}">${esc(r.label)}</div>
-      <div class="prog" style="margin:0;height:6px"><div class="prog-fill" style="width:${pct}%;background:${r.color||'var(--accent)'}"></div></div>
+      <div class="prog" style="margin:0;height:5px"><div class="prog-fill" style="width:${pct}%;background:${r.color||'var(--accent)'}"></div></div>
       <div class="bar-num">${esc(r.text ?? fmt(r.val))}</div>
     </div>`;
   }).join('');
@@ -800,14 +1188,14 @@ function renderStackedChartSvg(labels, series, keysMeta) {
   const totals = series.map(s => keysMeta.reduce((a, [k]) => a + (s[k] || 0), 0));
   const maxY = Math.max(4, ...totals);
   const step = plotW / Math.max(1, labels.length);
-  const bw = Math.max(6, Math.min(20, step * 0.62));
+  const bw = Math.max(6, Math.min(18, step * 0.56));
   const yOf = v => padT + plotH - (v / maxY) * plotH;
 
   let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block">`;
   for (let i = 0; i <= 3; i++) {
     const v = Math.round(maxY * i / 3), y = yOf(v);
     svg += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--border-soft)" stroke-width="1"/>`;
-    svg += `<text x="${padL-6}" y="${y+3.5}" text-anchor="end" fill="var(--text-3)" font-size="9.5" font-family="monospace">${v}</text>`;
+    svg += `<text x="${padL-7}" y="${y+3.5}" text-anchor="end" fill="var(--text-3)" font-size="9.5" font-family="monospace">${v}</text>`;
   }
   labels.forEach((lbl, idx) => {
     const x = padL + idx * step + (step - bw) / 2;
@@ -819,7 +1207,7 @@ function renderStackedChartSvg(labels, series, keysMeta) {
       tot += v;
       if (v > 0) {
         const y1 = yOf(acc + v), y0 = yOf(acc);
-        svg += `<rect x="${x.toFixed(1)}" y="${y1.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1, y0-y1).toFixed(1)}" fill="${col}" rx="1.2"/>`;
+        svg += `<rect x="${x.toFixed(1)}" y="${y1.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1.5, y0-y1).toFixed(1)}" fill="${col}" rx="2"/>`;
         acc += v;
         tipParts.push(`${name}: ${v}`);
       }
@@ -835,39 +1223,70 @@ function renderStackedChartSvg(labels, series, keysMeta) {
   return svg;
 }
 
+// Smooth cubic Bezier path helper for Linear-grade sparklines
+function smoothBezierPath(pts) {
+  if (pts.length === 0) return '';
+  if (pts.length === 1) return `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(0, i - 1)];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[Math.min(pts.length - 1, i + 2)];
+    const cp1x = p1[0] + (p2[0] - p0[0]) / 6;
+    const cp1y = p1[1] + (p2[1] - p0[1]) / 6;
+    const cp2x = p2[0] - (p3[0] - p1[0]) / 6;
+    const cp2y = p2[1] - (p3[1] - p1[1]) / 6;
+    d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d;
+}
+
 function renderSparklineSvg(points, seriesDefs, maxFixed=null, height=68) {
-  const W = 280, H = height, padL = 4, padR = 4, padT = 6, padB = 6;
+  const W = 280, H = height, padL = 4, padR = 4, padT = 7, padB = 6;
   const plotW = W - padL - padR, plotH = H - padT - padB;
   if (!points || !points.length) {
     return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px"><text x="140" y="${H/2+4}" text-anchor="middle" fill="var(--text-3)" font-size="11">Collecting...</text></svg>`;
   }
   const allVals = seriesDefs.flatMap(sd => points.map(p => Number(p[sd.key] || 0)));
-  const maxY = maxFixed != null ? maxFixed : Math.max(1, ...allVals) * 1.12;
+  const maxY = maxFixed != null ? maxFixed : Math.max(1, ...allVals) * 1.15;
   const n = points.length;
   const xOf = i => n <= 1 ? padL + plotW / 2 : padL + (i / (n - 1)) * plotW;
   const yOf = v => padT + plotH - Math.min(1, Math.max(0, v / maxY)) * plotH;
+  const gid = `sg-${++SVG_GID}`;
 
   let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:${H}px;display:block">`;
-  svg += `<line x1="${padL}" y1="${padT + plotH/2}" x2="${W-padR}" y2="${padT + plotH/2}" stroke="var(--border-soft)" stroke-dasharray="2 2" stroke-width="1"/>`;
+  svg += `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${seriesDefs[0].color}" stop-opacity="0.22"/><stop offset="100%" stop-color="${seriesDefs[0].color}" stop-opacity="0.0"/></linearGradient></defs>`;
+  svg += `<line x1="${padL}" y1="${padT + plotH/2}" x2="${W-padR}" y2="${padT + plotH/2}" stroke="var(--border-soft)" stroke-dasharray="2 3" stroke-width="1"/>`;
+
+  const primaryCoords = points.map((p, i) => [xOf(i), yOf(Number(p[seriesDefs[0].key] || 0))]);
   seriesDefs.forEach((sd, sIdx) => {
     const coords = points.map((p, i) => [xOf(i), yOf(Number(p[sd.key] || 0))]);
-    const poly = coords.map(([x,y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
-    if (sIdx === 0 && coords.length >= 2) {
-      const area = `${coords[0][0].toFixed(1)},${(padT+plotH).toFixed(1)} ${poly} ${coords[coords.length-1][0].toFixed(1)},${(padT+plotH).toFixed(1)}`;
-      svg += `<polygon points="${area}" fill="${sd.color}" opacity="0.11"/>`;
-    }
     if (coords.length >= 2) {
-      svg += `<polyline fill="none" stroke="${sd.color}" stroke-width="${sIdx===0?1.8:1.4}" ${sd.dash?'stroke-dasharray="3 2"':''} points="${poly}"/>`;
+      const pathD = smoothBezierPath(coords);
+      if (sIdx === 0) {
+        const areaD = `${pathD} L ${coords[coords.length-1][0].toFixed(1)} ${(padT+plotH).toFixed(1)} L ${coords[0][0].toFixed(1)} ${(padT+plotH).toFixed(1)} Z`;
+        svg += `<path d="${areaD}" fill="url(#${gid})"/>`;
+      }
+      svg += `<path d="${pathD}" fill="none" stroke="${sd.color}" stroke-width="${sIdx===0?1.75:1.25}" ${sd.dash?'stroke-dasharray="3 2.5" opacity="0.72"':''} stroke-linecap="round"/>`;
     }
     const last = coords[coords.length - 1];
-    svg += `<circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.6" fill="${sd.color}"/>`;
+    svg += `<circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.4" fill="${sd.color}"/>`;
   });
+
+  // Hover slices with hairline crosshair + highlighted point
   const sliceW = plotW / Math.max(1, n);
   points.forEach((p, i) => {
+    const cx = primaryCoords[i][0].toFixed(1);
+    const cy = primaryCoords[i][1].toFixed(1);
     const tip = [`<strong>${esc(p.lbl || '')}</strong>`].concat(
       seriesDefs.map(sd => `${sd.label}: ${Number(p[sd.key] || 0)}${sd.unit || ''}`)
     ).join('<br>');
-    svg += `<rect x="${(xOf(i) - sliceW/2).toFixed(1)}" y="0" width="${Math.max(4, sliceW).toFixed(1)}" height="${H}" fill="transparent" data-tip="${esc(tip)}"/>`;
+    svg += `<g class="spark-hit">
+      <line class="crosshair" x1="${cx}" y1="${padT}" x2="${cx}" y2="${padT+plotH}" stroke="var(--border-strong)" stroke-width="1" stroke-dasharray="2 2"/>
+      <circle class="hit-dot" cx="${cx}" cy="${cy}" r="3.4" fill="${seriesDefs[0].color}" stroke="var(--bg-elevated)" stroke-width="1.5"/>
+      <rect x="${(primaryCoords[i][0] - sliceW/2).toFixed(1)}" y="0" width="${Math.max(4, sliceW).toFixed(1)}" height="${H}" fill="transparent" data-tip="${esc(tip)}"/>
+    </g>`;
   });
   svg += '</svg>';
   return svg;
@@ -887,8 +1306,83 @@ function renderCustomPanel(p) {
   return `<div class="section"><div class="sec-head"><span class="sec-title">${esc(p.title || 'Custom')}</span><span class="sec-meta">${esc(p.meta || '')}</span></div>${body}</div>`;
 }
 
+function selectModel(modelName) {
+  SELECTED_MODEL = modelName || '';
+  if (DATA && DATA.harbor && DATA.harbor.ok) renderEvalDetails(DATA.harbor);
+}
+
+function renderEvalDetails(hb) {
+  const byModel = hb.evals_by_model || {};
+  const models = Object.keys(byModel);
+  if (!SELECTED_MODEL || !byModel[SELECTED_MODEL]) {
+    SELECTED_MODEL = hb.primary_model || models[0] || '';
+  }
+  const activeEval = byModel[SELECTED_MODEL] || hb.primary_eval || { model: '-', n_scored: 0, buckets: {}, rows: [] };
+
+  // Leaderboard highlight + click handler
+  $('lbMeta').textContent = `${(hb.leaderboard || []).length} models · click row to inspect`;
+  $('lbTbody').innerHTML = (hb.leaderboard || []).map(m => `<tr class="clickable ${m.model === SELECTED_MODEL ? 'row-selected' : ''}" onclick="selectModel(${esc(JSON.stringify(m.model))})">
+    <td class="mono" style="font-weight:560">${esc(m.model)}</td>
+    <td class="num">${m.scored}</td>
+    <td class="num">${m.pass_count}</td>
+    <td class="num" style="color:var(--green);font-weight:560">${m.pass_rate_pct}%</td>
+    <td class="num">${m.mean_score ?? '-'}</td>
+    <td class="num" style="font-weight:580;color:var(--accent)">${m.median_score ?? '-'}</td>
+    <td class="num">${m.timeouts}</td>
+    <td class="num" style="${m.errors?'color:var(--red)':''}">${m.errors}</td>
+    <td class="num">${m.median_min ?? '-'}</td>
+  </tr>`).join('') || '<tr><td colspan="9" class="empty">No model trials recorded yet</td></tr>';
+
+  // Model switcher pills
+  $('modelSwitchBar').classList.toggle('hidden', models.length === 0);
+  $('modelPills').innerHTML = models.map(m =>
+    `<button class="model-pill ${m === SELECTED_MODEL ? 'active' : ''}" onclick="selectModel(${esc(JSON.stringify(m))})">${esc(m)} (${byModel[m].n_scored})</button>`
+  ).join('');
+
+  $('scoreDistTitle').textContent = `${tr('score_dist')} · ${activeEval.model || '-'}`;
+  $('scoreDistMeta').textContent = `${activeEval.n_scored || 0} tasks · med ${activeEval.median_score ?? '-'}`;
+  $('scoreDistBars').innerHTML = renderBarsHtml(Object.entries(activeEval.buckets || {}).map(([k, v]) => ({
+    label: `Score ${k}`, val: v,
+    color: k === '0' ? 'var(--red)' : (k === '1.0' || k === '>100' || k === '75-100' ? 'var(--accent)' : 'var(--text-3)'),
+  })));
+
+  $('evalTableTitle').textContent = `${tr('scored_tasks')} · ${activeEval.model || '-'}`;
+  $('evalTableMeta').textContent = `${(activeEval.rows || []).length} tasks · click row to inspect`;
+  $('evalScoreTbody').innerHTML = (activeEval.rows || []).map((r, idx) => {
+    const ik = registerInspect(`eval-row-${idx}`, {
+      type: `EVAL · ${r.model_name}`,
+      title: r.slug,
+      copy: r.task_path,
+      copyLabel: 'Task Path',
+      props: [
+        ['Task Path', r.task_path],
+        ['Model', r.model_name],
+        ['Category / Tier', `${r.category} · ${r.tier}`],
+        ['Score', `${r.score} (${r.score_key})`],
+        ['Reward', r.reward ?? '-'],
+        ['Primary Metric', r.primary ? `${r.primary} = ${r.primary_metric ?? '-'}` : '-'],
+        ['Rank Percentile', r.rank_percentile != null ? `${r.rank_percentile}%` : '-'],
+        ['Runtime', r.agent_min != null ? `${r.agent_min} min${r.timeout ? ' (timeout)' : ''}` : '-'],
+        ['Finished', r.finished_str || '-'],
+      ],
+    });
+    return `<tr class="clickable" onclick="openInspect('${ik}')">
+      <td class="ell" title="${esc(r.task_path)}">${esc(r.slug)}</td>
+      <td style="color:var(--text-2)">${esc(r.category)}</td>
+      <td>${tierTag(r.tier)}</td>
+      <td class="mono" style="font-size:11.5px;color:var(--text-2)">${esc(r.model_name)}</td>
+      <td class="mono" style="font-size:11.5px">${esc(r.primary || r.score_key)}</td>
+      <td class="num">${r.primary_metric ?? '-'}</td>
+      <td class="num" style="font-weight:580;color:var(--accent)">${r.score}</td>
+      <td class="num">${r.agent_min ?? '-'}${r.timeout ? ' (T)' : ''}</td>
+      <td class="mono" style="font-size:11px;color:var(--text-3)">${esc((r.finished_str||'').slice(5,16))}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="9" class="empty">No scored tasks for selected model</td></tr>';
+}
+
 function renderAll(d) {
   DATA = d;
+  INSPECT_STORE = {};
   const proj = d.project || {};
   const h = d.host || {};
   const k8 = d.k8s || {};
@@ -905,6 +1399,7 @@ function renderAll(d) {
 
   document.title = `${proj.name || 'bench-dashboard'} · Dashboard`;
   $('brandName').textContent = proj.name || 'bench-dashboard';
+  $('crumbRoot').textContent = proj.name || 'bench-dashboard';
   $('brandBadge').textContent = proj.badge || 'BD';
   $('snapMeta').textContent = `${(d.generated_at||'').slice(5,19)} · ${d.collect_sec}s`;
 
@@ -922,7 +1417,6 @@ function renderAll(d) {
   const hcpu = h.cpu || { busy_pct: 0, user_pct: 0, sys_pct: 0, iowait_pct: 0, load: [0,0,0], ncpu: 1 };
   const hgpu = h.gpus || { ok: false, count: 0, free_cards: 0, cards: [] };
 
-  // Nav counters
   $('navOverview').textContent = hbOn ? `${hb.selfcheck_both_ok}/${hb.registered_total}` : `${hcpu.busy_pct}%`;
   $('navCompute').textContent = hgpu.ok ? `${hgpu.free_cards}/${hgpu.count}G` : `${hcpu.busy_pct}%`;
   if (hbOn) {
@@ -933,7 +1427,6 @@ function renderAll(d) {
     $('navPipelines').textContent = `${(pl.processes||[]).length + (pl.streams||[]).length}`;
   }
 
-  // Sidebar live telemetry
   $('sideHostCpu').textContent = `${hcpu.busy_pct}% · ${h.mem_used_pct ?? 0}%`;
   $('sideHostCpu').className = 'v ' + (hcpu.busy_pct > 85 ? 'bad' : (hcpu.busy_pct > 65 ? 'warn' : 'ok'));
   const shm = h.shm || { used_gb: 0, use_pct: 0 };
@@ -951,11 +1444,8 @@ function renderAll(d) {
     $('sideK8sGpu').textContent = k8.ok ? `${k8.gpu_cards_mine}/${k8.gpu_cards_used}/${k8.gpu_cards_total}` : '-';
     $('sideK8sGpu').className = 'v ' + (k8.ok ? 'accent' : 'bad');
   }
-  if (hbOn) {
-    $('sideRate').textContent = `${hb.velocity.rate_ph}/h`;
-  }
+  if (hbOn) $('sideRate').textContent = `${hb.velocity.rate_ph}/h`;
 
-  // Alerts
   $('noticeBox').innerHTML = (d.alerts || []).map(a =>
     `<div class="notice ${a.level === 'danger' ? 'danger' : ''}"><span><strong>${esc(a.stage)}:</strong> ${esc(a.msg)}</span><span class="tag ${a.level === 'danger' ? 'bad' : 'warn'}">${a.level === 'danger' ? 'CRIT' : 'WARN'}</span></div>`
   ).join('');
@@ -965,68 +1455,33 @@ function renderAll(d) {
   if (hbOn) {
     const pe = hb.primary_eval || {};
     ovCards.push({
-      label: 'Registered Tasks',
-      tag: `${hb.grand_total_tasks} total`,
-      val: fmt(hb.registered_total),
-      pct: 100,
+      label: 'Registered Tasks', tag: `${hb.grand_total_tasks} total`, val: fmt(hb.registered_total), pct: 100,
       sub: Object.entries(hb.buckets_summary || {}).map(([k,v]) => `${k}: ${v}`).join(' · ') || 'auto-discovered',
     });
     ovCards.push({
-      label: 'Self-Check (nop + oracle)',
-      tag: `${hb.running.selfcheck_count} running`,
-      val: `${hb.selfcheck_both_ok} / ${hb.registered_total}`,
+      label: 'Self-Check (nop + oracle)', tag: `${hb.running.selfcheck_count} live`, val: `${hb.selfcheck_both_ok} / ${hb.registered_total}`,
       pct: hb.selfcheck_both_ok / Math.max(1, hb.registered_total) * 100,
       sub: `nop ${(hb.counts.nop.ok||0)+(hb.counts.nop['ok-doc']||0)} · oracle ${(hb.counts.oracle.ok||0)+(hb.counts.oracle['ok-doc']||0)} · pending ${hb.velocity.pending_selfcheck}`,
     });
     ovCards.push({
-      label: pe.model ? `Eval (${pe.model})` : 'Model Evaluations',
-      tag: `${hb.running.model_count} running`,
-      val: `${pe.n_scored || 0} / ${hb.registered_total}`,
-      pct: (pe.n_scored || 0) / Math.max(1, hb.registered_total) * 100,
+      label: pe.model ? `Eval · ${pe.model}` : 'Model Evaluations', tag: `${hb.running.model_count} live`,
+      val: `${pe.n_scored || 0} / ${hb.registered_total}`, pct: (pe.n_scored || 0) / Math.max(1, hb.registered_total) * 100,
       sub: pe.n_scored ? `median ${pe.median_score} · mean ${pe.mean_score} · ${pe.median_min ?? '-'}m` : `${hb.all_trials_total} historical trials`,
     });
     ovCards.push({
-      label: 'Trial Throughput',
-      tag: `${hb.velocity.count_1h} in 1h`,
-      val: `${hb.velocity.rate_ph}/h`,
+      label: 'Trial Throughput', tag: `${hb.velocity.count_1h} in 1h`, val: `${hb.velocity.rate_ph}/h`,
       pct: Math.min(100, hb.velocity.rate_ph * 4),
       sub: `6h: ${hb.velocity.count_6h} · 24h: ${hb.velocity.count_24h} (~${Math.round(hb.velocity.rate_pd)}/day)`,
     });
   } else {
-    ovCards.push({
-      label: `Host CPU (${h.label || 'local'})`,
-      tag: `${hcpu.ncpu}c`,
-      val: `${hcpu.busy_pct}%`,
-      pct: hcpu.busy_pct,
-      sub: `Load ${hcpu.load.join('/')} · RAM ${h.mem_used_gb}/${h.mem_total_gb}G`,
-    });
-    ovCards.push({
-      label: 'Local GPUs',
-      tag: hgpu.ok ? `${hgpu.free_cards} free` : 'N/A',
-      val: hgpu.ok ? `${hgpu.busy_cards}/${hgpu.count}` : '-',
-      pct: hgpu.mem_used_pct || 0,
-      sub: hgpu.ok ? `VRAM ${hgpu.mem_used_gb}/${hgpu.mem_total_gb}G · ${hgpu.util_avg_pct}% util` : 'nvidia-smi unavailable',
-    });
+    ovCards.push({ label: `Host CPU (${h.label||'local'})`, tag: `${hcpu.ncpu}c`, val: `${hcpu.busy_pct}%`, pct: hcpu.busy_pct, sub: `Load ${hcpu.load.join('/')} · RAM ${h.mem_used_gb}/${h.mem_total_gb}G` });
+    ovCards.push({ label: 'Local GPUs', tag: hgpu.ok ? `${hgpu.free_cards} free` : 'N/A', val: hgpu.ok ? `${hgpu.busy_cards}/${hgpu.count}` : '-', pct: hgpu.mem_used_pct || 0, sub: hgpu.ok ? `VRAM ${hgpu.mem_used_gb}/${hgpu.mem_total_gb}G · ${hgpu.util_avg_pct}%` : 'No GPU' });
     if (k8On && k8.ok) {
-      ovCards.push({
-        label: `K8s CPU (${k8.namespace})`,
-        tag: `${k8.cluster.nodes_ready}/${k8.cluster.nodes_total} nodes`,
-        val: `${k8.quota.real_cpu_mine}c`,
-        pct: k8.quota.hard_cpu ? (k8.quota.used_cpu / k8.quota.hard_cpu * 100) : 0,
-        sub: `NS real ${k8.quota.real_cpu_ns}c · active jobs ${k8.active_jobs}`,
-      });
-      ovCards.push({
-        label: 'K8s GPUs',
-        tag: `${k8.gpu_cards_free} free`,
-        val: `${k8.gpu_cards_mine} / ${k8.gpu_cards_total}`,
-        pct: k8.gpu_cards_total ? (k8.gpu_cards_used / k8.gpu_cards_total * 100) : 0,
-        sub: `NS used ${k8.gpu_cards_used} (${k8.gpu_resource})`,
-      });
+      ovCards.push({ label: `K8s CPU (${k8.namespace})`, tag: `${k8.cluster.nodes_ready}/${k8.cluster.nodes_total} nodes`, val: `${k8.quota.real_cpu_mine}c`, pct: k8.quota.hard_cpu ? (k8.quota.used_cpu / k8.quota.hard_cpu * 100) : 0, sub: `NS real ${k8.quota.real_cpu_ns}c · jobs ${k8.active_jobs}` });
+      ovCards.push({ label: 'K8s GPUs', tag: `${k8.gpu_cards_free} free`, val: `${k8.gpu_cards_mine} / ${k8.gpu_cards_total}`, pct: k8.gpu_cards_total ? (k8.gpu_cards_used / k8.gpu_cards_total * 100) : 0, sub: `NS used ${k8.gpu_cards_used}` });
     }
   }
-  (cust.kpis || []).forEach(ck => ovCards.push({
-    label: ck.label, tag: ck.tag || '', val: ck.value, pct: ck.pct ?? 0, sub: ck.sub || '',
-  }));
+  (cust.kpis || []).forEach(ck => ovCards.push({ label: ck.label, tag: ck.tag || '', val: ck.value, pct: ck.pct ?? 0, sub: ck.sub || '' }));
 
   $('ovMetrics').innerHTML = ovCards.map(c => `<div class="metric-cell">
     <div class="m-label"><span>${esc(c.label)}</span><span class="mono">${esc(c.tag)}</span></div>
@@ -1035,19 +1490,18 @@ function renderAll(d) {
     <div class="m-sub">${esc(c.sub)}</div>
   </div>`).join('');
 
-  // Active Pipelines strip
   const procs = pl.processes || [];
-  const pipeCards = procs.map(p => `<div class="pipe-card ${esc(p.kind)}">
+  const pipeCards = procs.map(p => `<div class="pipe-card">
     <div class="pipe-hd">
       <span class="pipe-title"><i class="st-dot" style="background:var(--green)"></i>${esc(p.title)}</span>
-      <span class="pipe-meta">${esc(p.etime)} · ${p.cpu_pct}% CPU</span>
+      <span class="pipe-meta">${esc(p.etime)} · ${p.cpu_pct}%</span>
     </div>
     <div class="pipe-detail" title="${esc(p.detail)}">${esc(p.detail)}</div>
   </div>`);
   if (hbOn && hb.running.count > 0 && !procs.some(p => p.kind === 'harbor')) {
-    pipeCards.push(`<div class="pipe-card harbor">
+    pipeCards.push(`<div class="pipe-card">
       <div class="pipe-hd">
-        <span class="pipe-title"><i class="st-dot" style="background:var(--cyan)"></i>Harbor Active Trials</span>
+        <span class="pipe-title"><i class="st-dot" style="background:var(--accent)"></i>Harbor Active Trials</span>
         <span class="pipe-meta">${hb.running.count} running</span>
       </div>
       <div class="pipe-detail">nop: ${hb.running.by_kind.nop} · oracle: ${hb.running.by_kind.oracle} · model: ${hb.running.by_kind.model}</div>
@@ -1057,25 +1511,24 @@ function renderAll(d) {
   $('ovPipeMeta').textContent = `${pipeCards.length} active`;
   $('ovPipeGrid').innerHTML = pipeCards.join('');
 
-  // Compute Pulse sparklines
   const pulseCards = [
     {
-      k: `${h.label || 'Host'} CPU / RAM / Swap`,
+      k: `${h.label || 'Host'} CPU / Swap`,
       v: `${hcpu.busy_pct}% · Sw ${swPct}%`,
       sub: `Load ${hcpu.load[0]}/${hcpu.ncpu}c · RAM ${h.mem_used_pct}% (${h.mem_avail_gb}G free)`,
       svg: renderSparklineSvg(hist, [
-        { key: 'host_cpu_pct', label: 'CPU', color: '#5e6ad2', unit: '%' },
-        { key: 'host_mem_pct', label: 'RAM', color: '#9ca3af', unit: '%', dash: true },
-        { key: 'host_swap_pct', label: 'Swap', color: '#dc2626', unit: '%' },
+        { key: 'host_cpu_pct', label: 'CPU', color: '#717ce6', unit: '%' },
+        { key: 'host_mem_pct', label: 'RAM', color: '#8a919e', unit: '%', dash: true },
+        { key: 'host_swap_pct', label: 'Swap', color: '#f87171', unit: '%' },
       ], 100),
     },
     {
       k: `${h.label || 'Host'} GPUs`,
       v: hgpu.ok ? `${hgpu.free_cards}/${hgpu.count} free` : 'N/A',
-      sub: hgpu.ok ? `Util ${hgpu.util_avg_pct}% · VRAM ${hgpu.mem_used_gb}/${hgpu.mem_total_gb}G · ${hgpu.power_draw_w}W` : 'No NVIDIA GPUs detected',
+      sub: hgpu.ok ? `Util ${hgpu.util_avg_pct}% · VRAM ${hgpu.mem_used_gb}/${hgpu.mem_total_gb}G · ${hgpu.power_draw_w}W` : 'No NVIDIA GPUs',
       svg: renderSparklineSvg(hist, [
-        { key: 'host_gpu_vram_pct', label: 'VRAM', color: '#16a34a', unit: '%' },
-        { key: 'host_gpu_util', label: 'Util', color: '#d97706', unit: '%' },
+        { key: 'host_gpu_vram_pct', label: 'VRAM', color: '#22c55e', unit: '%' },
+        { key: 'host_gpu_util', label: 'Util', color: '#f59e0b', unit: '%', dash: true },
       ], 100),
     },
   ];
@@ -1085,100 +1538,72 @@ function renderAll(d) {
       v: k8.ok ? `${k8.quota.real_cpu_mine}c` : 'offline',
       sub: k8.ok ? `NS real ${k8.quota.real_cpu_ns}c · Lim ${k8.quota.used_cpu}/${k8.quota.hard_cpu || '-'}c` : (k8.error || ''),
       svg: renderSparklineSvg(hist, [
-        { key: 'k8s_my_cpu', label: 'Mine', color: '#5e6ad2', unit: 'c' },
-        { key: 'k8s_ns_cpu', label: 'NS', color: '#2563eb', unit: 'c', dash: true },
+        { key: 'k8s_my_cpu', label: 'Mine', color: '#717ce6', unit: 'c' },
+        { key: 'k8s_ns_cpu', label: 'NS', color: '#60a5fa', unit: 'c', dash: true },
       ]),
     });
     pulseCards.push({
       k: 'K8s GPUs',
       v: k8.ok ? `${k8.gpu_cards_mine} / ${k8.gpu_cards_total}` : 'offline',
-      sub: k8.ok ? `NS used ${k8.gpu_cards_used} · Free ${k8.gpu_cards_free} · Jobs ${k8.active_jobs}` : '',
+      sub: k8.ok ? `NS ${k8.gpu_cards_used} · Free ${k8.gpu_cards_free} · Jobs ${k8.active_jobs}` : '',
       svg: renderSparklineSvg(hist, [
-        { key: 'k8s_gpu_mine', label: 'Mine', color: '#7c3aed', unit: '' },
-        { key: 'k8s_gpu_used', label: 'NS', color: '#2563eb', unit: '', dash: true },
+        { key: 'k8s_gpu_mine', label: 'Mine', color: '#717ce6', unit: '' },
+        { key: 'k8s_gpu_used', label: 'NS', color: '#60a5fa', unit: '', dash: true },
       ], k8.gpu_cards_total || null),
     });
   } else if (hbOn) {
     pulseCards.push({
-      k: 'Active Harbor Trials',
-      v: `${hb.running.count} running`,
+      k: 'Active Trials', v: `${hb.running.count} live`,
       sub: `Selfcheck ${hb.running.selfcheck_count} · Model ${hb.running.model_count}`,
-      svg: renderSparklineSvg(hist, [{ key: 'harbor_run', label: 'Running', color: '#0891b2' }]),
+      svg: renderSparklineSvg(hist, [{ key: 'harbor_run', label: 'Running', color: '#22d3ee' }]),
     });
     pulseCards.push({
-      k: '1h Trial Completions',
-      v: `${hb.velocity.count_1h} / h`,
+      k: '1h Completions', v: `${hb.velocity.count_1h} / h`,
       sub: `6h: ${hb.velocity.count_6h} · 24h: ${hb.velocity.count_24h}`,
-      svg: renderSparklineSvg(hist, [{ key: 'harbor_ph_1h', label: '1h', color: '#16a34a' }]),
+      svg: renderSparklineSvg(hist, [{ key: 'harbor_ph_1h', label: '1h', color: '#22c55e' }]),
     });
   }
   $('ovSparkGrid').innerHTML = pulseCards.map(c => `<div class="spark-card" onclick="switchTab('compute')">
     <div class="spark-head"><span class="spark-k">${esc(c.k)}</span><span class="spark-v">${esc(c.v)}</span></div>
-    <div class="spark-sub">${esc(c.sub)}</div>
+    <div class="spark-sub" title="${esc(c.sub)}">${esc(c.sub)}</div>
     ${c.svg}
   </div>`).join('');
 
-  // Overview Harbor Charts & Matrix
   $('ovHarborCharts').classList.toggle('hidden', !hbOn);
   if (hbOn) {
     const h24 = hb.hourly_24h || { labels: [], series: [] };
-    $('h24Meta').textContent = `24h total: ${hb.velocity.count_24h} trials`;
+    $('h24Meta').textContent = `24h total: ${hb.velocity.count_24h}`;
     $('h24Chart').innerHTML = renderStackedChartSvg(h24.labels, h24.series, [
-      ['model', '#5e6ad2', 'model'],
-      ['oracle', '#16a34a', 'oracle'],
-      ['nop', '#0891b2', 'nop'],
-      ['err', '#dc2626', 'error'],
+      ['model', 'var(--accent)', 'model'],
+      ['oracle', 'var(--green)', 'oracle'],
+      ['nop', 'var(--cyan)', 'nop'],
+      ['err', 'var(--red)', 'error'],
     ]);
     const tiers = hb.tiers || [];
     const cats = hb.categories || [];
     const mat = hb.category_tier_matrix || {};
-    $('matrixMeta').textContent = `dual-offline: ${hb.dual_offline_count}/${hb.registered_total}`;
+    $('matrixMeta').textContent = `dual-offline ${hb.dual_offline_count}/${hb.registered_total}`;
     const ths = tiers.map(t => `<th class="num">${esc(t)}</th>`).join('');
     const rowsHtml = cats.map(c => {
       const r = mat[c] || {};
-      return `<tr><td>${esc(c)}</td>${tiers.map(t => `<td class="num">${r[t] || 0}</td>`).join('')}<td class="num" style="font-weight:600">${r.total || 0}</td></tr>`;
+      return `<tr><td>${esc(c)}</td>${tiers.map(t => `<td class="num">${r[t] || 0}</td>`).join('')}<td class="num" style="font-weight:560">${r.total || 0}</td></tr>`;
     }).join('');
     $('matrixBox').innerHTML = cats.length
       ? `<table><thead><tr><th>Category</th>${ths}<th class="num">Total</th></tr></thead><tbody>${rowsHtml}</tbody></table>`
       : '<div class="empty">No registered tasks</div>';
   }
-
   $('ovCustomPanels').innerHTML = (cust.panels || []).map(renderCustomPanel).join('');
 
   // ==================== TAB 2: COMPUTE ====================
   const kq = k8.quota || {};
   const kcl = k8.cluster || {};
   const compCards = [
-    {
-      label: `${h.label || 'Host'} CPU`,
-      tag: `${hcpu.ncpu}c`,
-      val: `${hcpu.busy_pct}%`,
-      pct: hcpu.busy_pct,
-      sub: `usr ${hcpu.user_pct}% · sys ${hcpu.sys_pct}% · iow ${hcpu.iowait_pct}% · Load ${hcpu.load.join('/')}`,
-    },
-    {
-      label: `${h.label || 'Host'} GPUs`,
-      tag: hgpu.ok ? `${hgpu.free_cards} free` : 'N/A',
-      val: hgpu.ok ? `${hgpu.mem_used_gb}/${hgpu.mem_total_gb}G` : '-',
-      pct: hgpu.mem_used_pct || 0,
-      sub: hgpu.ok ? `avg util ${hgpu.util_avg_pct}% · max ${hgpu.temp_max_c}°C · ${hgpu.power_draw_w}W` : 'No NVIDIA GPU',
-    },
+    { label: `${h.label||'Host'} CPU`, tag: `${hcpu.ncpu}c`, val: `${hcpu.busy_pct}%`, pct: hcpu.busy_pct, sub: `usr ${hcpu.user_pct}% · sys ${hcpu.sys_pct}% · iow ${hcpu.iowait_pct}% · Load ${hcpu.load.join('/')}` },
+    { label: `${h.label||'Host'} GPUs`, tag: hgpu.ok ? `${hgpu.free_cards} free` : 'N/A', val: hgpu.ok ? `${hgpu.mem_used_gb}/${hgpu.mem_total_gb}G` : '-', pct: hgpu.mem_used_pct || 0, sub: hgpu.ok ? `util ${hgpu.util_avg_pct}% · max ${hgpu.temp_max_c}°C · ${hgpu.power_draw_w}W` : 'No NVIDIA GPU' },
   ];
   if (k8On) {
-    compCards.push({
-      label: `K8s Real CPU (${k8.namespace})`,
-      tag: k8.metrics_ok ? 'metrics' : 'quota',
-      val: k8.ok ? `${kq.real_cpu_mine}c / ${kq.real_cpu_ns}c` : 'offline',
-      pct: k8.ok && kq.hard_cpu ? (kq.used_cpu / kq.hard_cpu * 100) : 0,
-      sub: k8.ok ? `Lim ${kq.used_cpu}/${kq.hard_cpu || '-'}c · Cluster ${kcl.cpu_alloc}c` : (k8.error || ''),
-    });
-    compCards.push({
-      label: 'K8s GPUs',
-      tag: k8.ok ? `${k8.gpu_cards_free} free` : '-',
-      val: k8.ok ? `${k8.gpu_cards_mine} / ${k8.gpu_cards_total}` : 'offline',
-      pct: k8.ok && k8.gpu_cards_total ? (k8.gpu_cards_used / k8.gpu_cards_total * 100) : 0,
-      sub: k8.ok ? `Mine ${k8.gpu_cards_mine} · Other ${k8.gpu_cards_other} · ${k8.gpu_resource}` : '',
-    });
+    compCards.push({ label: `K8s CPU (${k8.namespace})`, tag: k8.metrics_ok ? 'metrics' : 'quota', val: k8.ok ? `${kq.real_cpu_mine}c / ${kq.real_cpu_ns}c` : 'offline', pct: k8.ok && kq.hard_cpu ? (kq.used_cpu / kq.hard_cpu * 100) : 0, sub: k8.ok ? `Lim ${kq.used_cpu}/${kq.hard_cpu||'-'}c · Cluster ${kcl.cpu_alloc}c` : (k8.error||'') });
+    compCards.push({ label: 'K8s GPUs', tag: k8.ok ? `${k8.gpu_cards_free} free` : '-', val: k8.ok ? `${k8.gpu_cards_mine} / ${k8.gpu_cards_total}` : 'offline', pct: k8.ok && k8.gpu_cards_total ? (k8.gpu_cards_used / k8.gpu_cards_total * 100) : 0, sub: k8.ok ? `Mine ${k8.gpu_cards_mine} · Other ${k8.gpu_cards_other} · ${k8.gpu_resource}` : '' });
   }
   $('compMetrics').innerHTML = compCards.map(c => `<div class="metric-cell">
     <div class="m-label"><span>${esc(c.label)}</span><span class="mono">${esc(c.tag)}</span></div>
@@ -1190,32 +1615,26 @@ function renderAll(d) {
   $('histMeta').textContent = `${hist.length} samples (${hist.length ? hist[0].lbl + ' ~ ' + hist[hist.length-1].lbl : 'starting'})`;
   $('compHistoryGrid').innerHTML = pulseCards.map(c => `<div class="spark-card" style="cursor:default">
     <div class="spark-head"><span class="spark-k">${esc(c.k)}</span><span class="spark-v" style="font-size:14px">${esc(c.v)}</span></div>
-    <div class="spark-sub">${esc(c.sub)}</div>
+    <div class="spark-sub" title="${esc(c.sub)}">${esc(c.sub)}</div>
     ${c.svg}
   </div>`).join('');
 
-  // Local Host Infra Grid
-  $('localHostTitle').textContent = `Local Host (${h.label || 'localhost'}) — CPU / RAM / Swap / Disks / Docker`;
-  $('localHostMeta').textContent = `Load ${hcpu.load.join(' / ')} (${hcpu.ncpu}c) · Docker ${h.docker?.ok ? h.docker.total + ' containers (' + h.docker.bench + ' bench)' : 'N/A'}`;
+  $('localHostTitle').textContent = `Local Host (${h.label || 'localhost'})`;
+  $('localHostMeta').textContent = `Load ${hcpu.load.join(' / ')} (${hcpu.ncpu}c) · Docker ${h.docker?.ok ? h.docker.total + ' (' + h.docker.bench + ' bench)' : 'N/A'}`;
   const infraBoxes = [
     { k: 'CPU Busy', v: `${hcpu.busy_pct}%`, pct: hcpu.busy_pct, s: `usr ${hcpu.user_pct}% · sys ${hcpu.sys_pct}% · iow ${hcpu.iowait_pct}%`, col: hcpu.busy_pct > 85 ? 'var(--red)' : 'var(--accent)' },
     { k: 'Memory RAM', v: `${h.mem_avail_gb}G free`, pct: h.mem_used_pct, s: `${h.mem_used_gb} / ${h.mem_total_gb} GiB`, col: h.mem_used_pct > 85 ? 'var(--amber)' : 'var(--accent)' },
-    { k: 'Swap', v: `${h.swap_free_gb ?? 0}G free`, pct: swPct, s: `${h.swap_used_gb ?? 0} / ${h.swap_total_gb ?? 0} GiB` + ((h.top_swap && h.top_swap.length) ? ` · Top ${h.top_swap[0].user}:${h.top_swap[0].cmd}(${h.top_swap[0].swap_gb}G)` : ''), col: swPct >= 80 ? 'var(--red)' : (swPct >= 50 ? 'var(--amber)' : 'var(--green)') },
+    { k: 'Swap', v: `${h.swap_free_gb ?? 0}G free`, pct: swPct, s: `${h.swap_used_gb ?? 0} / ${h.swap_total_gb ?? 0} GiB` + ((h.top_swap && h.top_swap.length) ? ` · ${h.top_swap[0].user}:${h.top_swap[0].cmd}(${h.top_swap[0].swap_gb}G)` : ''), col: swPct >= 80 ? 'var(--red)' : (swPct >= 50 ? 'var(--amber)' : 'var(--green)') },
     { k: '/dev/shm', v: `${shm.free_gb ?? 0}G free`, pct: shm.use_pct ?? 0, s: `${shm.used_gb ?? 0} / ${shm.total_gb ?? 0} GiB`, col: (shm.use_pct ?? 0) >= 50 ? 'var(--red)' : 'var(--green)' },
   ];
   (h.disks || []).forEach(dk => {
     if (!dk.ok) return;
-    infraBoxes.push({
-      k: dk.label, v: `${dk.free_gb}G free`, pct: dk.use_pct,
-      s: `${dk.used_gb} / ${dk.total_gb} GiB · ${dk.path}`,
-      col: (dk.critical && dk.free_gb < 25) ? 'var(--red)' : 'var(--green)',
-    });
+    infraBoxes.push({ k: dk.label, v: `${dk.free_gb}G free`, pct: dk.use_pct, s: `${dk.used_gb}/${dk.total_gb} GiB · ${dk.path}`, col: (dk.critical && dk.free_gb < 25) ? 'var(--red)' : 'var(--accent)' });
   });
   if (h.docker?.ok) {
     infraBoxes.push({
-      k: 'Docker', v: `${h.docker.total} running`, pct: hbOn && hb.running.slots_total ? (hb.running.slots_used / hb.running.slots_total * 100) : Math.min(100, h.docker.total * 2),
-      s: `bench: ${h.docker.bench}` + (hbOn && hb.running.slots_total ? ` · slots free ${hb.running.slots_free}/${hb.running.slots_total}` : ''),
-      col: 'var(--cyan)',
+      k: 'Docker', v: `${h.docker.total} active`, pct: hbOn && hb.running.slots_total ? (hb.running.slots_used / hb.running.slots_total * 100) : Math.min(100, h.docker.total * 2),
+      s: `bench ${h.docker.bench}` + (hbOn && hb.running.slots_total ? ` · slots ${hb.running.slots_free}/${hb.running.slots_total} free` : ''), col: 'var(--cyan)',
     });
   }
   $('localInfraGrid').innerHTML = infraBoxes.map(g => `<div class="infra-box">
@@ -1225,35 +1644,28 @@ function renderAll(d) {
     <div class="infra-s" title="${esc(g.s)}">${esc(g.s)}</div>
   </div>`).join('');
 
-  // Local GPUs
   $('localGpuSection').classList.toggle('hidden', !hgpu.ok && !(hgpu.cards || []).length);
-  $('localGpuMeta').textContent = hgpu.ok
-    ? `${hgpu.free_cards}/${hgpu.count} free · VRAM ${hgpu.mem_used_gb}/${hgpu.mem_total_gb} GiB (${hgpu.mem_used_pct}%) · ${hgpu.power_draw_w}W`
-    : 'N/A';
+  $('localGpuMeta').textContent = hgpu.ok ? `${hgpu.free_cards}/${hgpu.count} free · VRAM ${hgpu.mem_used_gb}/${hgpu.mem_total_gb} GiB · ${hgpu.power_draw_w}W` : 'N/A';
   $('localGpuGrid').innerHTML = (hgpu.cards || []).map(c => {
-    const stTag = c.status === 'free' ? '<span class="tag ok">Free</span>'
-      : (c.status === 'vllm' ? '<span class="tag blue">vLLM</span>'
-      : (c.status === 'active' ? '<span class="tag accent">Active</span>' : '<span class="tag warn">Occupied</span>'));
+    const dotCol = c.status === 'free' ? 'var(--green)' : (c.status === 'active' ? 'var(--accent)' : (c.status === 'vllm' ? 'var(--blue)' : 'var(--amber)'));
+    const lbl = c.status === 'free' ? 'Free' : (c.status === 'vllm' ? 'vLLM' : (c.status === 'active' ? 'Active' : 'Occupied'));
     const procStr = (c.procs || []).length ? c.procs.map(p => `${p.name}(${p.mem_gb}G)`).join(', ') : 'Idle';
     return `<div class="gpu-card ${c.status}">
-      <div class="gpu-hd"><span class="gpu-id">GPU ${c.index} · ${esc(c.short_name)}</span>${stTag}</div>
+      <div class="gpu-hd"><span class="gpu-id">GPU ${c.index} · ${esc(c.short_name)}</span>${stDot(lbl, dotCol)}</div>
       <div class="gpu-bar-lbl"><span>Util</span><span>${c.util_gpu}%</span></div>
-      <div class="prog" style="margin:2px 0 4px"><div class="prog-fill" style="width:${c.util_gpu}%;background:${c.util_gpu>70?'var(--amber)':'var(--accent)'}"></div></div>
+      <div class="prog" style="margin:2px 0 4px"><div class="prog-fill" style="width:${c.util_gpu}%;background:${c.util_gpu>75?'var(--amber)':'var(--accent)'}"></div></div>
       <div class="gpu-bar-lbl"><span>VRAM</span><span>${c.mem_used_gb}/${c.mem_total_gb}G (${c.mem_pct}%)</span></div>
-      <div class="prog" style="margin:2px 0 4px"><div class="prog-fill" style="width:${c.mem_pct}%;background:${c.mem_pct>80?'var(--red)':(c.mem_pct>40?'var(--blue)':'var(--green)')}"></div></div>
+      <div class="prog" style="margin:2px 0 4px"><div class="prog-fill" style="width:${c.mem_pct}%;background:${c.mem_pct>85?'var(--red)':'var(--accent)'}"></div></div>
       <div class="gpu-procs" title="${esc(procStr)}">${esc(procStr)}</div>
       <div class="gpu-foot"><span>${c.temp_c}°C</span><span>${c.power_w}W / ${c.power_limit_w}W</span></div>
     </div>`;
   }).join('');
 
-  // K8s Section
   $('k8sSection').classList.toggle('hidden', !k8On);
   $('k8sPodSection').classList.toggle('hidden', !k8On);
   if (k8On) {
-    $('k8sTitle').textContent = `Kubernetes Cluster (ns: ${k8.namespace || '-'} · ${k8.gpu_resource || 'gpu'})`;
-    $('k8sClusterMeta').textContent = k8.ok
-      ? `${kcl.nodes_ready}/${kcl.nodes_total} Ready · ${kcl.cpu_alloc}c / ${kcl.mem_alloc_gb} GiB / ${kcl.gpu_total} GPUs`
-      : `Unavailable: ${k8.error || ''}`;
+    $('k8sTitle').textContent = `Kubernetes Cluster · ${k8.namespace || '-'}`;
+    $('k8sClusterMeta').textContent = k8.ok ? `${kcl.nodes_ready}/${kcl.nodes_total} Ready · ${kcl.cpu_alloc}c / ${kcl.mem_alloc_gb} GiB / ${kcl.gpu_total} GPUs` : `Offline: ${k8.error || ''}`;
     if (k8.ok) {
       const cpuMyPct = kq.hard_cpu ? kq.my_cpu_lim / kq.hard_cpu * 100 : 0;
       const cpuOthPct = kq.hard_cpu ? Math.max(0, kq.used_cpu - kq.my_cpu_lim) / kq.hard_cpu * 100 : 0;
@@ -1264,21 +1676,21 @@ function renderAll(d) {
       let kqHtml = `
         <div class="infra-box">
           <div class="infra-k"><span>CPU (Mine / NS)</span><span class="mono">${kq.hard_cpu ? (cpuMyPct+cpuOthPct).toFixed(0)+'%' : '-'}</span></div>
-          <div class="infra-v">${kq.real_cpu_mine}c <span style="font-size:11.5px;font-weight:400;color:var(--text-3)">/ NS ${kq.real_cpu_ns}c</span></div>
-          <div class="segbar"><div style="width:${cpuMyPct.toFixed(1)}%;background:var(--accent)"></div><div style="width:${cpuOthPct.toFixed(1)}%;background:var(--blue);opacity:0.65"></div></div>
-          <div class="infra-s">Lim ${kq.used_cpu}/${kq.hard_cpu || '-'}c · Req ${kq.req_cpu}c</div>
+          <div class="infra-v">${kq.real_cpu_mine}c <span style="font-size:11.5px;font-weight:400;color:var(--text-3)">/ ${kq.real_cpu_ns}c</span></div>
+          <div class="segbar"><div style="width:${cpuMyPct.toFixed(1)}%;background:var(--accent)"></div><div style="width:${cpuOthPct.toFixed(1)}%;background:var(--text-3);opacity:0.45"></div></div>
+          <div class="infra-s">Lim ${kq.used_cpu}/${kq.hard_cpu||'-'}c · Req ${kq.req_cpu}c</div>
         </div>
         <div class="infra-box">
           <div class="infra-k"><span>RAM (Mine / NS)</span><span class="mono">${kq.hard_mem_gb ? memPct.toFixed(0)+'%' : '-'}</span></div>
-          <div class="infra-v">${kq.real_mem_mine_gb}G <span style="font-size:11.5px;font-weight:400;color:var(--text-3)">/ NS ${kq.real_mem_ns_gb}G</span></div>
-          <div class="prog"><div class="prog-fill" style="width:${Math.min(100, memPct).toFixed(1)}%;background:var(--blue)"></div></div>
-          <div class="infra-s">Lim ${kq.used_mem_gb}/${kq.hard_mem_gb || '-'}G · Pods ${kq.pods_used}/${kq.pods_hard || '-'}</div>
+          <div class="infra-v">${kq.real_mem_mine_gb}G <span style="font-size:11.5px;font-weight:400;color:var(--text-3)">/ ${kq.real_mem_ns_gb}G</span></div>
+          <div class="prog"><div class="prog-fill" style="width:${Math.min(100, memPct).toFixed(1)}%"></div></div>
+          <div class="infra-s">Lim ${kq.used_mem_gb}/${kq.hard_mem_gb||'-'}G · Pods ${kq.pods_used}/${kq.pods_hard||'-'}</div>
         </div>
         <div class="infra-box">
           <div class="infra-k"><span>Cluster GPUs</span><span class="mono">${k8.gpu_cards_total ? (gpuMyPct+gpuOthPct).toFixed(0)+'%' : '-'}</span></div>
           <div class="infra-v">${k8.gpu_cards_mine} + ${k8.gpu_cards_other} <span style="font-size:11.5px;font-weight:400;color:var(--green)">(${k8.gpu_cards_free} free)</span></div>
-          <div class="segbar"><div style="width:${gpuMyPct.toFixed(1)}%;background:var(--purple)"></div><div style="width:${gpuOthPct.toFixed(1)}%;background:var(--blue);opacity:0.65"></div></div>
-          <div class="infra-s">${k8.is_vcuda ? `vCUDA VRAM ${k8.gpu_vram_mine_gb}G / ${k8.gpu_vram_used_gb}G / ${k8.gpu_vram_total_gb}G` : `${k8.gpu_resource} · total ${k8.gpu_cards_total}`}</div>
+          <div class="segbar"><div style="width:${gpuMyPct.toFixed(1)}%;background:var(--accent)"></div><div style="width:${gpuOthPct.toFixed(1)}%;background:var(--text-3);opacity:0.45"></div></div>
+          <div class="infra-s">${k8.is_vcuda ? `vCUDA VRAM ${k8.gpu_vram_mine_gb}/${k8.gpu_vram_used_gb}/${k8.gpu_vram_total_gb}G` : `${k8.gpu_resource} · total ${k8.gpu_cards_total}`}</div>
         </div>`;
       (k8.shared_storage || []).forEach(ss => {
         if (!ss.ok) return;
@@ -1302,7 +1714,7 @@ function renderAll(d) {
           if (i < mineFull) slotsHtml += '<div class="gpu-slot mine" title="Mine">M</div>';
           else if (i < mineFull + mineHalf) slotsHtml += '<div class="gpu-slot half" title="Mine (fractional)">½</div>';
           else if (i < mineFull + mineHalf + othFull) slotsHtml += '<div class="gpu-slot other" title="Other">O</div>';
-          else slotsHtml += '<div class="gpu-slot" title="Free">-</div>';
+          else slotsHtml += '<div class="gpu-slot" title="Free">·</div>';
         }
         return `<div class="k8gpu-box">
           <div class="sec-head" style="margin-bottom:4px">
@@ -1310,42 +1722,77 @@ function renderAll(d) {
             <span class="sec-meta">Mine ${n.gpu_mine} · Other ${n.gpu_other} · Free ${n.gpu_free}</span>
           </div>
           <div class="slot-strip" style="grid-template-columns:repeat(${Math.min(8, nSlots)},1fr)">${slotsHtml}</div>
-          <div class="infra-s">CPU real ${n.ns_cpu_real}/${n.cpu_alloc}c · Pods ${n.my_pods}/${n.ns_pods}${n.vram_alloc_gb ? ` · VRAM ${n.vram_mine_gb}/${n.vram_ns_gb}/${n.vram_alloc_gb}G` : ''}</div>
+          <div class="infra-s">CPU ${n.ns_cpu_real}/${n.cpu_alloc}c · Pods ${n.my_pods}/${n.ns_pods}${n.vram_alloc_gb ? ` · VRAM ${n.vram_mine_gb}/${n.vram_ns_gb}/${n.vram_alloc_gb}G` : ''}</div>
         </div>`;
       }).join('');
 
-      $('k8sNodesTbody').innerHTML = (k8.nodes || []).map(n => `<tr>
-        <td class="mono" style="font-weight:600">${esc(n.name)}</td>
-        <td>${n.role==='gpu'?'<span class="tag accent">gpu</span>':(n.role==='cpu'?'<span class="tag">cpu</span>':'<span class="tag">ctrl</span>')}</td>
-        <td>${stDot(n.ready?'Ready':'NotReady', n.ready?'var(--green)':'var(--red)')}</td>
-        <td class="num">${n.cpu_alloc}c</td>
-        <td class="num" style="font-weight:600">${n.ns_cpu_real}c <span style="color:var(--text-3);font-weight:400">(${n.cpu_real_pct}%)</span></td>
-        <td class="num" style="color:var(--accent)">${n.my_cpu_real}c</td>
-        <td class="num">${n.ns_mem_real_gb}G <span style="color:var(--text-3)">/${n.mem_alloc_gb}G</span></td>
-        <td class="num">${n.gpu_alloc ? `${n.gpu_mine} / ${n.gpu_ns} / ${n.gpu_alloc}` : '-'}</td>
-        <td class="num">${n.my_pods} / ${n.ns_pods}</td>
-      </tr>`).join('');
+      $('k8sNodesTbody').innerHTML = (k8.nodes || []).map((n, idx) => {
+        const ik = registerInspect(`k8s-node-${idx}`, {
+          type: `K8S NODE · ${n.role}`,
+          title: n.name,
+          copy: n.name,
+          copyLabel: 'Node Name',
+          props: [
+            ['Status', `${n.ready ? 'Ready' : 'NotReady'}${n.disk_pressure ? ' (DiskPressure)' : ''}`],
+            ['Role', n.role],
+            ['CPU Alloc / NS Real / Mine', `${n.cpu_alloc}c / ${n.ns_cpu_real}c (${n.cpu_real_pct}%) / ${n.my_cpu_real}c`],
+            ['RAM Alloc / NS Real / Mine', `${n.mem_alloc_gb}G / ${n.ns_mem_real_gb}G (${n.mem_real_pct}%) / ${n.my_mem_real_gb}G`],
+            ['GPUs (Mine / NS / Alloc)', `${n.gpu_mine} / ${n.gpu_ns} / ${n.gpu_alloc}`],
+            ['VRAM (Mine / NS / Alloc)', n.vram_alloc_gb ? `${n.vram_mine_gb}G / ${n.vram_ns_gb}G / ${n.vram_alloc_gb}G` : '-'],
+            ['Pods (Mine / NS)', `${n.my_pods} / ${n.ns_pods}`],
+          ],
+        });
+        return `<tr class="clickable" onclick="openInspect('${ik}')">
+          <td class="mono" style="font-weight:560">${esc(n.name)}</td>
+          <td>${n.role==='gpu'?'<span class="tag accent">gpu</span>':(n.role==='cpu'?'<span class="tag">cpu</span>':'<span class="tag">ctrl</span>')}</td>
+          <td>${stDot(n.ready?'Ready':'NotReady', n.ready?'var(--green)':'var(--red)')}</td>
+          <td class="num">${n.cpu_alloc}c</td>
+          <td class="num">${n.ns_cpu_real}c <span style="color:var(--text-3)">(${n.cpu_real_pct}%)</span></td>
+          <td class="num" style="color:var(--accent)">${n.my_cpu_real}c</td>
+          <td class="num">${n.ns_mem_real_gb}G <span style="color:var(--text-3)">/${n.mem_alloc_gb}G</span></td>
+          <td class="num">${n.gpu_alloc ? `${n.gpu_mine}/${n.gpu_ns}/${n.gpu_alloc}` : '-'}</td>
+          <td class="num">${n.my_pods}/${n.ns_pods}</td>
+        </tr>`;
+      }).join('');
     } else {
       $('k8sQuotaGrid').innerHTML = `<div class="empty">K8s API unreachable: ${esc(k8.error)}</div>`;
       $('k8sGpuNodesBox').innerHTML = '';
       $('k8sNodesTbody').innerHTML = '';
     }
 
-    $('k8sPodMeta').textContent = k8.ok ? `Active jobs ${k8.active_jobs} · Done ${k8.done_jobs} · Idle suspect ${k8.idle_suspect_pods}` : 'offline';
-    $('k8sPodTbody').innerHTML = (k8.pods || []).map(p => `<tr>
-      <td class="mono ell" title="${esc(p.name)}">${esc(p.job)}${p.idle_suspect ? ' <span class="tag warn">idle?</span>' : ''}</td>
-      <td>${tierTag(p.tier)}</td>
-      <td class="mono" style="font-size:11.5px">${esc(p.node)}</td>
-      <td class="num">${p.cpu_real != null ? p.cpu_real+'c' : '-'} <span style="color:var(--text-3);font-size:10.5px">/${p.cpu_lim}</span></td>
-      <td class="num">${p.mem_real_gb != null ? p.mem_real_gb+'G' : '-'}</td>
-      <td class="num">${p.gpu_cards || '-'}</td>
-      <td class="num">${p.age_min ?? '-'}</td>
-    </tr>`).join('') || '<tr><td colspan="7" class="empty">No active pods</td></tr>';
+    $('k8sPodMeta').textContent = k8.ok ? `Active ${k8.active_jobs} · Done ${k8.done_jobs} · Idle? ${k8.idle_suspect_pods}` : 'offline';
+    $('k8sPodTbody').innerHTML = (k8.pods || []).map((p, idx) => {
+      const ik = registerInspect(`k8s-pod-${idx}`, {
+        type: `K8S POD · ${p.phase}`,
+        title: p.name,
+        copy: `kubectl -n ${k8.namespace || 'default'} logs ${p.name} --tail=100`,
+        copyLabel: 'kubectl logs',
+        extraCopy: p.name,
+        extraCopyLabel: 'Pod Name',
+        props: [
+          ['Pod', p.name], ['Job', p.job], ['Phase / Tier', `${p.phase} · ${p.tier}`],
+          ['Node', p.node], ['CPU (Real / Lim)', `${p.cpu_real ?? '-'}c / ${p.cpu_lim}c`],
+          ['RAM (Real / Lim)', `${p.mem_real_gb ?? '-'}G / ${p.mem_lim_gb}G`],
+          ['GPU / VRAM', p.gpu_cards ? `${p.gpu_cards} (${p.vram_gb}G)` : '-'],
+          ['Started / Age', `${p.started || '-'} (${p.age_min ?? '-'}m)`],
+          ['Idle Suspect', p.idle_suspect ? 'Yes (low CPU)' : 'No'],
+        ],
+      });
+      return `<tr class="clickable" onclick="openInspect('${ik}')">
+        <td class="mono ell" title="${esc(p.name)}">${esc(p.job)}${p.idle_suspect ? ' <span class="tag warn">idle?</span>' : ''}</td>
+        <td>${tierTag(p.tier)}</td>
+        <td class="mono" style="font-size:11px;color:var(--text-2)">${esc(p.node)}</td>
+        <td class="num">${p.cpu_real != null ? p.cpu_real+'c' : '-'} <span style="color:var(--text-3);font-size:10.5px">/${p.cpu_lim}</span></td>
+        <td class="num">${p.mem_real_gb != null ? p.mem_real_gb+'G' : '-'}</td>
+        <td class="num">${p.gpu_cards || '-'}</td>
+        <td class="num">${p.age_min ?? '-'}</td>
+      </tr>`;
+    }).join('') || '<tr><td colspan="7" class="empty">No active pods</td></tr>';
   }
 
   $('harborLiveSection').classList.toggle('hidden', !hbOn);
   if (hbOn) {
-    $('harborLiveMeta').textContent = `Running ${hb.running.count} (selfcheck ${hb.running.selfcheck_count} · model ${hb.running.model_count})`;
+    $('harborLiveMeta').textContent = `${hb.running.count} live (sc ${hb.running.selfcheck_count} · model ${hb.running.model_count})`;
     $('harborLiveTbody').innerHTML = (hb.running.live_trials || []).map(t => `<tr>
       <td><span class="tag ${t.kind==='model'?'accent':''}">${esc(t.kind)}</span></td>
       <td class="ell" title="${esc(t.task_path)}">${esc(t.slug)}</td>
@@ -1355,16 +1802,15 @@ function renderAll(d) {
     </tr>`).join('') || '<tr><td colspan="5" class="empty">No active trials</td></tr>';
   }
 
-  // ==================== TAB 3: TASKS ====================
+  // ==================== TAB 3 & 4: TASKS & EVALS ====================
   if (hbOn) {
     $('taskMetrics').innerHTML = [
       { label: 'Registered Tasks', val: fmt(hb.registered_total), sub: `Total across pools: ${hb.grand_total_tasks}` },
-      { label: 'Self-Check OK', val: `${hb.selfcheck_both_ok} / ${hb.registered_total}`, sub: `nop + oracle verified` },
-      { label: 'Fully Evaluated', val: fmt(hb.fully_done), sub: `selfcheck + primary model ok` },
-      { label: 'Dual-Offline Tasks', val: fmt(hb.dual_offline_count), sub: `separate verifier + no-network` },
+      { label: 'Self-Check OK', val: `${hb.selfcheck_both_ok} / ${hb.registered_total}`, sub: 'nop + oracle verified' },
+      { label: 'Fully Evaluated', val: fmt(hb.fully_done), sub: 'selfcheck + primary model ok' },
+      { label: 'Dual-Offline', val: fmt(hb.dual_offline_count), sub: 'separate verifier + no-network' },
     ].map(c => `<div class="metric-cell"><div class="m-label">${esc(c.label)}</div><div class="m-val">${esc(c.val)}</div><div class="m-sub">${esc(c.sub)}</div></div>`).join('');
 
-    // Populate dynamic filter dropdowns (preserve selection)
     const curCat = $('taskCat').value;
     const allCats = [...new Set((hb.tasks || []).map(t => t.category))].sort();
     $('taskCat').innerHTML = '<option value="">All Categories</option>' + allCats.map(c => `<option value="${esc(c)}">${esc(c)}</option>`).join('');
@@ -1377,63 +1823,49 @@ function renderAll(d) {
 
     renderTaskTable();
 
-    // ==================== TAB 4: EVALS ====================
     const pe = hb.primary_eval || {};
     $('evalMetrics').innerHTML = [
       { label: 'Self-Check Pass', val: `${hb.selfcheck_both_ok} / ${hb.registered_total}`, pct: hb.selfcheck_both_ok / Math.max(1, hb.registered_total) * 100, sub: `${hb.velocity.rate_ph} trials/h` },
-      { label: `Primary Model (${pe.model || '-'})`, val: fmt(pe.n_scored || 0), pct: (pe.n_scored || 0) / Math.max(1, hb.registered_total) * 100, sub: `scored on registered tasks` },
+      { label: `Primary (${pe.model || '-'})`, val: fmt(pe.n_scored || 0), pct: (pe.n_scored || 0) / Math.max(1, hb.registered_total) * 100, sub: `${(hb.leaderboard || []).length} models discovered` },
       { label: 'Median / Mean Score', val: pe.median_score ?? '-', pct: hb.score_scale === 'unit' ? (pe.median_score || 0) * 100 : Math.min(100, pe.median_score || 0), sub: `mean: ${pe.mean_score ?? '-'}` },
-      { label: 'Median Runtime', val: pe.median_min != null ? `${pe.median_min}m` : '-', pct: Math.min(100, (pe.median_min || 0) / 120 * 100), sub: `${hb.all_trials_total} total trials in jobs/` },
+      { label: 'Median Runtime', val: pe.median_min != null ? `${pe.median_min}m` : '-', pct: Math.min(100, (pe.median_min || 0) / 120 * 100), sub: `${hb.all_trials_total} trials in jobs/` },
     ].map(c => `<div class="metric-cell"><div class="m-label">${esc(c.label)}</div><div class="m-val">${esc(c.val)}</div><div class="prog"><div class="prog-fill" style="width:${Math.min(100, c.pct).toFixed(1)}%"></div></div><div class="m-sub">${esc(c.sub)}</div></div>`).join('');
-
-    $('lbMeta').textContent = `${(hb.leaderboard || []).length} models`;
-    $('lbTbody').innerHTML = (hb.leaderboard || []).map(m => `<tr>
-      <td class="mono" style="font-weight:600">${esc(m.model)}</td>
-      <td class="num">${m.scored}</td>
-      <td class="num">${m.pass_count}</td>
-      <td class="num" style="color:var(--green);font-weight:600">${m.pass_rate_pct}%</td>
-      <td class="num">${m.mean_score ?? '-'}</td>
-      <td class="num" style="font-weight:600;color:var(--accent)">${m.median_score ?? '-'}</td>
-      <td class="num">${m.timeouts}</td>
-      <td class="num" style="${m.errors?'color:var(--red)':''}">${m.errors}</td>
-      <td class="num">${m.median_min ?? '-'}</td>
-    </tr>`).join('') || '<tr><td colspan="9" class="empty">No model trials recorded yet</td></tr>';
 
     const stCols = ['ok','ok-doc','running','queued','wrong','failed','stale','none'];
     $('harborMatrix').innerHTML = `<table><thead><tr><th>Kind</th>${stCols.map(c=>`<th class="num">${c}</th>`).join('')}</tr></thead><tbody>` +
       ['nop','oracle','model'].map(k => {
         const m = hb.counts[k] || {};
-        return `<tr><td style="font-weight:600">${k}</td>${stCols.map(c => `<td class="num" style="${(c==='ok'||c==='ok-doc')&&m[c]?'color:var(--green);font-weight:600':((c==='wrong'||c==='failed')&&m[c]?'color:var(--red);font-weight:600':'')}">${m[c]||0}</td>`).join('')}</tr>`;
+        return `<tr><td style="font-weight:560">${k}</td>${stCols.map(c => `<td class="num" style="${(c==='ok'||c==='ok-doc')&&m[c]?'color:var(--green);font-weight:560':((c==='wrong'||c==='failed')&&m[c]?'color:var(--red);font-weight:560':'')}">${m[c]||0}</td>`).join('')}</tr>`;
       }).join('') + '</tbody></table>';
 
-    $('scoreDistMeta').textContent = `${pe.n_scored || 0} tasks`;
-    $('scoreDistBars').innerHTML = renderBarsHtml(Object.entries(pe.buckets || {}).map(([k, v]) => ({
-      label: `Score ${k}`, val: v, color: k === '0' ? 'var(--red)' : (k === '1.0' || k === '>100' ? 'var(--accent)' : 'var(--text-2)'),
-    })));
+    renderEvalDetails(hb);
 
-    $('evalTableMeta').textContent = `${(pe.rows || []).length} tasks`;
-    $('evalScoreTbody').innerHTML = (pe.rows || []).map(r => `<tr>
-      <td class="ell" title="${esc(r.task_path)}">${esc(r.slug)}</td>
-      <td>${esc(r.category)}</td>
-      <td>${tierTag(r.tier)}</td>
-      <td class="mono" style="font-size:11.5px;color:var(--text-2)">${esc(r.model_name)}</td>
-      <td class="mono" style="font-size:11.5px">${esc(r.primary || r.score_key)}</td>
-      <td class="num">${r.primary_metric ?? '-'}</td>
-      <td class="num" style="font-weight:600;color:var(--accent)">${r.score}</td>
-      <td class="num">${r.agent_min ?? '-'}${r.timeout ? ' (T)' : ''}</td>
-      <td class="mono" style="font-size:11px;color:var(--text-3)">${esc((r.finished_str||'').slice(5,16))}</td>
-    </tr>`).join('') || '<tr><td colspan="9" class="empty">No scored tasks for primary model</td></tr>';
-
-    $('recentTrialsTbody').innerHTML = (hb.recent_trials || []).map(t => `<tr>
-      <td class="mono" style="font-size:11px;color:var(--text-3);white-space:nowrap">${esc((t.finished_str||'').slice(5,16))}</td>
-      <td><span class="tag">${esc(t.kind)}</span></td>
-      <td class="mono" style="font-size:11.5px">${esc(t.model_name)}</td>
-      <td class="ell" title="${esc(t.path)}">${esc(t.slug)}</td>
-      <td class="num">${t.reward ?? '-'}</td>
-      <td class="num">${t.score != null ? Number(t.score).toFixed(3) : '-'}</td>
-      <td class="num">${t.agent_sec != null ? (t.agent_sec/60).toFixed(1) : '-'}</td>
-      <td class="ell-note" style="color:${t.error?'var(--red)':'var(--text-3)'}">${esc(t.error || (t.timeout ? 'Timeout' : 'OK'))}</td>
-    </tr>`).join('') || '<tr><td colspan="8" class="empty">No trials found in jobs/</td></tr>';
+    $('recentTrialsTbody').innerHTML = (hb.recent_trials || []).map((t, idx) => {
+      const ik = registerInspect(`trial-${idx}`, {
+        type: `TRIAL · ${t.kind}`,
+        title: t.slug,
+        copy: t.path,
+        copyLabel: 'Task Path',
+        props: [
+          ['Task Path', t.path], ['Kind / Model', `${t.kind} · ${t.model_name}`],
+          ['Job Group', t.job_group || '-'], ['Reward', t.reward ?? '-'],
+          ['Score', t.score != null ? `${t.score} (${t.score_key})` : '-'],
+          ['Duration', t.agent_sec != null ? `${(t.agent_sec/60).toFixed(1)} min` : '-'],
+          ['Status', t.error || (t.timeout ? 'Timeout' : 'OK')],
+          ['Checksum', t.checksum || '-'], ['Finished', t.finished_str || '-'],
+        ],
+      });
+      return `<tr class="clickable" onclick="openInspect('${ik}')">
+        <td class="mono" style="font-size:11px;color:var(--text-3);white-space:nowrap">${esc((t.finished_str||'').slice(5,16))}</td>
+        <td><span class="tag">${esc(t.kind)}</span></td>
+        <td class="mono" style="font-size:11.5px">${esc(t.model_name)}</td>
+        <td class="ell" title="${esc(t.path)}">${esc(t.slug)}</td>
+        <td class="num">${t.reward ?? '-'}</td>
+        <td class="num">${t.score != null ? Number(t.score).toFixed(3) : '-'}</td>
+        <td class="num">${t.agent_sec != null ? (t.agent_sec/60).toFixed(1) : '-'}</td>
+        <td class="ell-note" style="color:${t.error?'var(--red)':'var(--text-3)'}">${esc(t.error || (t.timeout ? 'Timeout' : 'OK'))}</td>
+      </tr>`;
+    }).join('') || '<tr><td colspan="8" class="empty">No trials found in jobs/</td></tr>';
   }
 
   // ==================== TAB 5: PIPELINES ====================
@@ -1453,11 +1885,11 @@ function renderAll(d) {
       html += `<div class="split-2">
         <div class="section">
           <div class="sec-head"><span class="sec-title">Stream: ${esc(st.name)}</span><span class="sec-meta">1h:${st.count_1h} · 6h:${st.count_6h} · 24h:${st.count_24h} (${st.rate_ph}/h)</span></div>
-          ${renderStackedChartSvg(st.hourly_24h?.labels || [], h24Series, [['cnt', '#5e6ad2', 'events']])}
+          ${renderStackedChartSvg(st.hourly_24h?.labels || [], h24Series, [['cnt', 'var(--accent)', 'events']])}
           <div style="margin-top:12px" class="bars">${renderBarsHtml(Object.entries(st.status_counts || {}).map(([k,v]) => ({ label: k, val: v })))}</div>
         </div>
         <div class="section">
-          <div class="sec-head"><span class="sec-title">Recent Events (${st.name})</span><span class="sec-meta">total ${st.total}</span></div>
+          <div class="sec-head"><span class="sec-title">Recent Events · ${esc(st.name)}</span><span class="sec-meta">total ${st.total}</span></div>
           <div class="tbl-wrap" style="max-height:360px"><table><thead><tr><th>Time</th><th>ID</th><th>Status</th><th class="num">Min</th><th>Note</th></tr></thead><tbody>${(st.recent || []).map(r => `<tr>
             <td class="mono" style="font-size:11px;color:var(--text-3)">${esc((r.ts_str||'').slice(5,16))}</td>
             <td class="mono">${esc(r.id)}</td>
@@ -1508,18 +1940,21 @@ function renderTaskTable() {
     if (typeof va === 'number' && typeof vb === 'number') return (va - vb) * dir;
     return String(va).localeCompare(String(vb)) * dir;
   });
-  $('taskMeta').textContent = `${fmt(rows.length)} / ${fmt(DATA.harbor.tasks.length)} tasks`;
-  $('taskTbody').innerHTML = rows.slice(0, 500).map(t => `<tr title="${esc(t.task_path)}">
-    <td class="ell">${esc(t.slug)}</td>
-    <td><span class="tag ${t.registered?'ok':''}">${esc(t.bucket)}</span></td>
-    <td style="color:var(--text-2)">${esc(t.category)}</td>
-    <td>${tierTag(t.tier)}</td>
-    <td>${t.registered ? harborCell(t.nop) : '<span style="color:var(--text-3)">-</span>'}</td>
-    <td>${t.registered ? harborCell(t.oracle) : '<span style="color:var(--text-3)">-</span>'}</td>
-    <td>${t.registered ? harborCell(t.model) : '<span style="color:var(--text-3)">-</span>'}</td>
-    <td class="num" style="font-weight:600;color:var(--accent)">${t.model_score ?? '-'}</td>
-    <td class="mono" style="font-size:11px;color:var(--text-3);white-space:nowrap">${esc((t.mtime_str||'').slice(5,16))}</td>
-  </tr>`).join('') || '<tr><td colspan="9" class="empty">No matching tasks</td></tr>';
+  $('taskMeta').textContent = `${fmt(rows.length)} / ${fmt(DATA.harbor.tasks.length)} tasks · click row to inspect`;
+  $('taskTbody').innerHTML = rows.slice(0, 500).map((t, idx) => {
+    const ik = registerInspect(`task-row-${idx}`, taskInspectPayload(t));
+    return `<tr class="clickable" onclick="openInspect('${ik}')">
+      <td class="ell" title="${esc(t.task_path)}">${esc(t.slug)}</td>
+      <td><span class="tag ${t.registered?'ok':''}">${esc(t.bucket)}</span></td>
+      <td style="color:var(--text-2)">${esc(t.category)}</td>
+      <td>${tierTag(t.tier)}</td>
+      <td>${t.registered ? harborCell(t.nop) : '<span style="color:var(--text-3)">-</span>'}</td>
+      <td>${t.registered ? harborCell(t.oracle) : '<span style="color:var(--text-3)">-</span>'}</td>
+      <td>${t.registered ? harborCell(t.model) : '<span style="color:var(--text-3)">-</span>'}</td>
+      <td class="num" style="font-weight:580;color:var(--accent)">${t.model_score ?? '-'}</td>
+      <td class="mono" style="font-size:11px;color:var(--text-3);white-space:nowrap">${esc((t.mtime_str||'').slice(5,16))}</td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="9" class="empty">No matching tasks</td></tr>';
 }
 
 async function loadSnapshot(force=false) {
@@ -1539,7 +1974,7 @@ async function loadSnapshot(force=false) {
     renderAll(await resp.json());
     COUNTDOWN = REFRESH_INTERVAL;
   } catch (e) {
-    $('snapMeta').textContent = 'Refresh error: ' + e.message;
+    $('snapMeta').textContent = 'Error: ' + e.message;
   } finally {
     $('refreshBtn').disabled = false;
   }
