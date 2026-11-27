@@ -1,0 +1,4 @@
+interface:
+  display_name: "Bench Dashboard"
+  short_description: "为 Harbor/Bench 项目适配零依赖只读实时算力与评测看板（宿主机/GPU/K8s/多模型）"
+  default_prompt: "使用 $adapt-bench-dashboard 为当前 benchmark 项目生成只读看板配置（及必要适配器）并完成 CLI 与快照验证。"

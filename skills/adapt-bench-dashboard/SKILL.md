@@ -1,6 +1,6 @@
 ---
 name: adapt-bench-dashboard
-description: Inspect a benchmark or evaluation repository and adapt SolvingLab/bench-dashboard (via bench-dashboard.toml and optional read-only Python adapter) to monitor host CPU/GPU, Kubernetes cluster, Harbor trials, and custom pipelines.
+description: Inspect a benchmark or evaluation repository and adapt bench-dashboard (via bench-dashboard.toml and optional read-only Python adapter) to monitor host CPU/GPU, Kubernetes cluster, Harbor trials, multi-model leaderboards, and custom pipelines. Use for 跑bench看板、评测监控、Harbor进度看板、算力/GPU/K8s监控、bench dashboard, monitor benchmark trials, or compute telemetry. Strictly read-only; not for modifying benchmark tasks or deploying production APM.
 ---
 
 # Adapt `bench-dashboard` to a Benchmark Repository
